@@ -119,32 +119,106 @@ def detect_thematic_area(
 
 
 @task(retries=3)
-def standardize_headers(df: pd.DataFrame) -> pd.DataFrame:
+def standardize_headers(
+    df: pd.DataFrame,
+    file_path: str = None,
+    data_type: str = None,
+    thematic_area: str = None,
+    config_path: str = "config/column_mappings.yaml",
+) -> pd.DataFrame:
     """
-    Clean column names to snake_case format.
+    Clean column names using configurable mappings.
 
     Args:
         df: Input DataFrame
+        file_path: Original file path for pattern matching
+        data_type: Data type (facility/aggregated) for specific mappings
+        thematic_area: Thematic area for domain-specific mappings
+        config_path: Path to column mappings configuration
 
     Returns:
         DataFrame with standardized column names
     """
+    with open(config_path, "r") as f:
+        config = yaml.safe_load(f)
+
     standardized_columns = {}
 
     for col in df.columns:
-        # Remove special characters, convert to snake_case
-        clean_col = re.sub(r"[^\w\s]", "", str(col))
-        clean_col = re.sub(r"\s+", "_", clean_col.strip())
-        clean_col = clean_col.lower()
+        original_col = str(col)
+        new_col = None
 
-        # Handle common abbreviations
-        clean_col = clean_col.replace("oic_s", "oic")
-        clean_col = clean_col.replace("geo_points_", "")
-        clean_col = clean_col.replace("/_", "_")
+        # 1. Check global mappings first
+        if original_col in config.get("global_mappings", {}):
+            new_col = config["global_mappings"][original_col]
 
-        standardized_columns[col] = clean_col
+        # 2. Check file pattern mappings
+        elif file_path and "file_patterns" in config:
+            filename = Path(file_path).name.lower()
+            for pattern, mappings in config["file_patterns"].items():
+                # Simple pattern matching (remove * and check if pattern is in filename)
+                pattern_clean = pattern.replace("*", "")
+                if pattern_clean in filename and original_col in mappings:
+                    new_col = mappings[original_col]
+                    break
+
+        # 3. Check data type specific mappings
+        elif data_type and data_type in config.get("data_type_mappings", {}):
+            if original_col in config["data_type_mappings"][data_type]:
+                new_col = config["data_type_mappings"][data_type][original_col]
+
+        # 4. Check thematic area mappings
+        elif thematic_area and thematic_area in config.get("thematic_mappings", {}):
+            if original_col in config["thematic_mappings"][thematic_area]:
+                new_col = config["thematic_mappings"][thematic_area][original_col]
+
+        # 5. Apply fallback rules if no mapping found
+        if new_col is None:
+            new_col = _apply_fallback_rules(
+                original_col, config.get("fallback_rules", {})
+            )
+
+        standardized_columns[original_col] = new_col
 
     return df.rename(columns=standardized_columns)
+
+
+def _apply_fallback_rules(column_name: str, rules: dict) -> str:
+    """
+    Apply fallback rules to transform column names when no explicit mapping exists.
+
+    Args:
+        column_name: Original column name
+        rules: Fallback rules configuration
+
+    Returns:
+        Transformed column name
+    """
+    result = str(column_name)
+
+    # Remove prefixes
+    for prefix in rules.get("remove_prefixes", []):
+        if result.startswith(prefix):
+            result = result[len(prefix) :]
+
+    # Remove suffixes
+    for suffix in rules.get("remove_suffixes", []):
+        if result.endswith(suffix):
+            result = result[: -len(suffix)]
+
+    # Apply abbreviations
+    for full_word, abbrev in rules.get("abbreviations", {}).items():
+        result = result.replace(full_word, abbrev)
+
+    # Convert to snake_case
+    result = re.sub(r"[^\w\s]", "", result)
+    result = re.sub(r"\s+", "_", result.strip())
+    result = result.lower()
+
+    # Clean up any double underscores
+    result = re.sub(r"_+", "_", result).strip("_")
+
+    return result if result else "unknown_column"
 
 
 @task(retries=3)

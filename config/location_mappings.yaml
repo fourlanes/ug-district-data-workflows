@@ -18,5 +18,5 @@ facility_name_columns:
   - "Name"
 
 coordinate_columns:
-  latitude: ["_Geo points_latitude", "Latitude", "lat", "y"]
-  longitude: ["_Geo points_longitude", "Longitude", "lng", "lon", "x"]
+  latitude: ["latitude", "_Geo points_latitude", "Latitude", "lat"]
+  longitude: ["longitude", "_Geo points_longitude", "Longitude", "lng", "lon"]

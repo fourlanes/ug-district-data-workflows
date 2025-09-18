@@ -1,0 +1,161 @@
+# Column Mappings Configuration
+# This file defines how to rename columns for different data types and file patterns
+
+# Global mappings applied to all files
+global_mappings:
+  # Location columns - standardized across all files
+  "District": "district"
+  "Subcounty/Towncouncil": "subcounty"
+  "Parish Name/ Ward": "parish"
+  "Village name/ cell": "village"
+
+  # Common coordinate columns
+  "_Geo points_latitude": "latitude"
+  "_Geo points_longitude": "longitude"
+  "_Geo points_altitude": "altitude"
+  "_Geo points_precision": "precision"
+  "Geo points": "coordinates"
+
+# File-specific mappings based on filename patterns
+file_patterns:
+  # Health facilities files
+  "*health_facilities*":
+    "Name of the health facility/Clinic": "facility_name"
+    "Healthy center level": "facility_level"
+    "Facility Ownership": "ownership"
+    "Officer In Charge": "officer_in_charge"
+    "OIC's Phone Number": "oic_phone"
+    "OIC Email": "oic_email"
+    "Services Provided at the Facility": "services_provided"
+    "Immunization Services": "has_immunization"
+    "Maternal and Child Health Services": "has_maternal_health"
+    "HIV/AIDS and TB Care": "has_hiv_tb_care"
+    "Basic Diagnostic Services": "has_diagnostics"
+    "Counselling": "has_counselling"
+    "Health Education": "has_health_education"
+    "Family Planning Services": "has_family_planning"
+    "Advanced Surgical Procedures": "has_surgery"
+    "Outpatient Services e.g Treatment for common illnesses, minor injuries, and general health issues": "has_outpatient"
+    "Monthly report forms (HMIS 097 VHT/ICCM report)": "has_hmis_forms"
+    "Sick Patient Register for CHWs": "has_patient_register"
+    "Patient referral forms for CHWs": "has_referral_forms"
+    "Functional backup power": "has_backup_power"
+    "Laboratory": "has_laboratory"
+    "Treatment room": "has_treatment_room"
+    "Consulting room": "has_consulting_room"
+    "Staff accommodation": "has_staff_accommodation"
+    "Reception": "has_reception"
+    "Waste disposal incinerator": "has_waste_disposal"
+    "Gate": "has_gate"
+    "Delivery room": "has_delivery_room"
+    "Inpatient ward": "has_inpatient_ward"
+    "Laboratory assistant": "staff_lab_assistant"
+    "Laboratory technician": "staff_lab_technician"
+    "Medical officers": "staff_medical_officers"
+    "Nursing assistants": "staff_nursing_assistants"
+    "Clinical officer": "staff_clinical_officer"
+    "Enrolled midwives": "staff_midwives"
+    "Nursing officers": "staff_nursing_officers"
+    "VHTs/CHWs": "staff_vht_chw"
+    "Comprehensive enrolled nurse": "staff_comprehensive_nurse"
+    "Enrolled nurses": "staff_enrolled_nurses"
+    "Health information Assistants": "staff_health_info"
+    "Does the health facility have stocks of the following supplies and logistics for iCCM?": "has_iccm_supplies"
+    "Digital respiratory timers for diagnosis of pneum": "has_respiratory_timers"
+    "Oral rehydration salts (ORS) sachets for management of diarrhoea": "has_ors_sachets"
+    "Zinc tablets for treating diarrhoea": "has_zinc_tablets"
+    "Rapid diagnostic test (RDT) kits for malaria": "has_rdt_kits"
+    "ACT tablets for treatment of malaria": "has_act_tablets"
+    "Amoxicillin tablets for treatment of pneumonia": "has_amoxicillin"
+    "Digital clinical thermometers for measuring fever": "has_thermometers"
+    "Where is the main water supply for the facility located?": "water_location"
+    "What is the main water supply for the facility?": "water_source"
+    "What type of toilets/latrines are at the facility for outpatients?": "toilet_type"
+    "Is there at least one usable improved toilet designated for women and girls, which provides facilities to manage menstrual hygiene needs?": "has_female_toilet"
+    "Is there at least one usable improved toilet that meets the needs of people with reduced mobility?": "has_accessible_toilet"
+    "Is there at least one usable improved toilet designated for staff?": "has_staff_toilet"
+    "Do toilets/latrines have handwashing facilities?": "has_handwashing"
+    "Health facility photo": "facility_photo"
+
+  # Education facilities files
+  "*school*":
+    "Name of the school": "school_name"
+    "School level": "school_level"
+    "School ownership": "ownership"
+    "Head teacher": "head_teacher"
+    "Number of students": "student_count"
+    "Number of teachers": "teacher_count"
+
+  # Water facilities files
+  "*water*":
+    "Water point name": "water_point_name"
+    "Water source type": "source_type"
+    "Functional status": "functional_status"
+    "Year constructed": "year_constructed"
+
+# Data type specific mappings
+data_type_mappings:
+  facility:
+    # Common facility fields regardless of thematic area
+    "Name": "facility_name"
+    "Facility Name": "facility_name"
+    "Type": "facility_type"
+    "Level": "facility_level"
+    "Status": "status"
+    "Contact": "contact"
+    "Phone": "phone"
+    "Email": "email"
+
+  aggregated:
+    # Common aggregated data fields
+    "Total": "total"
+    "Count": "count"
+    "Population": "population"
+    "Percentage": "percentage"
+
+# Thematic area specific mappings
+thematic_mappings:
+  health:
+    "Health facility": "facility_name"
+    "HC": "facility_level"
+    "Health Centre": "facility_level"
+    "Medical officer": "medical_officer"
+
+  education:
+    "School": "school_name"
+    "Primary": "primary_level"
+    "Secondary": "secondary_level"
+    "Students": "student_count"
+    "Teachers": "teacher_count"
+
+  water:
+    "Borehole": "borehole"
+    "Well": "well"
+    "Spring": "spring"
+    "Pump": "pump"
+
+# Fallback rules for unmapped columns
+fallback_rules:
+  # Remove common prefixes/suffixes
+  remove_prefixes:
+    - "Number of "
+    - "Total number of "
+    - "Does the "
+    - "Is there "
+    - "What is the "
+    - "Where is the "
+
+  remove_suffixes:
+    - " (Yes/No)"
+    - " available"
+    - " present"
+
+  # Common abbreviations
+  abbreviations:
+    "Number": "num"
+    "Percentage": "pct"
+    "Available": "avail"
+    "Functional": "func"
+    "Infrastructure": "infra"
+    "Facility": "facility"
+    "Services": "services"

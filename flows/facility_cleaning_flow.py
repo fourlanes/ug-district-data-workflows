@@ -76,8 +76,10 @@ def clean_facility_data(
     df = pd.read_csv(input_file)
     logger.info(f"Loaded {len(df)} records from {input_file}")
 
-    # Clean headers
-    df_clean_headers = standardize_headers(df)
+    # Clean headers with context information
+    df_clean_headers = standardize_headers(
+        df, file_path=input_file, data_type=data_type, thematic_area=thematic_area
+    )
 
     # Clean location data
     df_clean_locations = clean_location_data(
