@@ -152,23 +152,39 @@ def clean_facility_data(
     # Step 6: Save outputs
     logger.info("Step 6: Saving processed data and reports...")
 
-    # Generate output filenames
-    input_filename = Path(input_file).stem
-    district_name = (
-        df_final.iloc[0]["District"] if "District" in df_final.columns else "unknown"
-    )
+    # Generate output filenames - use generic name for consolidated file
+    thematic_area_name = thematic_area if thematic_area != "general" else "facilities"
 
-    # Save cleaned CSV
-    output_csv_path = Path(output_dir) / f"{input_filename}_cleaned.csv"
-    df_final.to_csv(output_csv_path, index=False)
-    logger.info(f"Saved cleaned data to: {output_csv_path}")
+    # Save to consolidated CSV file (append if exists, create if not)
+    output_csv_path = Path(output_dir) / f"{thematic_area_name}_facilities_cleaned.csv"
+
+    # Check if file exists to determine if we need headers
+    file_exists = output_csv_path.exists()
+
+    if file_exists:
+        # Append to existing file without headers
+        df_final.to_csv(output_csv_path, mode='a', header=False, index=False)
+        logger.info(f"Appended {len(df_final)} records to: {output_csv_path}")
+    else:
+        # Create new file with headers
+        df_final.to_csv(output_csv_path, index=False)
+        logger.info(f"Created new file with {len(df_final)} records: {output_csv_path}")
 
     logger.info(f"Location hierarchy saved to: data/processed/locations/location_hierarchy.json")
 
-    # Save quality report
+    # Save quality report with district and timestamp for unique identification
     reports_dir = Path("data/processed/logs")
     reports_dir.mkdir(parents=True, exist_ok=True)
-    quality_report_path = reports_dir / f"{input_filename}_quality_report.json"
+
+    # Get district name for unique report naming
+    district_name = (
+        df_final.iloc[0]["district"] if "district" in df_final.columns else "unknown"
+    ).lower().replace(" ", "_")
+
+    # Use timestamp to ensure unique report names
+    from datetime import datetime
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    quality_report_path = reports_dir / f"{district_name}_{thematic_area}_{timestamp}_quality_report.json"
 
     with open(quality_report_path, "w") as f:
         json.dump(quality_report, f, indent=2)
@@ -182,10 +198,11 @@ def clean_facility_data(
         "thematic_area": thematic_area,
         "records_processed": len(df_final),
         "output_files": {
-            "cleaned_csv": str(output_csv_path),
+            "consolidated_csv": str(output_csv_path),
             "location_hierarchy": "data/processed/locations/location_hierarchy.json",
             "quality_report": str(quality_report_path),
         },
+        "file_operation": "appended" if file_exists else "created",
         "quality_score": quality_report["validation_summary"]["overall_quality_score"],
         "validation_summary": validation_results,
     }

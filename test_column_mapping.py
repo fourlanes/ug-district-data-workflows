@@ -25,7 +25,7 @@ def test_cleaning_actions():
         print(f"   - Quality score: {result['quality_score']:.1f}%")
 
         # Load and inspect the cleaned data
-        cleaned_csv_path = result['output_files']['cleaned_csv']
+        cleaned_csv_path = result['output_files']['consolidated_csv']
         df = pd.read_csv(cleaned_csv_path)
 
         print(f"\n📋 Inspecting cleaned data...")
