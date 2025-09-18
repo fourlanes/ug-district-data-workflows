@@ -44,7 +44,7 @@ def detect_data_type(
     )
 
     # Read file to check column structure
-    df = pd.read_csv(file_path, nrows=5)
+    df = pd.read_csv(file_path, nrows=5, encoding='utf-8-sig')
     columns = [col.lower() for col in df.columns]
 
     # Look for facility-specific columns
@@ -109,7 +109,7 @@ def detect_thematic_area(
 
     # If no clear winner from filename, check column headers
     if max(scores.values()) == 0:
-        df = pd.read_csv(file_path, nrows=1)
+        df = pd.read_csv(file_path, nrows=1, encoding='utf-8-sig')
         columns_text = " ".join(df.columns).lower()
 
         for theme, indicators in thematic_mapping.items():
@@ -628,7 +628,7 @@ def generate_facility_ids(
     df: pd.DataFrame, config_path: str = "config/location_mappings.yaml"
 ) -> pd.DataFrame:
     """
-    Generate facility IDs for facility data: {facility-name-slug}-{location-slug}
+    Generate facility IDs for facility data: {facility-name-slug}_{district}
 
     Args:
         df: Input DataFrame with facility data
@@ -665,7 +665,14 @@ def generate_facility_ids(
                 facility_name_col = col
                 break
 
-    if facility_name_col:
+    # Find district column
+    district_col = None
+    for col in df.columns:
+        if "district" in col.lower():
+            district_col = col
+            break
+
+    if facility_name_col and district_col:
         facility_ids = []
         for _, row in df.iterrows():
             facility_name = (
@@ -673,31 +680,35 @@ def generate_facility_ids(
                 if pd.notna(row[facility_name_col])
                 else "unknown"
             )
-            facility_slug = slugify(facility_name, separator="_")
+            facility_slug = slugify(facility_name, separator="-")
 
-            # Create location slug from first available location
-            location_parts = []
-            if "location_code" in df.columns:
-                location_slug = (
-                    row["location_code"].replace("UG.", "").replace(".", "_")
-                )
-            else:
-                # Fallback: use district and subcounty
-                for col in df.columns:
-                    if "district" in col.lower():
-                        location_parts.append(slugify(str(row[col]), separator="_"))
-                        break
-                for col in df.columns:
-                    if "subcounty" in col.lower() or "town" in col.lower():
-                        location_parts.append(slugify(str(row[col]), separator="_"))
-                        break
-                location_slug = (
-                    "_".join(location_parts) if location_parts else "unknown"
-                )
+            district_name = (
+                str(row[district_col])
+                if pd.notna(row[district_col])
+                else "unknown"
+            )
+            district_slug = slugify(district_name, separator="-")
 
-            facility_id = f"{facility_slug}-{location_slug}"
+            facility_id = f"{facility_slug}_{district_slug}"
             facility_ids.append(facility_id)
 
         df_with_ids["facility_id"] = facility_ids
 
     return df_with_ids
+
+
+@task(retries=3)
+def add_thematic_area_column(df: pd.DataFrame, thematic_area: str) -> pd.DataFrame:
+    """
+    Add thematic_area column to the DataFrame.
+
+    Args:
+        df: Input DataFrame
+        thematic_area: The thematic area value to add
+
+    Returns:
+        DataFrame with thematic_area column added
+    """
+    df_with_thematic = df.copy()
+    df_with_thematic["thematic_area"] = thematic_area
+    return df_with_thematic

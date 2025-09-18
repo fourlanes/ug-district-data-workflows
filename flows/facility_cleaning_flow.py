@@ -6,6 +6,7 @@ from prefect import flow, get_run_logger
 
 # Import our custom tasks
 from tasks.csv_cleaning import (
+    add_thematic_area_column,
     clean_facility_and_officer_data,
     clean_location_data,
     clean_nan_values,
@@ -76,7 +77,7 @@ def clean_facility_data(
 
     # Step 2: Load and clean CSV data
     logger.info("Step 2: Loading and cleaning CSV data...")
-    df = pd.read_csv(input_file)
+    df = pd.read_csv(input_file, encoding='utf-8-sig')
     logger.info(f"Loaded {len(df)} records from {input_file}")
 
     # Clean headers with context information
@@ -102,8 +103,11 @@ def clean_facility_data(
         df_with_codes, f"{config_dir}/location_mappings.yaml"
     )
 
+    # Add thematic area column
+    df_with_thematic = add_thematic_area_column(df_with_ids, thematic_area)
+
     # Clean NaN values before final output
-    df_final = clean_nan_values(df_with_ids)
+    df_final = clean_nan_values(df_with_thematic)
 
     logger.info("Data cleaning completed")
 
@@ -163,11 +167,11 @@ def clean_facility_data(
 
     if file_exists:
         # Append to existing file without headers
-        df_final.to_csv(output_csv_path, mode='a', header=False, index=False)
+        df_final.to_csv(output_csv_path, mode='a', header=False, index=False, quoting=1)
         logger.info(f"Appended {len(df_final)} records to: {output_csv_path}")
     else:
         # Create new file with headers
-        df_final.to_csv(output_csv_path, index=False)
+        df_final.to_csv(output_csv_path, index=False, quoting=1)
         logger.info(f"Created new file with {len(df_final)} records: {output_csv_path}")
 
     logger.info(f"Location hierarchy saved to: data/processed/locations/location_hierarchy.json")
