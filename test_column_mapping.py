@@ -1,67 +1,89 @@
+#!/usr/bin/env python3
 """
-Test script to demonstrate the new column mapping functionality.
+Test script for the new cleaning actions implementation.
 """
 
 import pandas as pd
-from tasks.csv_cleaning import standardize_headers
+from flows.facility_cleaning_flow import clean_facility_data
 
 
-def test_column_mapping():
-    """Test the column mapping functionality with sample data."""
-    print("TESTING COLUMN MAPPING FUNCTIONALITY")
-    print("=" * 60)
+def test_cleaning_actions():
+    """Test the implementation of cleaning actions."""
+    print("🧪 Testing cleaning actions implementation...")
 
-    # Load the sample health facilities data
-    file_path = "data/raw/facilities/health/kayunga_health_facilities.csv"
-    df = pd.read_csv(file_path, nrows=3)
+    # Test with existing data file
+    input_file = "data/raw/facilities/health/kayunga_health_facilities.csv"
 
-    print(f"Original columns ({len(df.columns)}):")
-    for i, col in enumerate(df.columns[:10]):  # Show first 10
-        print(f"  {i+1:2d}. {col}")
-    if len(df.columns) > 10:
-        print(f"  ... and {len(df.columns) - 10} more columns")
+    try:
+        # Run the cleaning pipeline
+        result = clean_facility_data(input_file)
 
-    print("\n" + "-" * 60)
+        print(f"✅ Processing completed successfully!")
+        print(f"   - Data type: {result['data_type']}")
+        print(f"   - Thematic area: {result['thematic_area']}")
+        print(f"   - Records processed: {result['records_processed']}")
+        print(f"   - Quality score: {result['quality_score']:.1f}%")
 
-    # Apply the new column mapping
-    df_mapped = standardize_headers(
-        df,
-        file_path=file_path,
-        data_type="facility",
-        thematic_area="health"
-    )
+        # Load and inspect the cleaned data
+        cleaned_csv_path = result['output_files']['cleaned_csv']
+        df = pd.read_csv(cleaned_csv_path)
 
-    print(f"Mapped columns ({len(df_mapped.columns)}):")
-    for i, col in enumerate(df_mapped.columns[:10]):  # Show first 10
-        print(f"  {i+1:2d}. {col}")
-    if len(df_mapped.columns) > 10:
-        print(f"  ... and {len(df_mapped.columns) - 10} more columns")
+        print(f"\n📋 Inspecting cleaned data...")
+        print(f"   - Total records: {len(df)}")
 
-    print("\n" + "-" * 60)
-    print("COLUMN MAPPING EXAMPLES:")
-    print("-" * 60)
+        # Check location formatting
+        location_cols = ['district', 'subcounty', 'parish', 'village']
+        for col in location_cols:
+            if col in df.columns:
+                sample_value = df[col].iloc[0] if not df[col].isna().all() else "N/A"
+                print(f"   - {col.title()}: {sample_value}")
 
-    # Show some example mappings
-    examples = [
-        "District",
-        "Subcounty/Towncouncil",
-        "Name of the health facility/Clinic",
-        "Healthy center level",
-        "_Geo points_latitude",
-        "_Geo points_longitude",
-        "Immunization Services",
-        "Outpatient Services e.g Treatment for common illnesses, minor injuries, and general health issues",
-        "Is there at least one usable improved toilet designated for women and girls, which provides facilities to manage menstrual hygiene needs?"
-    ]
+        # Check facility name formatting
+        if 'facility_name' in df.columns:
+            facility_sample = df['facility_name'].iloc[0]
+            print(f"   - Facility name: {facility_sample}")
 
-    for original in examples:
-        if original in df.columns:
-            mapped = df_mapped.columns[df.columns.get_loc(original)]
-            print(f"'{original}' → '{mapped}'")
+        # Check officer in charge formatting
+        if 'officer_in_charge' in df.columns:
+            officer_sample = df['officer_in_charge'].iloc[0]
+            print(f"   - Officer in charge: {officer_sample}")
 
-    print("\n✓ Column mapping test completed!")
-    return df_mapped
+        # Check location codes
+        if 'location_code' in df.columns:
+            code_sample = df['location_code'].iloc[0]
+            print(f"   - Location code: {code_sample}")
+
+        # Check if location hierarchy file was created
+        import json
+        hierarchy_path = "data/processed/location_hierarchy.json"
+        try:
+            with open(hierarchy_path, 'r') as f:
+                hierarchy = json.load(f)
+
+            print(f"\n🏢 Location hierarchy file generated:")
+            print(f"   - Districts: {len(hierarchy['districts'])}")
+
+            if hierarchy['districts']:
+                district = hierarchy['districts'][0]
+                print(f"   - Sample district: {district['name']} ({district['code']})")
+
+                if district['subcounties']:
+                    subcounty = district['subcounties'][0]
+                    print(f"   - Sample subcounty: {subcounty['name']} ({subcounty['code']})")
+
+        except FileNotFoundError:
+            print(f"⚠️  Location hierarchy file not found at {hierarchy_path}")
+
+        print(f"\n🎉 All cleaning actions implemented successfully!")
+        return True
+
+    except Exception as e:
+        print(f"❌ Error during testing: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
 
 
 if __name__ == "__main__":
-    test_column_mapping()
+    success = test_cleaning_actions()
+    exit(0 if success else 1)

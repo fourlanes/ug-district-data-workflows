@@ -1,4 +1,5 @@
 import re
+import json
 from pathlib import Path
 
 import pandas as pd
@@ -183,6 +184,36 @@ def standardize_headers(
     return df.rename(columns=standardized_columns)
 
 
+def _format_camel_case(text: str) -> str:
+    """
+    Convert text to Camel Case format (first letter of each word capitalized).
+
+    Args:
+        text: Input text string
+
+    Returns:
+        Camel Case formatted text
+    """
+    if pd.isna(text) or not isinstance(text, str):
+        return str(text)
+
+    # Clean and format the text
+    text = str(text).strip()
+
+    # Handle special cases like abbreviations (keep them uppercase)
+    words = text.split()
+    formatted_words = []
+
+    for word in words:
+        # Keep abbreviations uppercase if they are 2-3 characters
+        if len(word) <= 3 and word.isupper():
+            formatted_words.append(word)
+        else:
+            formatted_words.append(word.capitalize())
+
+    return " ".join(formatted_words)
+
+
 def _apply_fallback_rules(column_name: str, rules: dict) -> str:
     """
     Apply fallback rules to transform column names when no explicit mapping exists.
@@ -226,7 +257,7 @@ def clean_location_data(
     df: pd.DataFrame, config_path: str = "config/location_mappings.yaml"
 ) -> pd.DataFrame:
     """
-    Standardize location name formats and map variations.
+    Standardize location name formats and map variations with Camel Case formatting.
 
     Args:
         df: Input DataFrame
@@ -250,37 +281,118 @@ def clean_location_data(
                 break
 
         if matching_col:
-            # Clean the location data
+            # Clean the location data with Camel Case
             df_cleaned[matching_col] = df_cleaned[matching_col].astype(str).str.strip()
-            df_cleaned[matching_col] = df_cleaned[matching_col].str.title()
+            df_cleaned[matching_col] = df_cleaned[matching_col].apply(_format_camel_case)
+
+            # Fix Towncouncil to Town Council
+            df_cleaned[matching_col] = df_cleaned[matching_col].str.replace(
+                "Towncouncil", "Town Council", regex=False
+            )
 
             # Apply specific mappings
             if level == "district" and "district_mappings" in config:
                 for standard, variations in config["district_mappings"].items():
                     for variation in variations:
                         df_cleaned[matching_col] = df_cleaned[matching_col].replace(
-                            variation, standard.title()
+                            variation, _format_camel_case(standard)
                         )
 
     return df_cleaned
 
 
 @task(retries=3)
-def generate_location_codes(
-    df: pd.DataFrame, config_path: str = "config/data_type_rules.yaml"
+def clean_nan_values(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Replace NaN values with appropriate defaults and fix staff count columns to be integers.
+
+    Args:
+        df: Input DataFrame
+
+    Returns:
+        DataFrame with cleaned NaN values and proper data types
+    """
+    df_cleaned = df.copy()
+
+    # Replace all NaN values with empty strings for object/string columns
+    for column in df_cleaned.columns:
+        if df_cleaned[column].dtype == 'object':
+            # Convert any remaining NaN/null values to empty strings
+            df_cleaned[column] = df_cleaned[column].astype(str)
+            df_cleaned[column] = df_cleaned[column].replace(['nan', 'NaN', 'Nan', 'None'], '')
+            # Handle actual NaN values that might still exist
+            df_cleaned[column] = df_cleaned[column].fillna('')
+
+    # Fix staff count columns to be integers (not decimals)
+    staff_columns = [
+        'nursing_assistants', 'staff_comprehensive_nurse', 'enrolled_nurses',
+        'staff_lab_assistant', 'laboratory_technician', 'medical_officers',
+        'staff_clinical_officer', 'staff_midwives', 'staff_nursing_officers',
+        'staff_vht_chw', 'staff_health_info'
+    ]
+
+    for column in staff_columns:
+        if column in df_cleaned.columns:
+            # Convert to numeric, replacing any non-numeric values with 0
+            df_cleaned[column] = pd.to_numeric(df_cleaned[column], errors='coerce').fillna(0)
+            # Convert to integer
+            df_cleaned[column] = df_cleaned[column].astype(int)
+
+    return df_cleaned
+
+
+@task(retries=3)
+def clean_facility_and_officer_data(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Clean facility names and officer in charge fields with Camel Case formatting.
+    Exempts facility_level from Camel Case to preserve uppercase codes like HCII, HCIV.
+
+    Args:
+        df: Input DataFrame
+
+    Returns:
+        DataFrame with cleaned facility and officer data
+    """
+    df_cleaned = df.copy()
+
+    # Clean facility name columns (but exclude facility_level)
+    facility_name_patterns = [
+        "facility_name", "name", "facility", "clinic", "hospital", "centre", "center"
+    ]
+    for col in df.columns:
+        if any(pattern in col.lower() for pattern in facility_name_patterns):
+            # Exclude location columns and facility_level from Camel Case
+            if col.lower() not in ["village", "parish", "subcounty", "district", "facility_level"]:
+                df_cleaned[col] = df_cleaned[col].astype(str).apply(_format_camel_case)
+
+    # Clean officer in charge fields
+    officer_patterns = ["officer_in_charge", "oic", "officer", "in_charge"]
+    for col in df.columns:
+        if any(pattern in col.lower() for pattern in officer_patterns):
+            df_cleaned[col] = df_cleaned[col].astype(str).apply(_format_camel_case)
+
+    return df_cleaned
+
+
+@task(retries=3)
+def generate_hierarchical_location_codes(
+    df: pd.DataFrame, config_path: str = "config/location_mappings.yaml"
 ) -> pd.DataFrame:
     """
-    Generate location codes using format: UG.{DISTRICT}.{SUBCOUNTY}.{PARISH}.{VILLAGE}
+    Generate hierarchical location codes using format:
+    - District: UG.KAY
+    - Subcounty/Town Council: UG.KAY.KAN
+    - Parish: UG.KAY.KAN.KAN
+    - Village: UG.KAY.KAN.KAN.KIB
 
     Args:
         df: Input DataFrame with location columns
-        config_path: Path to configuration file
+        config_path: Path to location mappings configuration
 
     Returns:
         DataFrame with location_code column added
     """
-    # Load location mappings
-    with open("config/location_mappings.yaml", "r") as f:
+    with open(config_path, "r") as f:
         location_config = yaml.safe_load(f)
 
     location_cols = location_config["standard_location_columns"]
@@ -294,22 +406,221 @@ def generate_location_codes(
                 location_data[level] = col
                 break
 
-    # Generate location codes
+    # Build location hierarchy and generate codes
+    location_hierarchy = {}
     location_codes = []
+
     for _, row in df.iterrows():
         code_parts = ["UG"]
 
-        for level in ["district", "subcounty", "parish", "village"]:
-            if level in location_data and pd.notna(row[location_data[level]]):
-                slug = slugify(str(row[location_data[level]]), separator="_")
-                code_parts.append(slug)
-            else:
-                code_parts.append("unknown")
+        # District level
+        if "district" in location_data and pd.notna(row[location_data["district"]]):
+            district = str(row[location_data["district"]])
+            district_code = _generate_location_abbreviation(district, 3)
+            code_parts.append(district_code)
+        else:
+            code_parts.append("UNK")
+
+        # Subcounty level
+        if "subcounty" in location_data and pd.notna(row[location_data["subcounty"]]):
+            subcounty = str(row[location_data["subcounty"]])
+            subcounty_code = _generate_location_abbreviation(subcounty, 3)
+            code_parts.append(subcounty_code)
+        else:
+            code_parts.append("UNK")
+
+        # Parish level
+        if "parish" in location_data and pd.notna(row[location_data["parish"]]):
+            parish = str(row[location_data["parish"]])
+            parish_code = _generate_location_abbreviation(parish, 3)
+            code_parts.append(parish_code)
+        else:
+            code_parts.append("UNK")
+
+        # Village level
+        if "village" in location_data and pd.notna(row[location_data["village"]]):
+            village = str(row[location_data["village"]])
+            village_code = _generate_location_abbreviation(village, 3)
+            code_parts.append(village_code)
+        else:
+            code_parts.append("UNK")
 
         location_codes.append(".".join(code_parts))
 
     df_coded["location_code"] = location_codes
     return df_coded
+
+
+def _generate_location_abbreviation(name: str, max_length: int = 3) -> str:
+    """
+    Generate location abbreviation from name.
+
+    Args:
+        name: Location name
+        max_length: Maximum length of abbreviation
+
+    Returns:
+        Abbreviated location code
+    """
+    if not name or pd.isna(name):
+        return "UNK"
+
+    # Clean the name
+    clean_name = str(name).strip().upper()
+
+    # Remove common words
+    stop_words = ["TOWN", "COUNCIL", "SUBCOUNTY", "SUB", "COUNTY"]
+    words = clean_name.split()
+    meaningful_words = [w for w in words if w not in stop_words]
+
+    if not meaningful_words:
+        meaningful_words = words
+
+    # Generate abbreviation
+    if len(meaningful_words) == 1:
+        # Single word - take first max_length characters
+        return meaningful_words[0][:max_length]
+    else:
+        # Multiple words - take first letter of each word
+        abbrev = "".join([w[0] for w in meaningful_words if w])
+        if len(abbrev) <= max_length:
+            return abbrev
+        else:
+            # If too long, take first max_length characters of first word
+            return meaningful_words[0][:max_length]
+
+
+@task(retries=3)
+def generate_location_hierarchy_file(
+    df: pd.DataFrame,
+    output_path: str = "data/processed/locations/location_hierarchy.json",
+    config_path: str = "config/location_mappings.yaml"
+) -> dict:
+    """
+    Generate location hierarchy JSON file in the specified format.
+
+    Args:
+        df: Input DataFrame with location data
+        output_path: Path to save the JSON file
+        config_path: Path to location mappings configuration
+
+    Returns:
+        Dictionary containing the location hierarchy
+    """
+    with open(config_path, "r") as f:
+        location_config = yaml.safe_load(f)
+
+    location_cols = location_config["standard_location_columns"]
+
+    # Find location columns
+    location_data = {}
+    for level, possible_names in location_cols.items():
+        for col in df.columns:
+            if any(name.lower() in col.lower() for name in possible_names):
+                location_data[level] = col
+                break
+
+    # Build hierarchy structure
+    hierarchy = {"districts": []}
+    districts_map = {}
+
+    for _, row in df.iterrows():
+        # Get location values
+        district = str(row[location_data["district"]]) if "district" in location_data and pd.notna(row[location_data["district"]]) else None
+        subcounty = str(row[location_data["subcounty"]]) if "subcounty" in location_data and pd.notna(row[location_data["subcounty"]]) else None
+        parish = str(row[location_data["parish"]]) if "parish" in location_data and pd.notna(row[location_data["parish"]]) else None
+        village = str(row[location_data["village"]]) if "village" in location_data and pd.notna(row[location_data["village"]]) else None
+
+        if not district:
+            continue
+
+        # Process district
+        district_id = slugify(district, separator="-")
+        district_code = f"UG.{_generate_location_abbreviation(district, 3)}"
+
+        if district_id not in districts_map:
+            districts_map[district_id] = {
+                "id": district_id,
+                "name": district,
+                "code": district_code,
+                "subcounties": []
+            }
+            hierarchy["districts"].append(districts_map[district_id])
+
+        district_obj = districts_map[district_id]
+
+        if not subcounty:
+            continue
+
+        # Process subcounty
+        subcounty_id = slugify(subcounty, separator="-")
+        subcounty_code = f"{district_code}.{_generate_location_abbreviation(subcounty, 3)}"
+
+        # Find or create subcounty
+        subcounty_obj = None
+        for sc in district_obj["subcounties"]:
+            if sc["id"] == subcounty_id:
+                subcounty_obj = sc
+                break
+
+        if not subcounty_obj:
+            subcounty_obj = {
+                "id": subcounty_id,
+                "name": subcounty,
+                "code": subcounty_code,
+                "parishes": []
+            }
+            district_obj["subcounties"].append(subcounty_obj)
+
+        if not parish:
+            continue
+
+        # Process parish
+        parish_id = slugify(parish, separator="-")
+        parish_code = f"{subcounty_code}.{_generate_location_abbreviation(parish, 3)}"
+
+        # Find or create parish
+        parish_obj = None
+        for p in subcounty_obj["parishes"]:
+            if p["id"] == parish_id:
+                parish_obj = p
+                break
+
+        if not parish_obj:
+            parish_obj = {
+                "id": parish_id,
+                "name": parish,
+                "code": parish_code,
+                "villages": []
+            }
+            subcounty_obj["parishes"].append(parish_obj)
+
+        if not village:
+            continue
+
+        # Process village
+        village_id = slugify(village, separator="-")
+        village_code = f"{parish_code}.{_generate_location_abbreviation(village, 3)}"
+
+        # Check if village already exists
+        village_exists = any(v["id"] == village_id for v in parish_obj["villages"])
+
+        if not village_exists:
+            village_obj = {
+                "id": village_id,
+                "name": village,
+                "code": village_code
+            }
+            parish_obj["villages"].append(village_obj)
+
+    # Save to file
+    output_dir = Path(output_path).parent
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    with open(output_path, "w") as f:
+        json.dump(hierarchy, f, indent=2, ensure_ascii=False)
+
+    return hierarchy
 
 
 @task(retries=3)

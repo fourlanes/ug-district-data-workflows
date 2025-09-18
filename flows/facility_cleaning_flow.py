@@ -6,11 +6,14 @@ from prefect import flow, get_run_logger
 
 # Import our custom tasks
 from tasks.csv_cleaning import (
+    clean_facility_and_officer_data,
     clean_location_data,
+    clean_nan_values,
     detect_data_type,
     detect_thematic_area,
     generate_facility_ids,
-    generate_location_codes,
+    generate_hierarchical_location_codes,
+    generate_location_hierarchy_file,
     standardize_headers,
 )
 from tasks.location_processing import (
@@ -86,39 +89,34 @@ def clean_facility_data(
         df_clean_headers, f"{config_dir}/location_mappings.yaml"
     )
 
-    # Generate location codes
-    df_with_codes = generate_location_codes(
-        df_clean_locations, f"{config_dir}/data_type_rules.yaml"
+    # Clean facility names and officer in charge data
+    df_clean_facilities = clean_facility_and_officer_data(df_clean_locations)
+
+    # Generate hierarchical location codes
+    df_with_codes = generate_hierarchical_location_codes(
+        df_clean_facilities, f"{config_dir}/location_mappings.yaml"
     )
 
     # Generate facility IDs
-    df_final = generate_facility_ids(
+    df_with_ids = generate_facility_ids(
         df_with_codes, f"{config_dir}/location_mappings.yaml"
     )
 
+    # Clean NaN values before final output
+    df_final = clean_nan_values(df_with_ids)
+
     logger.info("Data cleaning completed")
 
-    # Step 3: Location processing
-    logger.info("Step 3: Processing location hierarchy...")
+    # Step 3: Generate location hierarchy file
+    logger.info("Step 3: Generating location hierarchy...")
 
-    # Extract locations
-    locations_future = extract_all_locations.submit(
-        df_final, f"{config_dir}/location_mappings.yaml"
+    # Generate and save hierarchical location file
+    hierarchy_future = generate_location_hierarchy_file.submit(
+        df_final, "data/processed/locations/location_hierarchy.json", f"{config_dir}/location_mappings.yaml"
     )
-    locations = locations_future.result()
+    location_hierarchy = hierarchy_future.result()
 
-    # Resolve conflicts and generate codes
-    resolved_locations_future = resolve_location_conflicts.submit(locations)
-    resolved_locations = resolved_locations_future.result()
-
-    coded_locations_future = generate_unified_location_codes.submit(resolved_locations)
-    coded_locations = coded_locations_future.result()
-
-    # Update master locations
-    master_locations_future = update_master_locations.submit(coded_locations)
-    master_locations_future.result()  # Ensure completion
-
-    logger.info("Location processing completed")
+    logger.info("Location hierarchy generation completed")
 
     # Step 4: Validation
     logger.info("Step 4: Running validation checks...")
@@ -165,16 +163,7 @@ def clean_facility_data(
     df_final.to_csv(output_csv_path, index=False)
     logger.info(f"Saved cleaned data to: {output_csv_path}")
 
-    # Save location hierarchy for this district
-    district_locations_dir = Path("data/processed/locations/district_locations")
-    district_locations_dir.mkdir(parents=True, exist_ok=True)
-    district_locations_path = (
-        district_locations_dir / f"{district_name.lower()}_locations.json"
-    )
-
-    with open(district_locations_path, "w") as f:
-        json.dump(coded_locations, f, indent=2)
-    logger.info(f"Saved district locations to: {district_locations_path}")
+    logger.info(f"Location hierarchy saved to: data/processed/locations/location_hierarchy.json")
 
     # Save quality report
     reports_dir = Path("data/processed/logs")
@@ -194,7 +183,7 @@ def clean_facility_data(
         "records_processed": len(df_final),
         "output_files": {
             "cleaned_csv": str(output_csv_path),
-            "district_locations": str(district_locations_path),
+            "location_hierarchy": "data/processed/locations/location_hierarchy.json",
             "quality_report": str(quality_report_path),
         },
         "quality_score": quality_report["validation_summary"]["overall_quality_score"],
