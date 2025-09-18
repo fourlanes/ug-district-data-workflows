@@ -1,0 +1,33 @@
+data_types:
+  facility:
+    required_columns: ['name', 'location']
+    optional_columns: ['latitude', 'longitude', 'contact', 'phone', 'email']
+    validation:
+      coordinates: true
+      unique_names: true
+
+  aggregated:
+    required_columns: ['location']
+    validation:
+      sum_consistency: true
+      percentage_bounds: true
+
+thematic_detection:
+  health: ['health', 'medical', 'clinic', 'hospital', 'hc', 'facility', 'centre', 'center']
+  education: ['school', 'education', 'learning', 'university', 'college']
+  water: ['water', 'borehole', 'well', 'source', 'supply']
+  demographics: ['population', 'census', 'demographic', 'people']
+  economic: ['market', 'business', 'economic', 'income', 'trade']
+  infrastructure: ['infrastructure', 'road', 'bridge', 'building']
+
+facility_indicators: ['facility', 'health', 'school', 'clinic', 'hospital', 'centre', 'center']
+aggregated_indicators: ['population', 'demographic', 'economic', 'summary', 'total', 'count']
+
+location_hierarchy_levels:
+  - district
+  - subcounty
+  - parish
+  - village
+
+location_code_format: "UG.{district}.{subcounty}.{parish}.{village}"
+facility_id_format: "{facility_slug}-{location_slug}"

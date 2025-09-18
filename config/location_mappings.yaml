@@ -1,0 +1,22 @@
+district_mappings:
+  kayunga: ["Kayunga", "KAYUNGA"]
+
+subcounty_variations:
+  towncouncil: ["Towncouncil", "Town council", "TC"]
+  subcounty: ["Subcounty", "Sub county", "Sub-county"]
+
+standard_location_columns:
+  district: ["District", "district", "DISTRICT"]
+  subcounty: ["Subcounty/Towncouncil", "Subcounty", "Sub county", "Town council"]
+  parish: ["Parish Name/ Ward", "Parish", "Ward", "Parish Name"]
+  village: ["Village name/ cell", "Village", "Cell", "Village name"]
+
+facility_name_columns:
+  - "Name of the health facility/Clinic"
+  - "Facility Name"
+  - "Health Facility"
+  - "Name"
+
+coordinate_columns:
+  latitude: ["_Geo points_latitude", "Latitude", "lat", "y"]
+  longitude: ["_Geo points_longitude", "Longitude", "lng", "lon", "x"]
