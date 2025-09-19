@@ -1,5 +1,5 @@
-import re
 import json
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -44,7 +44,7 @@ def detect_data_type(
     )
 
     # Read file to check column structure
-    df = pd.read_csv(file_path, nrows=5, encoding='utf-8-sig')
+    df = pd.read_csv(file_path, nrows=5, encoding="utf-8-sig")
     columns = [col.lower() for col in df.columns]
 
     # Look for facility-specific columns
@@ -109,7 +109,7 @@ def detect_thematic_area(
 
     # If no clear winner from filename, check column headers
     if max(scores.values()) == 0:
-        df = pd.read_csv(file_path, nrows=1, encoding='utf-8-sig')
+        df = pd.read_csv(file_path, nrows=1, encoding="utf-8-sig")
         columns_text = " ".join(df.columns).lower()
 
         for theme, indicators in thematic_mapping.items():
@@ -283,7 +283,9 @@ def clean_location_data(
         if matching_col:
             # Clean the location data with Camel Case
             df_cleaned[matching_col] = df_cleaned[matching_col].astype(str).str.strip()
-            df_cleaned[matching_col] = df_cleaned[matching_col].apply(_format_camel_case)
+            df_cleaned[matching_col] = df_cleaned[matching_col].apply(
+                _format_camel_case
+            )
 
             # Fix Towncouncil to Town Council
             df_cleaned[matching_col] = df_cleaned[matching_col].str.replace(
@@ -316,25 +318,36 @@ def clean_nan_values(df: pd.DataFrame) -> pd.DataFrame:
 
     # Replace all NaN values with empty strings for object/string columns
     for column in df_cleaned.columns:
-        if df_cleaned[column].dtype == 'object':
+        if df_cleaned[column].dtype == "object":
             # Convert any remaining NaN/null values to empty strings
             df_cleaned[column] = df_cleaned[column].astype(str)
-            df_cleaned[column] = df_cleaned[column].replace(['nan', 'NaN', 'Nan', 'None'], '')
+            df_cleaned[column] = df_cleaned[column].replace(
+                ["nan", "NaN", "Nan", "None"], ""
+            )
             # Handle actual NaN values that might still exist
-            df_cleaned[column] = df_cleaned[column].fillna('')
+            df_cleaned[column] = df_cleaned[column].fillna("")
 
     # Fix staff count columns to be integers (not decimals)
     staff_columns = [
-        'nursing_assistants', 'staff_comprehensive_nurse', 'enrolled_nurses',
-        'staff_lab_assistant', 'laboratory_technician', 'medical_officers',
-        'staff_clinical_officer', 'staff_midwives', 'staff_nursing_officers',
-        'staff_vht_chw', 'staff_health_info'
+        "nursing_assistants",
+        "staff_comprehensive_nurse",
+        "enrolled_nurses",
+        "staff_lab_assistant",
+        "laboratory_technician",
+        "medical_officers",
+        "staff_clinical_officer",
+        "staff_midwives",
+        "staff_nursing_officers",
+        "staff_vht_chw",
+        "staff_health_info",
     ]
 
     for column in staff_columns:
         if column in df_cleaned.columns:
             # Convert to numeric, replacing any non-numeric values with 0
-            df_cleaned[column] = pd.to_numeric(df_cleaned[column], errors='coerce').fillna(0)
+            df_cleaned[column] = pd.to_numeric(
+                df_cleaned[column], errors="coerce"
+            ).fillna(0)
             # Convert to integer
             df_cleaned[column] = df_cleaned[column].astype(int)
 
@@ -357,12 +370,24 @@ def clean_facility_and_officer_data(df: pd.DataFrame) -> pd.DataFrame:
 
     # Clean facility name columns (but exclude facility_level)
     facility_name_patterns = [
-        "facility_name", "name", "facility", "clinic", "hospital", "centre", "center"
+        "facility_name",
+        "name",
+        "facility",
+        "clinic",
+        "hospital",
+        "centre",
+        "center",
     ]
     for col in df.columns:
         if any(pattern in col.lower() for pattern in facility_name_patterns):
             # Exclude location columns and facility_level from Camel Case
-            if col.lower() not in ["village", "parish", "subcounty", "district", "facility_level"]:
+            if col.lower() not in [
+                "village",
+                "parish",
+                "subcounty",
+                "district",
+                "facility_level",
+            ]:
                 df_cleaned[col] = df_cleaned[col].astype(str).apply(_format_camel_case)
 
     # Clean officer in charge fields
@@ -379,11 +404,8 @@ def generate_hierarchical_location_codes(
     df: pd.DataFrame, config_path: str = "config/location_mappings.yaml"
 ) -> pd.DataFrame:
     """
-    Generate hierarchical location codes using format:
-    - District: UG.KAY
-    - Subcounty/Town Council: UG.KAY.KAN
-    - Parish: UG.KAY.KAN.KAN
-    - Village: UG.KAY.KAN.KAN.KIB
+    Generate hierarchical location codes by looking up from the location hierarchy file.
+    This ensures consistency between hierarchy and facility codes.
 
     Args:
         df: Input DataFrame with location columns
@@ -391,6 +413,87 @@ def generate_hierarchical_location_codes(
 
     Returns:
         DataFrame with location_code column added
+    """
+    # Try to load existing hierarchy first
+    hierarchy_file = "data/processed/locations/location_hierarchy.json"
+    location_lookup = {}
+
+    try:
+        with open(hierarchy_file, "r") as f:
+            hierarchy = json.load(f)
+
+        # Build lookup table from hierarchy
+        for district in hierarchy.get("districts", []):
+            for subcounty in district.get("subcounties", []):
+                for parish in subcounty.get("parishes", []):
+                    for village in parish.get("villages", []):
+                        key = (
+                            district["name"],
+                            subcounty["name"],
+                            parish["name"],
+                            village["name"],
+                        )
+                        location_lookup[key] = village["code"]
+
+    except (FileNotFoundError, json.JSONDecodeError):
+        # Fall back to generating codes if hierarchy doesn't exist
+        return _generate_codes_from_scratch(df, config_path)
+
+    with open(config_path, "r") as f:
+        location_config = yaml.safe_load(f)
+
+    location_cols = location_config["standard_location_columns"]
+    df_coded = df.copy()
+
+    # Find location columns
+    location_data = {}
+    for level, possible_names in location_cols.items():
+        for col in df.columns:
+            if any(name.lower() in col.lower() for name in possible_names):
+                location_data[level] = col
+                break
+
+    location_codes = []
+
+    for _, row in df.iterrows():
+        # Get location values
+        district = (
+            str(row[location_data["district"]])
+            if "district" in location_data and pd.notna(row[location_data["district"]])
+            else None
+        )
+        subcounty = (
+            str(row[location_data["subcounty"]])
+            if "subcounty" in location_data
+            and pd.notna(row[location_data["subcounty"]])
+            else None
+        )
+        parish = (
+            str(row[location_data["parish"]])
+            if "parish" in location_data and pd.notna(row[location_data["parish"]])
+            else None
+        )
+        village = (
+            str(row[location_data["village"]])
+            if "village" in location_data and pd.notna(row[location_data["village"]])
+            else None
+        )
+
+        # Lookup code from hierarchy
+        key = (district, subcounty, parish, village)
+        if key in location_lookup:
+            location_codes.append(location_lookup[key])
+        else:
+            # Fallback: generate unknown code
+            location_codes.append("UG.UNK.UNK.UNK.UNK")
+
+    df_coded["location_code"] = location_codes
+    return df_coded
+
+
+def _generate_codes_from_scratch(df: pd.DataFrame, config_path: str) -> pd.DataFrame:
+    """
+    Fallback method to generate codes when hierarchy file doesn't exist.
     """
     with open(config_path, "r") as f:
         location_config = yaml.safe_load(f)
@@ -406,8 +509,8 @@ def generate_hierarchical_location_codes(
                 location_data[level] = col
                 break
 
-    # Build location hierarchy and generate codes
-    location_hierarchy = {}
+    # Initialize GLOBAL collision tracking for ALL location codes
+    global_used_codes = set()
     location_codes = []
 
     for _, row in df.iterrows():
@@ -416,7 +519,9 @@ def generate_hierarchical_location_codes(
         # District level
         if "district" in location_data and pd.notna(row[location_data["district"]]):
             district = str(row[location_data["district"]])
-            district_code = _generate_location_abbreviation(district, 3)
+            district_code = _generate_location_abbreviation(
+                district, 3, global_used_codes
+            )
             code_parts.append(district_code)
         else:
             code_parts.append("UNK")
@@ -424,7 +529,9 @@ def generate_hierarchical_location_codes(
         # Subcounty level
         if "subcounty" in location_data and pd.notna(row[location_data["subcounty"]]):
             subcounty = str(row[location_data["subcounty"]])
-            subcounty_code = _generate_location_abbreviation(subcounty, 3)
+            subcounty_code = _generate_location_abbreviation(
+                subcounty, 3, global_used_codes
+            )
             code_parts.append(subcounty_code)
         else:
             code_parts.append("UNK")
@@ -432,7 +539,7 @@ def generate_hierarchical_location_codes(
         # Parish level
         if "parish" in location_data and pd.notna(row[location_data["parish"]]):
             parish = str(row[location_data["parish"]])
-            parish_code = _generate_location_abbreviation(parish, 3)
+            parish_code = _generate_location_abbreviation(parish, 3, global_used_codes)
             code_parts.append(parish_code)
         else:
             code_parts.append("UNK")
@@ -440,7 +547,9 @@ def generate_hierarchical_location_codes(
         # Village level
         if "village" in location_data and pd.notna(row[location_data["village"]]):
             village = str(row[location_data["village"]])
-            village_code = _generate_location_abbreviation(village, 3)
+            village_code = _generate_location_abbreviation(
+                village, 3, global_used_codes
+            )
             code_parts.append(village_code)
         else:
             code_parts.append("UNK")
@@ -451,53 +560,142 @@ def generate_hierarchical_location_codes(
     return df_coded
 
 
-def _generate_location_abbreviation(name: str, max_length: int = 3) -> str:
+def _generate_location_abbreviation(
+    name: str, max_length: int = 3, global_used_codes: set = None
+) -> str:
     """
-    Generate location abbreviation from name.
+    Generate globally unique location abbreviation from name with type awareness.
 
     Args:
         name: Location name
         max_length: Maximum length of abbreviation
+        global_used_codes: Set of ALL used codes globally to avoid duplicates
 
     Returns:
-        Abbreviated location code
+        Abbreviated location code that is globally unique
     """
     if not name or pd.isna(name):
         return "UNK"
 
+    if global_used_codes is None:
+        global_used_codes = set()
+
     # Clean the name
     clean_name = str(name).strip().upper()
 
-    # Remove common words
-    stop_words = ["TOWN", "COUNCIL", "SUBCOUNTY", "SUB", "COUNTY"]
-    words = clean_name.split()
-    meaningful_words = [w for w in words if w not in stop_words]
+    # Detect location type and generate type-aware abbreviation
+    location_type = _detect_location_type(clean_name)
 
-    if not meaningful_words:
-        meaningful_words = words
+    # Generate base abbreviation
+    base_abbrev = _generate_base_abbreviation(clean_name, location_type, max_length)
 
-    # Generate abbreviation
-    if len(meaningful_words) == 1:
-        # Single word - take first max_length characters
-        return meaningful_words[0][:max_length]
+    # Ensure GLOBAL uniqueness
+    final_abbrev = _ensure_unique_code(base_abbrev, global_used_codes, max_length)
+
+    # Add to global used codes
+    global_used_codes.add(final_abbrev)
+
+    return final_abbrev
+
+
+def _detect_location_type(name: str) -> str:
+    """Detect the type of location from its name."""
+    name_upper = name.upper()
+
+    if "TOWN COUNCIL" in name_upper:
+        return "TOWN_COUNCIL"
+    elif "SUBCOUNTY" in name_upper or "SUB COUNTY" in name_upper:
+        return "SUBCOUNTY"
+    elif "WARD" in name_upper:
+        return "WARD"
+    elif "PARISH" in name_upper:
+        return "PARISH"
+    elif "VILLAGE" in name_upper or "CELL" in name_upper:
+        return "VILLAGE"
     else:
-        # Multiple words - take first letter of each word
-        abbrev = "".join([w[0] for w in meaningful_words if w])
-        if len(abbrev) <= max_length:
-            return abbrev
+        return "GENERIC"
+
+
+def _generate_base_abbreviation(name: str, location_type: str, max_length: int) -> str:
+    """Generate base abbreviation considering location type."""
+    # Remove type-specific words to get the core name
+    type_words = [
+        "TOWN",
+        "COUNCIL",
+        "SUBCOUNTY",
+        "SUB",
+        "COUNTY",
+        "WARD",
+        "PARISH",
+        "VILLAGE",
+        "CELL",
+    ]
+    words = name.split()
+    core_words = [w for w in words if w not in type_words]
+
+    if not core_words:
+        core_words = [
+            w for w in words if w not in ["COUNCIL", "COUNTY"]
+        ]  # Keep more essential words
+
+    # Generate core abbreviation
+    if len(core_words) == 1:
+        core_abbrev = (
+            core_words[0][: max_length - 1]
+            if max_length > 1
+            else core_words[0][:max_length]
+        )
+    else:
+        # Take first letter of each core word
+        core_abbrev = "".join([w[0] for w in core_words if w])
+        if len(core_abbrev) > max_length - 1 and max_length > 1:
+            core_abbrev = core_abbrev[: max_length - 1]
+
+    # Add type suffix if there's room
+    if location_type == "TOWN_COUNCIL" and len(core_abbrev) < max_length:
+        return core_abbrev + "T"
+    elif location_type == "SUBCOUNTY" and len(core_abbrev) < max_length:
+        return core_abbrev + "S"
+    elif location_type == "WARD" and len(core_abbrev) < max_length:
+        return core_abbrev + "W"
+    else:
+        return core_abbrev[:max_length]
+
+
+def _ensure_unique_code(base_code: str, used_codes: set, max_length: int) -> str:
+    """Ensure the code is unique by adding numeric suffixes if needed."""
+    if base_code not in used_codes:
+        return base_code
+
+    # Try numeric suffixes
+    for i in range(1, 100):
+        if max_length <= 2:
+            # For very short codes, use single digit
+            candidate = base_code[: max_length - 1] + str(i)
         else:
-            # If too long, take first max_length characters of first word
-            return meaningful_words[0][:max_length]
+            # For longer codes, use two digits if needed
+            suffix = str(i) if i < 10 else str(i)
+            candidate = base_code[: max_length - len(suffix)] + suffix
+
+        if candidate not in used_codes:
+            return candidate
+
+    # Fallback: use original with random suffix
+    import random
+
+    return base_code[: max_length - 2] + str(random.randint(10, 99))
 
 
 @task(retries=3)
 def generate_location_hierarchy_file(
     df: pd.DataFrame,
     output_path: str = "data/processed/locations/location_hierarchy.json",
-    config_path: str = "config/location_mappings.yaml"
+    config_path: str = "config/location_mappings.yaml",
 ) -> dict:
     """
-    Generate location hierarchy JSON file in the specified format.
+    Generate or update location hierarchy JSON file with hierarchical numeric codes.
+    Uses format: D##S###P###V#### for District/Subcounty/Parish/Village.
+    Merges new locations from facility data with existing hierarchy.
 
     Args:
         df: Input DataFrame with location data
@@ -520,98 +718,193 @@ def generate_location_hierarchy_file(
                 location_data[level] = col
                 break
 
-    # Build hierarchy structure
-    hierarchy = {"districts": []}
-    districts_map = {}
+    # Load existing hierarchy if it exists
+    existing_hierarchy = {}
 
+    try:
+        with open(output_path, "r") as f:
+            existing_hierarchy = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        # No existing hierarchy, start fresh
+        existing_hierarchy = {"districts": []}
+
+    # Build hierarchy structure, merging with existing
+    hierarchy = existing_hierarchy.copy() if existing_hierarchy else {"districts": []}
+
+    # Build maps for efficient lookup and numbering
+    districts_map = {}
+    district_counter = len(hierarchy.get("districts", []))
+
+    for district in hierarchy.get("districts", []):
+        districts_map[district["id"]] = district
+
+    # Collect all unique locations from the data
+    unique_locations = {}
     for _, row in df.iterrows():
-        # Get location values
-        district = str(row[location_data["district"]]) if "district" in location_data and pd.notna(row[location_data["district"]]) else None
-        subcounty = str(row[location_data["subcounty"]]) if "subcounty" in location_data and pd.notna(row[location_data["subcounty"]]) else None
-        parish = str(row[location_data["parish"]]) if "parish" in location_data and pd.notna(row[location_data["parish"]]) else None
-        village = str(row[location_data["village"]]) if "village" in location_data and pd.notna(row[location_data["village"]]) else None
+        district = (
+            str(row[location_data["district"]])
+            if "district" in location_data and pd.notna(row[location_data["district"]])
+            else None
+        )
+        subcounty = (
+            str(row[location_data["subcounty"]])
+            if "subcounty" in location_data
+            and pd.notna(row[location_data["subcounty"]])
+            else None
+        )
+        parish = (
+            str(row[location_data["parish"]])
+            if "parish" in location_data and pd.notna(row[location_data["parish"]])
+            else None
+        )
+        village = (
+            str(row[location_data["village"]])
+            if "village" in location_data and pd.notna(row[location_data["village"]])
+            else None
+        )
 
         if not district:
             continue
 
-        # Process district
-        district_id = slugify(district, separator="-")
-        district_code = f"UG.{_generate_location_abbreviation(district, 3)}"
+        district_slug = slugify(district, separator="-")
+        district_id = f"d-{district_slug}"
 
-        if district_id not in districts_map:
-            districts_map[district_id] = {
-                "id": district_id,
+        if district_id not in unique_locations:
+            unique_locations[district_id] = {
                 "name": district,
-                "code": district_code,
-                "subcounties": []
+                "district_slug": district_slug,
+                "subcounties": {},
             }
-            hierarchy["districts"].append(districts_map[district_id])
+
+        if subcounty:
+            subcounty_slug = slugify(subcounty, separator="-")
+            subcounty_id = f"s-{district_slug}-{subcounty_slug}"
+            if subcounty_id not in unique_locations[district_id]["subcounties"]:
+                unique_locations[district_id]["subcounties"][subcounty_id] = {
+                    "name": subcounty,
+                    "subcounty_slug": subcounty_slug,
+                    "parishes": {},
+                }
+
+            if parish:
+                parish_slug = slugify(parish, separator="-")
+                parish_id = f"p-{district_slug}-{subcounty_slug}-{parish_slug}"
+                if (
+                    parish_id
+                    not in unique_locations[district_id]["subcounties"][subcounty_id][
+                        "parishes"
+                    ]
+                ):
+                    unique_locations[district_id]["subcounties"][subcounty_id][
+                        "parishes"
+                    ][parish_id] = {
+                        "name": parish,
+                        "parish_slug": parish_slug,
+                        "villages": {},
+                    }
+
+                if village:
+                    village_slug = slugify(village, separator="-")
+                    village_id = f"v-{district_slug}-{subcounty_slug}-{parish_slug}-{village_slug}"
+                    unique_locations[district_id]["subcounties"][subcounty_id][
+                        "parishes"
+                    ][parish_id]["villages"][village_id] = {
+                        "name": village,
+                        "village_slug": village_slug,
+                    }
+
+    # Process each district
+    for district_id, district_data in unique_locations.items():
+        if district_id not in districts_map:
+            # Create new district
+            district_counter += 1
+            district_code = f"D{district_counter:02d}"
+
+            new_district = {
+                "id": district_id,
+                "name": district_data["name"],
+                "code": district_code,
+                "subcounties": [],
+            }
+            districts_map[district_id] = new_district
+            hierarchy["districts"].append(new_district)
 
         district_obj = districts_map[district_id]
+        district_code = district_obj["code"]
 
-        if not subcounty:
-            continue
+        # Build subcounty map
+        subcounties_map = {}
+        subcounty_counter = len(district_obj.get("subcounties", []))
 
-        # Process subcounty
-        subcounty_id = slugify(subcounty, separator="-")
-        subcounty_code = f"{district_code}.{_generate_location_abbreviation(subcounty, 3)}"
+        for subcounty in district_obj.get("subcounties", []):
+            subcounties_map[subcounty["id"]] = subcounty
 
-        # Find or create subcounty
-        subcounty_obj = None
-        for sc in district_obj["subcounties"]:
-            if sc["id"] == subcounty_id:
-                subcounty_obj = sc
-                break
+        # Process subcounties
+        for subcounty_id, subcounty_data in district_data["subcounties"].items():
+            if subcounty_id not in subcounties_map:
+                # Create new subcounty
+                subcounty_counter += 1
+                subcounty_code = f"{district_code}S{subcounty_counter:02d}"
 
-        if not subcounty_obj:
-            subcounty_obj = {
-                "id": subcounty_id,
-                "name": subcounty,
-                "code": subcounty_code,
-                "parishes": []
-            }
-            district_obj["subcounties"].append(subcounty_obj)
+                new_subcounty = {
+                    "id": subcounty_id,
+                    "name": subcounty_data["name"],
+                    "code": subcounty_code,
+                    "parishes": [],
+                }
+                subcounties_map[subcounty_id] = new_subcounty
+                district_obj["subcounties"].append(new_subcounty)
 
-        if not parish:
-            continue
+            subcounty_obj = subcounties_map[subcounty_id]
+            subcounty_code = subcounty_obj["code"]
 
-        # Process parish
-        parish_id = slugify(parish, separator="-")
-        parish_code = f"{subcounty_code}.{_generate_location_abbreviation(parish, 3)}"
+            # Build parish map
+            parishes_map = {}
+            parish_counter = len(subcounty_obj.get("parishes", []))
 
-        # Find or create parish
-        parish_obj = None
-        for p in subcounty_obj["parishes"]:
-            if p["id"] == parish_id:
-                parish_obj = p
-                break
+            for parish in subcounty_obj.get("parishes", []):
+                parishes_map[parish["id"]] = parish
 
-        if not parish_obj:
-            parish_obj = {
-                "id": parish_id,
-                "name": parish,
-                "code": parish_code,
-                "villages": []
-            }
-            subcounty_obj["parishes"].append(parish_obj)
+            # Process parishes
+            for parish_id, parish_data in subcounty_data["parishes"].items():
+                if parish_id not in parishes_map:
+                    # Create new parish
+                    parish_counter += 1
+                    parish_code = f"{subcounty_code}P{parish_counter:02d}"
 
-        if not village:
-            continue
+                    new_parish = {
+                        "id": parish_id,
+                        "name": parish_data["name"],
+                        "code": parish_code,
+                        "villages": [],
+                    }
+                    parishes_map[parish_id] = new_parish
+                    subcounty_obj["parishes"].append(new_parish)
 
-        # Process village
-        village_id = slugify(village, separator="-")
-        village_code = f"{parish_code}.{_generate_location_abbreviation(village, 3)}"
+                parish_obj = parishes_map[parish_id]
+                parish_code = parish_obj["code"]
 
-        # Check if village already exists
-        village_exists = any(v["id"] == village_id for v in parish_obj["villages"])
+                # Build village map
+                villages_map = {}
+                village_counter = len(parish_obj.get("villages", []))
 
-        if not village_exists:
-            village_obj = {
-                "id": village_id,
-                "name": village,
-                "code": village_code
-            }
-            parish_obj["villages"].append(village_obj)
+                for village in parish_obj.get("villages", []):
+                    villages_map[village["id"]] = village
+
+                # Process villages
+                for village_id, village_data in parish_data["villages"].items():
+                    if village_id not in villages_map:
+                        # Create new village
+                        village_counter += 1
+                        village_code = f"{parish_code}V{village_counter:02d}"
+
+                        new_village = {
+                            "id": village_id,
+                            "name": village_data["name"],
+                            "code": village_code,
+                        }
+                        villages_map[village_id] = new_village
+                        parish_obj["villages"].append(new_village)
 
     # Save to file
     output_dir = Path(output_path).parent
@@ -683,9 +976,7 @@ def generate_facility_ids(
             facility_slug = slugify(facility_name, separator="-")
 
             district_name = (
-                str(row[district_col])
-                if pd.notna(row[district_col])
-                else "unknown"
+                str(row[district_col]) if pd.notna(row[district_col]) else "unknown"
             )
             district_slug = slugify(district_name, separator="-")
 

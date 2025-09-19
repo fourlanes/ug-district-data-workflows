@@ -17,13 +17,7 @@ from tasks.csv_cleaning import (
     generate_location_hierarchy_file,
     standardize_headers,
 )
-from tasks.location_processing import (
-    extract_all_locations,
-    generate_unified_location_codes,
-    resolve_location_conflicts,
-    update_master_locations,
-    validate_location_hierarchy,
-)
+from tasks.location_processing import validate_location_hierarchy
 from tasks.validation import (
     detect_duplicate_facilities,
     generate_data_quality_report,
@@ -77,7 +71,7 @@ def clean_facility_data(
 
     # Step 2: Load and clean CSV data
     logger.info("Step 2: Loading and cleaning CSV data...")
-    df = pd.read_csv(input_file, encoding='utf-8-sig')
+    df = pd.read_csv(input_file, encoding="utf-8-sig")
     logger.info(f"Loaded {len(df)} records from {input_file}")
 
     # Clean headers with context information
@@ -93,7 +87,20 @@ def clean_facility_data(
     # Clean facility names and officer in charge data
     df_clean_facilities = clean_facility_and_officer_data(df_clean_locations)
 
-    # Generate hierarchical location codes
+    # Step 3: Generate location hierarchy file FIRST (before assigning facility codes)
+    logger.info("Step 3: Generating location hierarchy from facility data...")
+
+    # Generate and save hierarchical location file FIRST to establish all location codes
+    hierarchy_future = generate_location_hierarchy_file.submit(
+        df_clean_facilities,
+        "data/processed/locations/location_hierarchy.json",
+        f"{config_dir}/location_mappings.yaml",
+    )
+    hierarchy_future.result()  # Wait for completion
+
+    logger.info("Location hierarchy generation completed")
+
+    # Now generate hierarchical location codes using the established hierarchy
     df_with_codes = generate_hierarchical_location_codes(
         df_clean_facilities, f"{config_dir}/location_mappings.yaml"
     )
@@ -110,17 +117,6 @@ def clean_facility_data(
     df_final = clean_nan_values(df_with_thematic)
 
     logger.info("Data cleaning completed")
-
-    # Step 3: Generate location hierarchy file
-    logger.info("Step 3: Generating location hierarchy...")
-
-    # Generate and save hierarchical location file
-    hierarchy_future = generate_location_hierarchy_file.submit(
-        df_final, "data/processed/locations/location_hierarchy.json", f"{config_dir}/location_mappings.yaml"
-    )
-    location_hierarchy = hierarchy_future.result()
-
-    logger.info("Location hierarchy generation completed")
 
     # Step 4: Validation
     logger.info("Step 4: Running validation checks...")
@@ -162,19 +158,60 @@ def clean_facility_data(
     # Save to consolidated CSV file (append if exists, create if not)
     output_csv_path = Path(output_dir) / f"{thematic_area_name}_facilities_cleaned.csv"
 
-    # Check if file exists to determine if we need headers
+    # Check if file exists to determine if we need to merge or create
     file_exists = output_csv_path.exists()
 
     if file_exists:
-        # Append to existing file without headers
-        df_final.to_csv(output_csv_path, mode='a', header=False, index=False, quoting=1)
-        logger.info(f"Appended {len(df_final)} records to: {output_csv_path}")
+        # Load existing data and merge with new data
+        existing_df = pd.read_csv(output_csv_path)
+
+        # Merge/update based on facility_id (unique identifier)
+        if "facility_id" in df_final.columns and "facility_id" in existing_df.columns:
+            # Remove existing records with same facility_ids to avoid duplicates
+            existing_df = existing_df[
+                ~existing_df["facility_id"].isin(df_final["facility_id"])
+            ]
+
+            # Concatenate existing (without duplicates) + new data
+            merged_df = pd.concat([existing_df, df_final], ignore_index=True)
+
+            # Count new vs updated records
+            original_existing_ids = (
+                pd.read_csv(output_csv_path)["facility_id"]
+                if output_csv_path.exists()
+                else pd.Series([], dtype=str)
+            )
+            new_records = len(
+                df_final[~df_final["facility_id"].isin(original_existing_ids)]
+            )
+            updated_records = len(df_final) - new_records
+
+            merged_df.to_csv(output_csv_path, index=False, quoting=1)
+
+            if updated_records > 0 and new_records > 0:
+                logger.info(
+                    f"Updated {updated_records} and added {new_records} records to: {output_csv_path}"
+                )
+            elif updated_records > 0:
+                logger.info(
+                    f"Updated {updated_records} existing records in: {output_csv_path}"
+                )
+            else:
+                logger.info(f"Added {new_records} new records to: {output_csv_path}")
+        else:
+            # Fallback: if no facility_id, append (this shouldn't happen in normal flow)
+            df_final.to_csv(
+                output_csv_path, mode="a", header=False, index=False, quoting=1
+            )
+            logger.info(f"Appended {len(df_final)} records to: {output_csv_path}")
     else:
         # Create new file with headers
         df_final.to_csv(output_csv_path, index=False, quoting=1)
         logger.info(f"Created new file with {len(df_final)} records: {output_csv_path}")
 
-    logger.info(f"Location hierarchy saved to: data/processed/locations/location_hierarchy.json")
+    logger.info(
+        "Location hierarchy saved to: data/processed/locations/location_hierarchy.json"
+    )
 
     # Save quality report with district and timestamp for unique identification
     reports_dir = Path("data/processed/logs")
@@ -182,13 +219,18 @@ def clean_facility_data(
 
     # Get district name for unique report naming
     district_name = (
-        df_final.iloc[0]["district"] if "district" in df_final.columns else "unknown"
-    ).lower().replace(" ", "_")
+        (df_final.iloc[0]["district"] if "district" in df_final.columns else "unknown")
+        .lower()
+        .replace(" ", "_")
+    )
 
     # Use timestamp to ensure unique report names
     from datetime import datetime
+
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    quality_report_path = reports_dir / f"{district_name}_{thematic_area}_{timestamp}_quality_report.json"
+    quality_report_path = (
+        reports_dir / f"{district_name}_{thematic_area}_{timestamp}_quality_report.json"
+    )
 
     with open(quality_report_path, "w") as f:
         json.dump(quality_report, f, indent=2)
