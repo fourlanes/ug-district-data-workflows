@@ -1,0 +1,415 @@
+{
+  "districts": [
+    {
+      "id": "d-kayunga",
+      "name": "Kayunga",
+      "code": "D01",
+      "subcounties": [
+        {
+          "id": "s-kayunga-kangulumira-town-council",
+          "name": "Kangulumira Town Council",
+          "code": "D01S01",
+          "parishes": [
+            {
+              "id": "p-kayunga-kangulumira-town-council-kangulumira",
+              "name": "Kangulumira",
+              "code": "D01S01P01",
+              "villages": [
+                {
+                  "id": "v-kayunga-kangulumira-town-council-kangulumira-kibira-zone",
+                  "name": "Kibira Zone",
+                  "code": "D01S01P01V01"
+                },
+                {
+                  "id": "v-kayunga-kangulumira-town-council-kangulumira-kiwugu",
+                  "name": "Kiwugu",
+                  "code": "D01S01P01V02"
+                },
+                {
+                  "id": "v-kayunga-kangulumira-town-council-kangulumira-kangulumira",
+                  "name": "Kangulumira",
+                  "code": "D01S01P01V03"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-kayunga-kangulumira-subcounty",
+          "name": "Kangulumira Subcounty",
+          "code": "D01S02",
+          "parishes": [
+            {
+              "id": "p-kayunga-kangulumira-subcounty-kawomya",
+              "name": "Kawomya",
+              "code": "D01S02P01",
+              "villages": [
+                {
+                  "id": "v-kayunga-kangulumira-subcounty-kawomya-kawomya",
+                  "name": "Kawomya",
+                  "code": "D01S02P01V01"
+                },
+                {
+                  "id": "v-kayunga-kangulumira-subcounty-kawomya-namakandwa",
+                  "name": "Namakandwa",
+                  "code": "D01S02P01V02"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-kayunga-nazigo-town-council",
+          "name": "Nazigo Town Council",
+          "code": "D01S03",
+          "parishes": [
+            {
+              "id": "p-kayunga-nazigo-town-council-nazigo",
+              "name": "Nazigo",
+              "code": "D01S03P01",
+              "villages": [
+                {
+                  "id": "v-kayunga-nazigo-town-council-nazigo-ssenda",
+                  "name": "Ssenda",
+                  "code": "D01S03P01V01"
+                },
+                {
+                  "id": "v-kayunga-nazigo-town-council-nazigo-nazigo",
+                  "name": "Nazigo",
+                  "code": "D01S03P01V02"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-kayunga-nazigo-subcounty",
+          "name": "Nazigo Subcounty",
+          "code": "D01S04",
+          "parishes": [
+            {
+              "id": "p-kayunga-nazigo-subcounty-bukamba",
+              "name": "Bukamba",
+              "code": "D01S04P01",
+              "villages": [
+                {
+                  "id": "v-kayunga-nazigo-subcounty-bukamba-bukamba",
+                  "name": "Bukamba",
+                  "code": "D01S04P01V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-nazigo-subcounty-kirindi",
+              "name": "Kirindi",
+              "code": "D01S04P02",
+              "villages": [
+                {
+                  "id": "v-kayunga-nazigo-subcounty-kirindi-kirindi",
+                  "name": "Kirindi",
+                  "code": "D01S04P02V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-kayunga-kayunga-town-council",
+          "name": "Kayunga Town Council",
+          "code": "D01S05",
+          "parishes": [
+            {
+              "id": "p-kayunga-kayunga-town-council-kayunga-central",
+              "name": "Kayunga Central",
+              "code": "D01S05P01",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-kayunga-central-kayunga",
+                  "name": "Kayunga",
+                  "code": "D01S05P01V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-town-council-central-ward",
+              "name": "Central Ward",
+              "code": "D01S05P02",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-central-ward-kayunga-west",
+                  "name": "Kayunga West",
+                  "code": "D01S05P02V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-town-council-ntenjeru-ward",
+              "name": "Ntenjeru Ward",
+              "code": "D01S05P03",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-ntenjeru-ward-ntenjeru-b",
+                  "name": "Ntenjeru B",
+                  "code": "D01S05P03V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-town-council-kayunga",
+              "name": "Kayunga",
+              "code": "D01S05P04",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-kayunga-kayunga",
+                  "name": "Kayunga",
+                  "code": "D01S05P04V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-kayunga-kayunga-subcounty",
+          "name": "Kayunga Subcounty",
+          "code": "D01S06",
+          "parishes": [
+            {
+              "id": "p-kayunga-kayunga-subcounty-busaale",
+              "name": "Busaale",
+              "code": "D01S06P01",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-subcounty-busaale-busaale",
+                  "name": "Busaale",
+                  "code": "D01S06P01V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-subcounty-nsotoka",
+              "name": "Nsotoka",
+              "code": "D01S06P02",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-subcounty-nsotoka-nsotoka",
+                  "name": "Nsotoka",
+                  "code": "D01S06P02V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-subcounty-buyobe",
+              "name": "Buyobe",
+              "code": "D01S06P03",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-subcounty-buyobe-buyobe",
+                  "name": "Buyobe",
+                  "code": "D01S06P03V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-kayunga-busaana-town-council",
+          "name": "Busaana Town Council",
+          "code": "D01S07",
+          "parishes": [
+            {
+              "id": "p-kayunga-busaana-town-council-kasana",
+              "name": "Kasana",
+              "code": "D01S07P01",
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-town-council-kasana-busaana",
+                  "name": "Busaana",
+                  "code": "D01S07P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-kayunga-busaana-subcounty",
+          "name": "Busaana Subcounty",
+          "code": "D01S08",
+          "parishes": [
+            {
+              "id": "p-kayunga-busaana-subcounty-namusala",
+              "name": "Namusala",
+              "code": "D01S08P01",
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-subcounty-namusala-namusala",
+                  "name": "Namusala",
+                  "code": "D01S08P01V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-busaana-subcounty-kiwangula",
+              "name": "Kiwangula",
+              "code": "D01S08P02",
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-subcounty-kiwangula-nakatovu",
+                  "name": "Nakatovu",
+                  "code": "D01S08P02V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-kayunga-bbaale-subcounty",
+          "name": "Bbaale Subcounty",
+          "code": "D01S09",
+          "parishes": [
+            {
+              "id": "p-kayunga-bbaale-subcounty-bulawula",
+              "name": "Bulawula",
+              "code": "D01S09P01",
+              "villages": [
+                {
+                  "id": "v-kayunga-bbaale-subcounty-bulawula-bulawula",
+                  "name": "Bulawula",
+                  "code": "D01S09P01V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-bbaale-subcounty-nakitokolo",
+              "name": "Nakitokolo",
+              "code": "D01S09P02",
+              "villages": [
+                {
+                  "id": "v-kayunga-bbaale-subcounty-nakitokolo-kabaku",
+                  "name": "Kabaku",
+                  "code": "D01S09P02V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-kayunga-kayonza-subcounty",
+          "name": "Kayonza Subcounty",
+          "code": "D01S10",
+          "parishes": [
+            {
+              "id": "p-kayunga-kayonza-subcounty-kamusabi",
+              "name": "Kamusabi",
+              "code": "D01S10P01",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayonza-subcounty-kamusabi-lugasa-west",
+                  "name": "Lugasa West",
+                  "code": "D01S10P01V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayonza-subcounty-nakyesanja",
+              "name": "Nakyesanja",
+              "code": "D01S10P02",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayonza-subcounty-nakyesanja-kakiika",
+                  "name": "Kakiika",
+                  "code": "D01S10P02V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayonza-subcounty-nakyesa",
+              "name": "Nakyesa",
+              "code": "D01S10P03",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayonza-subcounty-nakyesa-nakyesa",
+                  "name": "Nakyesa",
+                  "code": "D01S10P03V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-kayunga-kitimbwa-subcounty",
+          "name": "Kitimbwa Subcounty",
+          "code": "D01S11",
+          "parishes": [
+            {
+              "id": "p-kayunga-kitimbwa-subcounty-nkokonjeru",
+              "name": "Nkokonjeru",
+              "code": "D01S11P01",
+              "villages": [
+                {
+                  "id": "v-kayunga-kitimbwa-subcounty-nkokonjeru-nkokonjeru",
+                  "name": "Nkokonjeru",
+                  "code": "D01S11P01V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kitimbwa-subcounty-kitimbwa",
+              "name": "Kitimbwa",
+              "code": "D01S11P02",
+              "villages": [
+                {
+                  "id": "v-kayunga-kitimbwa-subcounty-kitimbwa-wabwoko",
+                  "name": "Wabwoko",
+                  "code": "D01S11P02V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-kayunga-galiraya-subcounty",
+          "name": "Galiraya Subcounty",
+          "code": "D01S12",
+          "parishes": [
+            {
+              "id": "p-kayunga-galiraya-subcounty-kasokwe",
+              "name": "Kasokwe",
+              "code": "D01S12P01",
+              "villages": [
+                {
+                  "id": "v-kayunga-galiraya-subcounty-kasokwe-kasokwe",
+                  "name": "Kasokwe",
+                  "code": "D01S12P01V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-galiraya-subcounty-galiraya",
+              "name": "Galiraya",
+              "code": "D01S12P02",
+              "villages": [
+                {
+                  "id": "v-kayunga-galiraya-subcounty-galiraya-galiraya",
+                  "name": "Galiraya",
+                  "code": "D01S12P02V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-galiraya-subcounty-kawongo",
+              "name": "Kawongo",
+              "code": "D01S12P03",
+              "villages": [
+                {
+                  "id": "v-kayunga-galiraya-subcounty-kawongo-kawongo",
+                  "name": "Kawongo",
+                  "code": "D01S12P03V01"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

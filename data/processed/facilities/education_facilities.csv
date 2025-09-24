@@ -1,0 +1,13 @@
+district,county,subcounty,parish,village,school_name,ownership,institution_type,location_code,facility_id,latitude,longitude,thematic_area
+Kayunga,Bbaale,Bbaale,,,Bbaale Senior Secondary School,Government,Secondary,D01S09,bbaale_senior_secondary_school_kayunga,,,education
+Kayunga,Bbaale,Galiraya,,,Galiraya Seed Secondary School,Government,Secondary,D01S12,galiraya_seed_secondary_school_kayunga,,,education
+Kayunga,Bbaale,Kayonza,,,Naalinya Irene Ndagire Secondary School,Government,Secondary,D01S10,naalinya_irene_ndagire_secondary_school_kayunga,,,education
+Kayunga,Bbaale,Kitimbwa,,,Kitatya Senior Secondary School,Government,Secondary,D01S11,kitatya_senior_secondary_school_kayunga,,,education
+Kayunga,Ntenjeru,Busaana,,,St Peters Kibuzi Senior Secondary School,Government,Secondary,D01S08,st_peters_kibuzi_senior_secondary_school_kayunga,,,education
+Kayunga,Ntenjeru,Busaana Town Council,,,Busaana Secondary School,Government,Secondary,D01S07,busaana_secondary_school_kayunga,,,education
+Kayunga,Ntenjeru,Kangulumira Town Council,,,Kangulumira Public Secondary School,Government,Secondary,D01S01,kangulumira_public_secondary_school_kayunga,,,education
+Kayunga,Ntenjeru,Kayunga,,,Kanjuki Senior Secondary School,Government,Secondary,D01S06,kanjuki_senior_secondary_school_kayunga,,,education
+Kayunga,Ntenjeru,Kayunga Town Council,,,Namagabi Senior Secondary School,Government,Secondary,D01S05,namagabi_senior_secondary_school_kayunga,,,education
+Kayunga,Ntenjeru,Kayunga Town Council,,,Ndeeba Senior Secondary School,Government,Secondary,D01S05,ndeeba_senior_secondary_school_kayunga,,,education
+Kayunga,Ntenjeru,Nazigo,,,Musiitwa Seed Secondary School,Government,Secondary,D01S04,musiitwa_seed_secondary_school_kayunga,,,education
+Kayunga,Ntenjeru,Nazigo Town Council,,,St Kalemba Senior Secondary School,Government,Secondary,D01S03,st_kalemba_senior_secondary_school_kayunga,,,education
