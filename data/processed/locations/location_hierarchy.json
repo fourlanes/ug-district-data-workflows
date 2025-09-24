@@ -36,7 +36,7 @@
         },
         {
           "id": "s-kayunga-kangulumira-subcounty",
-          "name": "Kangulumira Subcounty",
+          "name": "Kangulumira",
           "code": "D01S02",
           "parishes": [
             {
@@ -84,7 +84,7 @@
         },
         {
           "id": "s-kayunga-nazigo-subcounty",
-          "name": "Nazigo Subcounty",
+          "name": "Nazigo",
           "code": "D01S04",
           "parishes": [
             {
@@ -170,7 +170,7 @@
         },
         {
           "id": "s-kayunga-kayunga-subcounty",
-          "name": "Kayunga Subcounty",
+          "name": "Kayunga",
           "code": "D01S06",
           "parishes": [
             {
@@ -232,7 +232,7 @@
         },
         {
           "id": "s-kayunga-busaana-subcounty",
-          "name": "Busaana Subcounty",
+          "name": "Busaana",
           "code": "D01S08",
           "parishes": [
             {
@@ -263,7 +263,7 @@
         },
         {
           "id": "s-kayunga-bbaale-subcounty",
-          "name": "Bbaale Subcounty",
+          "name": "Bbaale",
           "code": "D01S09",
           "parishes": [
             {
@@ -294,7 +294,7 @@
         },
         {
           "id": "s-kayunga-kayonza-subcounty",
-          "name": "Kayonza Subcounty",
+          "name": "Kayonza",
           "code": "D01S10",
           "parishes": [
             {
@@ -337,7 +337,7 @@
         },
         {
           "id": "s-kayunga-kitimbwa-subcounty",
-          "name": "Kitimbwa Subcounty",
+          "name": "Kitimbwa",
           "code": "D01S11",
           "parishes": [
             {
@@ -368,7 +368,7 @@
         },
         {
           "id": "s-kayunga-galiraya-subcounty",
-          "name": "Galiraya Subcounty",
+          "name": "Galiraya",
           "code": "D01S12",
           "parishes": [
             {

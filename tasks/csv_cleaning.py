@@ -10,6 +10,36 @@ from slugify import slugify
 # Type hints would be imported here if needed
 
 
+def deduplicate_location_name(name: str, level: str) -> str:
+    """
+    Deduplicate location names by removing qualifiers like 'Subcounty' and 'Parish'
+    where they conflict with base names.
+
+    Args:
+        name: The location name to deduplicate
+        level: The location level ('subcounty' or 'parish')
+
+    Returns:
+        Deduplicated name (prefers base name over qualified name)
+    """
+    if not name or not isinstance(name, str):
+        return name
+
+    name_stripped = name.strip()
+
+    # Only apply deduplication for subcounty and parish levels
+    if level == 'subcounty':
+        # Remove "Subcounty" qualifier if present
+        if name_stripped.endswith(' Subcounty'):
+            return name_stripped[:-10]  # Remove " Subcounty"
+    elif level == 'parish':
+        # Remove "Parish" qualifier if present
+        if name_stripped.endswith(' Parish'):
+            return name_stripped[:-7]  # Remove " Parish"
+
+    return name_stripped
+
+
 @task(
     retries=3,
     cache_key_fn=lambda ctx, params: f"detect_data_type_{params['file_path']}",
@@ -777,17 +807,21 @@ def generate_location_hierarchy_file(
             }
 
         if subcounty:
-            subcounty_slug = slugify(subcounty, separator="-")
+            # Apply deduplication logic - prefer base names over qualified names
+            subcounty_deduplicated = deduplicate_location_name(subcounty, 'subcounty')
+            subcounty_slug = slugify(subcounty_deduplicated, separator="-")
             subcounty_id = f"s-{district_slug}-{subcounty_slug}"
             if subcounty_id not in unique_locations[district_id]["subcounties"]:
                 unique_locations[district_id]["subcounties"][subcounty_id] = {
-                    "name": subcounty,
+                    "name": subcounty_deduplicated,
                     "subcounty_slug": subcounty_slug,
                     "parishes": {},
                 }
 
             if parish:
-                parish_slug = slugify(parish, separator="-")
+                # Apply deduplication logic - prefer base names over qualified names
+                parish_deduplicated = deduplicate_location_name(parish, 'parish')
+                parish_slug = slugify(parish_deduplicated, separator="-")
                 parish_id = f"p-{district_slug}-{subcounty_slug}-{parish_slug}"
                 if (
                     parish_id
@@ -798,7 +832,7 @@ def generate_location_hierarchy_file(
                     unique_locations[district_id]["subcounties"][subcounty_id][
                         "parishes"
                     ][parish_id] = {
-                        "name": parish,
+                        "name": parish_deduplicated,
                         "parish_slug": parish_slug,
                         "villages": {},
                     }
