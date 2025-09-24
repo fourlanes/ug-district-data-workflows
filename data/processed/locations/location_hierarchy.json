@@ -410,6 +410,409 @@
           ]
         }
       ]
+    },
+    {
+      "id": "d-masindi",
+      "name": "Masindi",
+      "code": "D02",
+      "subcounties": [
+        {
+          "id": "s-masindi-karujubu",
+          "name": "Karujubu",
+          "code": "D02S01",
+          "parishes": [
+            {
+              "id": "p-masindi-karujubu-karujubu",
+              "name": "Karujubu",
+              "code": "D02S01P01",
+              "villages": [
+                {
+                  "id": "v-masindi-karujubu-karujubu-karujubu",
+                  "name": "Karujubu",
+                  "code": "D02S01P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-central-division",
+          "name": "Central Division",
+          "code": "D02S02",
+          "parishes": [
+            {
+              "id": "p-masindi-central-division-central-division",
+              "name": "Central Division",
+              "code": "D02S02P01",
+              "villages": [
+                {
+                  "id": "v-masindi-central-division-central-division-central-division",
+                  "name": "Central Division",
+                  "code": "D02S02P01V01"
+                },
+                {
+                  "id": "v-masindi-central-division-central-division-kirasa",
+                  "name": "Kirasa",
+                  "code": "D02S02P01V02"
+                },
+                {
+                  "id": "v-masindi-central-division-central-division-nyabweya",
+                  "name": "Nyabweya",
+                  "code": "D02S02P01V03"
+                },
+                {
+                  "id": "v-masindi-central-division-central-division-nyamigisa",
+                  "name": "Nyamigisa",
+                  "code": "D02S02P01V04"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-miirya",
+          "name": "Miirya",
+          "code": "D02S03",
+          "parishes": [
+            {
+              "id": "p-masindi-miirya-miirya",
+              "name": "Miirya",
+              "code": "D02S03P01",
+              "villages": [
+                {
+                  "id": "v-masindi-miirya-miirya-miirya",
+                  "name": "Miirya",
+                  "code": "D02S03P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-kyatiri-subcounty",
+          "name": "Kyatiri",
+          "code": "D02S04",
+          "parishes": [
+            {
+              "id": "p-masindi-kyatiri-subcounty-kyatiri-subcounty",
+              "name": "Kyatiri",
+              "code": "D02S04P01",
+              "villages": [
+                {
+                  "id": "v-masindi-kyatiri-subcounty-kyatiri-subcounty-kyatiri-subcounty",
+                  "name": "Kyatiri",
+                  "code": "D02S04P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-pakanyi-subcounty",
+          "name": "Pakanyi",
+          "code": "D02S05",
+          "parishes": [
+            {
+              "id": "p-masindi-pakanyi-subcounty-pakanyi-subcounty",
+              "name": "Pakanyi",
+              "code": "D02S05P01",
+              "villages": [
+                {
+                  "id": "v-masindi-pakanyi-subcounty-pakanyi-subcounty-alimigonza",
+                  "name": "Alimigonza",
+                  "code": "D02S05P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-kiruli",
+          "name": "Kiruli",
+          "code": "D02S06",
+          "parishes": [
+            {
+              "id": "p-masindi-kiruli-kiruli",
+              "name": "Kiruli",
+              "code": "D02S06P01",
+              "villages": [
+                {
+                  "id": "v-masindi-kiruli-kiruli-kitanyata",
+                  "name": "Kitanyata",
+                  "code": "D02S06P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-labongo-subcounty",
+          "name": "Labongo",
+          "code": "D02S07",
+          "parishes": [
+            {
+              "id": "p-masindi-labongo-subcounty-labongo-subcounty",
+              "name": "Labongo",
+              "code": "D02S07P01",
+              "villages": [
+                {
+                  "id": "v-masindi-labongo-subcounty-labongo-subcounty-kilanyi",
+                  "name": "Kilanyi",
+                  "code": "D02S07P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-kijunjubwa-town-council",
+          "name": "Kijunjubwa Town Council",
+          "code": "D02S08",
+          "parishes": [
+            {
+              "id": "p-masindi-kijunjubwa-town-council-kijunjubwa-town-council",
+              "name": "Kijunjubwa Town Council",
+              "code": "D02S08P01",
+              "villages": [
+                {
+                  "id": "v-masindi-kijunjubwa-town-council-kijunjubwa-town-council-kijunjubwa-town-council",
+                  "name": "Kijunjubwa Town Council",
+                  "code": "D02S08P01V01"
+                },
+                {
+                  "id": "v-masindi-kijunjubwa-town-council-kijunjubwa-town-council-kijunjubwa",
+                  "name": "Kijunjubwa",
+                  "code": "D02S08P01V02"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-nyangaya-division",
+          "name": "Nyangaya Division",
+          "code": "D02S09",
+          "parishes": [
+            {
+              "id": "p-masindi-nyangaya-division-nyangaya-division",
+              "name": "Nyangaya Division",
+              "code": "D02S09P01",
+              "villages": [
+                {
+                  "id": "v-masindi-nyangaya-division-nyangaya-division-biizi",
+                  "name": "Biizi",
+                  "code": "D02S09P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-kimengo-subcounty",
+          "name": "Kimengo",
+          "code": "D02S10",
+          "parishes": [
+            {
+              "id": "p-masindi-kimengo-subcounty-kimengo-subcounty",
+              "name": "Kimengo",
+              "code": "D02S10P01",
+              "villages": [
+                {
+                  "id": "v-masindi-kimengo-subcounty-kimengo-subcounty-kimengo",
+                  "name": "Kimengo",
+                  "code": "D02S10P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-nyangahya",
+          "name": "Nyangahya",
+          "code": "D02S11",
+          "parishes": [
+            {
+              "id": "p-masindi-nyangahya-nyangahya",
+              "name": "Nyangahya",
+              "code": "D02S11P01",
+              "villages": [
+                {
+                  "id": "v-masindi-nyangahya-nyangahya-katasenya",
+                  "name": "Katasenya",
+                  "code": "D02S11P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-bikonzi",
+          "name": "Bikonzi",
+          "code": "D02S12",
+          "parishes": [
+            {
+              "id": "p-masindi-bikonzi-bikonzi",
+              "name": "Bikonzi",
+              "code": "D02S12P01",
+              "villages": [
+                {
+                  "id": "v-masindi-bikonzi-bikonzi-ikoba",
+                  "name": "Ikoba",
+                  "code": "D02S12P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-bwijanga",
+          "name": "Bwijanga",
+          "code": "D02S13",
+          "parishes": [
+            {
+              "id": "p-masindi-bwijanga-bwijanga",
+              "name": "Bwijanga",
+              "code": "D02S13P01",
+              "villages": [
+                {
+                  "id": "v-masindi-bwijanga-bwijanga-mihembero",
+                  "name": "Mihembero",
+                  "code": "D02S13P01V01"
+                },
+                {
+                  "id": "v-masindi-bwijanga-bwijanga-kikingura",
+                  "name": "Kikingura",
+                  "code": "D02S13P01V02"
+                },
+                {
+                  "id": "v-masindi-bwijanga-bwijanga-kyamaiso",
+                  "name": "Kyamaiso",
+                  "code": "D02S13P01V03"
+                },
+                {
+                  "id": "v-masindi-bwijanga-bwijanga-ntooma",
+                  "name": "Ntooma",
+                  "code": "D02S13P01V04"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-bujenje",
+          "name": "Bujenje",
+          "code": "D02S14",
+          "parishes": [
+            {
+              "id": "p-masindi-bujenje-bujenje",
+              "name": "Bujenje",
+              "code": "D02S14P01",
+              "villages": [
+                {
+                  "id": "v-masindi-bujenje-bujenje-kasongoire",
+                  "name": "Kasongoire",
+                  "code": "D02S14P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-nyantonzi",
+          "name": "Nyantonzi",
+          "code": "D02S15",
+          "parishes": [
+            {
+              "id": "p-masindi-nyantonzi-nyantonzi",
+              "name": "Nyantonzi",
+              "code": "D02S15P01",
+              "villages": [
+                {
+                  "id": "v-masindi-nyantonzi-nyantonzi-kasenene",
+                  "name": "Kasenene",
+                  "code": "D02S15P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-nyantonzi-subcounty",
+          "name": "Nyantonzi",
+          "code": "D02S16",
+          "parishes": [
+            {
+              "id": "p-masindi-nyantonzi-subcounty-nyantonzi-subcounty",
+              "name": "Nyantonzi",
+              "code": "D02S16P01",
+              "villages": [
+                {
+                  "id": "v-masindi-nyantonzi-subcounty-nyantonzi-subcounty-nyantonzi",
+                  "name": "Nyantonzi",
+                  "code": "D02S16P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-bulima-town-council",
+          "name": "Bulima Town Council",
+          "code": "D02S17",
+          "parishes": [
+            {
+              "id": "p-masindi-bulima-town-council-bulima-town-council",
+              "name": "Bulima Town Council",
+              "code": "D02S17P01",
+              "villages": [
+                {
+                  "id": "v-masindi-bulima-town-council-bulima-town-council-kisalizi",
+                  "name": "Kisalizi",
+                  "code": "D02S17P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-bwijango-subcounty",
+          "name": "Bwijango",
+          "code": "D02S18",
+          "parishes": [
+            {
+              "id": "p-masindi-bwijango-subcounty-bwijango-subcounty",
+              "name": "Bwijango",
+              "code": "D02S18P01",
+              "villages": [
+                {
+                  "id": "v-masindi-bwijango-subcounty-bwijango-subcounty-bwijango-subcounty",
+                  "name": "Bwijango",
+                  "code": "D02S18P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-kiruli-subcounty",
+          "name": "Kiruli",
+          "code": "D02S19",
+          "parishes": [
+            {
+              "id": "p-masindi-kiruli-subcounty-kiruli-subcounty",
+              "name": "Kiruli",
+              "code": "D02S19P01",
+              "villages": [
+                {
+                  "id": "v-masindi-kiruli-subcounty-kiruli-subcounty-kitanyata",
+                  "name": "Kitanyata",
+                  "code": "D02S19P01V01"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }
