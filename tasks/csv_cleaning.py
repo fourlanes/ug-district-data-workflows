@@ -435,6 +435,7 @@ def generate_hierarchical_location_codes(
 ) -> pd.DataFrame:
     """
     Generate hierarchical location codes by looking up from the location hierarchy file.
+    Uses flexible location matching with hierarchical fallback (village → parish → subcounty → district).
     This ensures consistency between hierarchy and facility codes.
 
     Args:
@@ -452,18 +453,26 @@ def generate_hierarchical_location_codes(
         with open(hierarchy_file, "r") as f:
             hierarchy = json.load(f)
 
-        # Build lookup table from hierarchy
+        # Build comprehensive lookup table for all location levels
         for district in hierarchy.get("districts", []):
+            # District level
+            district_key = (district['name'], '', '', '')
+            location_lookup[district_key] = district['code']
+
             for subcounty in district.get("subcounties", []):
+                # Subcounty level
+                subcounty_key = (district['name'], subcounty['name'], '', '')
+                location_lookup[subcounty_key] = subcounty['code']
+
                 for parish in subcounty.get("parishes", []):
+                    # Parish level
+                    parish_key = (district['name'], subcounty['name'], parish['name'], '')
+                    location_lookup[parish_key] = parish['code']
+
                     for village in parish.get("villages", []):
-                        key = (
-                            district["name"],
-                            subcounty["name"],
-                            parish["name"],
-                            village["name"],
-                        )
-                        location_lookup[key] = village["code"]
+                        # Village level
+                        village_key = (district['name'], subcounty['name'], parish['name'], village['name'])
+                        location_lookup[village_key] = village['code']
 
     except (FileNotFoundError, json.JSONDecodeError):
         # Fall back to generating codes if hierarchy doesn't exist
@@ -486,36 +495,46 @@ def generate_hierarchical_location_codes(
     location_codes = []
 
     for _, row in df.iterrows():
-        # Get location values
-        district = (
-            str(row[location_data["district"]])
-            if "district" in location_data and pd.notna(row[location_data["district"]])
-            else None
-        )
-        subcounty = (
-            str(row[location_data["subcounty"]])
-            if "subcounty" in location_data
-            and pd.notna(row[location_data["subcounty"]])
-            else None
-        )
-        parish = (
-            str(row[location_data["parish"]])
-            if "parish" in location_data and pd.notna(row[location_data["parish"]])
-            else None
-        )
-        village = (
-            str(row[location_data["village"]])
-            if "village" in location_data and pd.notna(row[location_data["village"]])
-            else None
-        )
+        # Get location values and clean them
+        district = str(row.get(location_data.get("district", ""), '')).strip() if location_data.get("district") else ''
+        subcounty = str(row.get(location_data.get("subcounty", ""), '')).strip() if location_data.get("subcounty") else ''
+        parish = str(row.get(location_data.get("parish", ""), '')).strip() if location_data.get("parish") else ''
+        village = str(row.get(location_data.get("village", ""), '')).strip() if location_data.get("village") else ''
 
-        # Lookup code from hierarchy
-        key = (district, subcounty, parish, village)
-        if key in location_lookup:
-            location_codes.append(location_lookup[key])
-        else:
-            # Fallback: generate unknown code
-            location_codes.append("UG.UNK.UNK.UNK.UNK")
+        # Clean empty/nan values
+        district = district if district and district.lower() != 'nan' else ''
+        subcounty = subcounty if subcounty and subcounty.lower() != 'nan' else ''
+        parish = parish if parish and parish.lower() != 'nan' else ''
+        village = village if village and village.lower() != 'nan' else ''
+
+        # Try most specific to least specific location combinations
+        location_code = None
+
+        # Try village level first (most specific)
+        if district and subcounty and parish and village:
+            key = (district, subcounty, parish, village)
+            location_code = location_lookup.get(key)
+
+        # Try parish level
+        if not location_code and district and subcounty and parish:
+            key = (district, subcounty, parish, '')
+            location_code = location_lookup.get(key)
+
+        # Try subcounty level
+        if not location_code and district and subcounty:
+            key = (district, subcounty, '', '')
+            location_code = location_lookup.get(key)
+
+        # Try district level
+        if not location_code and district:
+            key = (district, '', '', '')
+            location_code = location_lookup.get(key)
+
+        # Fallback if no match found
+        if not location_code:
+            location_code = 'UG.UNK.UNK'
+
+        location_codes.append(location_code)
 
     df_coded["location_code"] = location_codes
     return df_coded

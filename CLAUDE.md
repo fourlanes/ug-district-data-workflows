@@ -32,6 +32,7 @@ config/             # YAML configuration for data type rules and location mappin
 - **Data Type Detection**: Auto-classify datasets as facility vs aggregated based on filename/content patterns
 - **Thematic Area Mapping**: Automatically identify domain (health, education, water, demographics) from indicators
 - **Location Standardization**: Handle location name variations and build consistent hierarchy across all datasets
+- **Flexible Location Code Generation**: Hierarchical fallback system (village → parish → subcounty → district) ensures all records get appropriate location codes
 - **Validation Rules**: Different validation logic per data type (coordinate validation for facilities, totals consistency for aggregated data)
 
 ## Development Commands
@@ -64,8 +65,12 @@ python test_simple.py
 # Run facility cleaning workflow
 python -c "from flows.facility_cleaning_flow import clean_facility_data; clean_facility_data('data/raw/facilities/health/kayunga_health_facilities.csv')"
 
+# Run primary enrollment processing workflow
+python -c "from flows.primary_enrollment_processing_flow import process_primary_enrollment_data; process_primary_enrollment_data('data/raw/trends/masindi_primary_school_pupil_enrolment.csv')"
+
 # Batch process multiple files
 python -c "from flows.facility_cleaning_flow import batch_clean_facilities; batch_clean_facilities()"
+python -c "from flows.primary_enrollment_processing_flow import batch_process_primary_enrollment_data; batch_process_primary_enrollment_data()"
 ```
 
 ## Configuration

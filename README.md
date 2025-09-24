@@ -12,6 +12,7 @@ This pipeline handles three distinct data processing workflows:
 
 ### Key Features
 
+- **Flexible Location Code Generation**: Hierarchical fallback system (village → parish → subcounty → district) ensures all records get appropriate location codes
 - **Unique Hierarchical Location IDs**: URL-friendly IDs that prevent collisions (e.g., `d-kayunga`, `s-kayunga-kangulumira-town-council`)
 - **Smart Duplicate Prevention**: Updates existing facility records instead of creating duplicates
 - **Data Type Auto-Detection**: Automatically classifies datasets as facility vs aggregated data
@@ -41,6 +42,18 @@ python -c "from flows.facility_cleaning_flow import clean_facility_data; clean_f
 python -c "from flows.facility_cleaning_flow import batch_clean_facilities; batch_clean_facilities()"
 ```
 
+### Primary Enrollment Data Processing
+
+#### Single File Processing
+```bash
+python -c "from flows.primary_enrollment_processing_flow import process_primary_enrollment_data; process_primary_enrollment_data('data/raw/trends/masindi_primary_school_pupil_enrolment.csv')"
+```
+
+#### Batch Processing Multiple Files
+```bash
+python -c "from flows.primary_enrollment_processing_flow import batch_process_primary_enrollment_data; batch_process_primary_enrollment_data()"
+```
+
 #### Testing Core Functionality
 ```bash
 python test_simple.py
@@ -48,9 +61,10 @@ python test_simple.py
 
 ### Output Files
 
-- **Cleaned CSV**: `data/processed/facilities/{thematic_area}_facilities_cleaned.csv`
+- **Education Facilities**: `data/processed/facilities/education_facilities.csv`
+- **Cleaned Enrollment Data**: `data/processed/enrollment/{input_filename}_cleaned.csv`
 - **Location Hierarchy**: `data/processed/locations/location_hierarchy.json`
-- **Quality Reports**: `data/processed/logs/{district}_{thematic_area}_{timestamp}_quality_report.json`
+- **Processing Reports**: `data/processed/logs/{district}_{processing_type}_{timestamp}_processing_report.json`
 
 ## Code Quality
 

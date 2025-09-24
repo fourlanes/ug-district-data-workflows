@@ -485,6 +485,24 @@
                   "code": "D02S03P01V01"
                 }
               ]
+            },
+            {
+              "id": "p-masindi-miirya-bigando",
+              "name": "Bigando",
+              "code": "D02S03P02",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-miirya-isimba",
+              "name": "Isimba",
+              "code": "D02S03P03",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-miirya-kiguulya",
+              "name": "Kiguulya",
+              "code": "D02S03P04",
+              "villages": []
             }
           ]
         },
@@ -523,6 +541,24 @@
                   "code": "D02S05P01V01"
                 }
               ]
+            },
+            {
+              "id": "p-masindi-pakanyi-kyakamese-central",
+              "name": "Kyakamese Central",
+              "code": "D02S05P02",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-pakanyi-kyakamese-east",
+              "name": "Kyakamese East",
+              "code": "D02S05P03",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-pakanyi-kyakamese-west",
+              "name": "Kyakamese West",
+              "code": "D02S05P04",
+              "villages": []
             }
           ]
         },
@@ -561,6 +597,18 @@
                   "code": "D02S07P01V01"
                 }
               ]
+            },
+            {
+              "id": "p-masindi-labongo-kasenyi",
+              "name": "Kasenyi",
+              "code": "D02S07P02",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-labongo-kihonda",
+              "name": "Kihonda",
+              "code": "D02S07P03",
+              "villages": []
             }
           ]
         },
@@ -623,6 +671,12 @@
                   "code": "D02S10P01V01"
                 }
               ]
+            },
+            {
+              "id": "p-masindi-kimengo-kibangya",
+              "name": "Kibangya",
+              "code": "D02S10P02",
+              "villages": []
             }
           ]
         },
@@ -661,6 +715,18 @@
                   "code": "D02S12P01V01"
                 }
               ]
+            },
+            {
+              "id": "p-masindi-bikonzi-kikube",
+              "name": "Kikube",
+              "code": "D02S12P02",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-bikonzi-rukondwa",
+              "name": "Rukondwa",
+              "code": "D02S12P03",
+              "villages": []
             }
           ]
         },
@@ -695,6 +761,24 @@
                   "code": "D02S13P01V04"
                 }
               ]
+            },
+            {
+              "id": "p-masindi-bwijanga-kahembe",
+              "name": "Kahembe",
+              "code": "D02S13P02",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-bwijanga-kitamba",
+              "name": "Kitamba",
+              "code": "D02S13P03",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-bwijanga-ntoma",
+              "name": "Ntoma",
+              "code": "D02S13P04",
+              "villages": []
             }
           ]
         },
@@ -752,6 +836,30 @@
                   "code": "D02S16P01V01"
                 }
               ]
+            },
+            {
+              "id": "p-masindi-nyantonzi-kajura",
+              "name": "Kajura",
+              "code": "D02S16P02",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-nyantonzi-kasenene",
+              "name": "Kasenene",
+              "code": "D02S16P03",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-nyantonzi-kimanya",
+              "name": "Kimanya",
+              "code": "D02S16P04",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-nyantonzi-rwempisi",
+              "name": "Rwempisi",
+              "code": "D02S16P05",
+              "villages": []
             }
           ]
         },
@@ -771,6 +879,18 @@
                   "code": "D02S17P01V01"
                 }
               ]
+            },
+            {
+              "id": "p-masindi-bulima-town-council-kisalizi-ward",
+              "name": "Kisalizi Ward",
+              "code": "D02S17P02",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-bulima-town-council-marongo-ward",
+              "name": "Marongo Ward",
+              "code": "D02S17P03",
+              "villages": []
             }
           ]
         },
@@ -809,6 +929,100 @@
                   "code": "D02S19P01V01"
                 }
               ]
+            },
+            {
+              "id": "p-masindi-kiruli-katuugo",
+              "name": "Katuugo",
+              "code": "D02S19P02",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-kiruli-kibibira",
+              "name": "Kibibira",
+              "code": "D02S19P03",
+              "villages": []
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-kabango-town-council",
+          "name": "Kabango Town Council",
+          "code": "D02S20",
+          "parishes": [
+            {
+              "id": "p-masindi-kabango-town-council-kabango-ward",
+              "name": "Kabango Ward",
+              "code": "D02S20P01",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-kabango-town-council-kinyara-sugar-ltd",
+              "name": "Kinyara Sugar Ltd",
+              "code": "D02S20P02",
+              "villages": []
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-kyatiri-town-council",
+          "name": "Kyatiri Town Council",
+          "code": "D02S21",
+          "parishes": [
+            {
+              "id": "p-masindi-kyatiri-town-council-kyatiri-east-ward",
+              "name": "Kyatiri East Ward",
+              "code": "D02S21P01",
+              "villages": []
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-budongo",
+          "name": "Budongo",
+          "code": "D02S22",
+          "parishes": [
+            {
+              "id": "p-masindi-budongo-bwinamira",
+              "name": "Bwinamira",
+              "code": "D02S22P01",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-budongo-karongo",
+              "name": "Karongo",
+              "code": "D02S22P02",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-budongo-kasongoire",
+              "name": "Kasongoire",
+              "code": "D02S22P03",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-budongo-nyabyeya",
+              "name": "Nyabyeya",
+              "code": "D02S22P04",
+              "villages": []
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-kijunjubwa",
+          "name": "Kijunjubwa",
+          "code": "D02S23",
+          "parishes": [
+            {
+              "id": "p-masindi-kijunjubwa-kijunjubwa",
+              "name": "Kijunjubwa",
+              "code": "D02S23P01",
+              "villages": []
+            },
+            {
+              "id": "p-masindi-kijunjubwa-miduma",
+              "name": "Miduma",
+              "code": "D02S23P02",
+              "villages": []
             }
           ]
         }
