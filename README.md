@@ -13,6 +13,8 @@ This pipeline handles three distinct data processing workflows:
 ### Key Features
 
 - **Flexible Location Code Generation**: Hierarchical fallback system (village → parish → subcounty → district) ensures all records get appropriate location codes
+- **Cross-District Compatibility**: Dynamic processing flows handle multiple districts (Kayunga, Masindi) without modification
+- **Column Name Standardization**: Automatically handles both uppercase and lowercase column name variants
 - **Unique Hierarchical Location IDs**: URL-friendly IDs that prevent collisions (e.g., `d-kayunga`, `s-kayunga-kangulumira-town-council`)
 - **Smart Duplicate Prevention**: Updates existing facility records instead of creating duplicates
 - **Data Type Auto-Detection**: Automatically classifies datasets as facility vs aggregated data
@@ -58,7 +60,11 @@ python -c "from flows.primary_enrollment_processing_flow import batch_process_pr
 
 #### Single File Processing
 ```bash
+# Process Kayunga PLE analysis
 python -c "from flows.ple_analysis_processing_flow import process_ple_analysis_data; process_ple_analysis_data('data/raw/trends/kayunga_ple_analysis.csv')"
+
+# Process Masindi PLE analysis
+python -c "from flows.ple_analysis_processing_flow import process_ple_analysis_data; process_ple_analysis_data('data/raw/trends/masindi_ple_analysis.csv')"
 ```
 
 #### Batch Processing Multiple Files

@@ -53,7 +53,7 @@ def process_ple_analysis_data(
     logger.info("Step 1a: Cleaning original PLE analysis data...")
     df_ple = df_original.copy()
 
-    # Standardize column names for consistency
+    # Standardize column names for consistency (handle both uppercase and lowercase variants)
     column_mapping = {
         'Subcounty': 'subcounty',
         'Parish': 'parish',
@@ -429,9 +429,15 @@ def batch_process_ple_analysis_data(input_directory: str = "data/raw/trends") ->
 
 
 if __name__ == "__main__":
-    # Example usage for single file
-    result = process_ple_analysis_data(
-        "data/raw/trends/kayunga_ple_analysis.csv"
-    )
+    import sys
+
+    # Example usage for single file - can be made dynamic
+    if len(sys.argv) > 1:
+        input_file = sys.argv[1]
+    else:
+        # Default to Kayunga file for backwards compatibility
+        input_file = "data/raw/trends/kayunga_ple_analysis.csv"
+
+    result = process_ple_analysis_data(input_file)
     print(f"Processing completed. Extracted {result['education_facilities_created']} primary education facilities.")
     print(f"Cleaned PLE analysis data: {result['ple_records_cleaned']} records.")
