@@ -68,9 +68,13 @@ python -c "from flows.facility_cleaning_flow import clean_facility_data; clean_f
 # Run primary enrollment processing workflow
 python -c "from flows.primary_enrollment_processing_flow import process_primary_enrollment_data; process_primary_enrollment_data('data/raw/trends/masindi_primary_school_pupil_enrolment.csv')"
 
+# Run PLE analysis processing workflow
+python -c "from flows.ple_analysis_processing_flow import process_ple_analysis_data; process_ple_analysis_data('data/raw/trends/kayunga_ple_analysis.csv')"
+
 # Batch process multiple files
 python -c "from flows.facility_cleaning_flow import batch_clean_facilities; batch_clean_facilities()"
 python -c "from flows.primary_enrollment_processing_flow import batch_process_primary_enrollment_data; batch_process_primary_enrollment_data()"
+python -c "from flows.ple_analysis_processing_flow import batch_process_ple_analysis_data; batch_process_ple_analysis_data()"
 ```
 
 ## Configuration

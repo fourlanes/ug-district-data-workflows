@@ -54,6 +54,18 @@ python -c "from flows.primary_enrollment_processing_flow import process_primary_
 python -c "from flows.primary_enrollment_processing_flow import batch_process_primary_enrollment_data; batch_process_primary_enrollment_data()"
 ```
 
+### PLE Analysis Data Processing
+
+#### Single File Processing
+```bash
+python -c "from flows.ple_analysis_processing_flow import process_ple_analysis_data; process_ple_analysis_data('data/raw/trends/kayunga_ple_analysis.csv')"
+```
+
+#### Batch Processing Multiple Files
+```bash
+python -c "from flows.ple_analysis_processing_flow import batch_process_ple_analysis_data; batch_process_ple_analysis_data()"
+```
+
 #### Testing Core Functionality
 ```bash
 python test_simple.py
@@ -63,6 +75,7 @@ python test_simple.py
 
 - **Education Facilities**: `data/processed/facilities/education_facilities.csv`
 - **Cleaned Enrollment Data**: `data/processed/enrollment/{input_filename}_cleaned.csv`
+- **Cleaned PLE Analysis Data**: `data/processed/ple_analysis/{input_filename}_cleaned.csv`
 - **Location Hierarchy**: `data/processed/locations/location_hierarchy.json`
 - **Processing Reports**: `data/processed/logs/{district}_{processing_type}_{timestamp}_processing_report.json`
 
