@@ -1368,6 +1368,24 @@
               "villages": []
             }
           ]
+        },
+        {
+          "name": "Karujubu Division",
+          "code": "D02S24",
+          "id": "masindi-karujubu-division",
+          "parishes": []
+        },
+        {
+          "name": "Kigulya Division",
+          "code": "D02S25",
+          "id": "masindi-kigulya-division",
+          "parishes": []
+        },
+        {
+          "name": "Nyangahya Division",
+          "code": "D02S26",
+          "id": "masindi-nyangahya-division",
+          "parishes": []
         }
       ]
     }
