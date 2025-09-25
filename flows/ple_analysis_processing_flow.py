@@ -399,6 +399,79 @@ def process_ple_analysis_data(
     return results
 
 
+@flow(name="combine-ple-analysis")
+def combine_ple_analysis_data(output_path: str = "data/processed/ple_analysis/ple_analysis_combined.csv") -> dict:
+    """
+    Combine all processed PLE analysis CSV files into a single combined file.
+
+    Args:
+        output_path: Path for the combined output CSV file
+
+    Returns:
+        Dictionary with combination results
+    """
+    logger = get_run_logger()
+    logger.info("Starting PLE analysis data combination...")
+
+    # Find all processed PLE analysis files
+    ple_analysis_dir = Path("data/processed/ple_analysis")
+    if not ple_analysis_dir.exists():
+        logger.error("PLE analysis directory does not exist")
+        return {"status": "error", "message": "PLE analysis directory not found"}
+
+    # Find all cleaned PLE analysis files
+    csv_files = list(ple_analysis_dir.glob("*_ple_analysis_cleaned.csv"))
+    logger.info(f"Found {len(csv_files)} processed PLE analysis files to combine")
+
+    if not csv_files:
+        logger.warning("No processed PLE analysis files found")
+        return {"status": "warning", "message": "No processed PLE analysis files found"}
+
+    # Combine all files
+    combined_data = []
+    source_info = []
+
+    for csv_file in csv_files:
+        logger.info(f"Processing: {csv_file}")
+        try:
+            df = pd.read_csv(csv_file)
+            # Add source file information
+            df['source_file'] = csv_file.name
+            combined_data.append(df)
+            source_info.append({
+                "file": csv_file.name,
+                "records": len(df)
+            })
+        except Exception as e:
+            logger.error(f"Error reading {csv_file}: {str(e)}")
+
+    if not combined_data:
+        logger.error("No data could be loaded from any files")
+        return {"status": "error", "message": "No data could be loaded"}
+
+    # Combine all dataframes
+    combined_df = pd.concat(combined_data, ignore_index=True)
+
+    # Ensure output directory exists
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+
+    # Save combined data
+    combined_df.to_csv(output_path, index=False, quoting=1)
+
+    total_records = len(combined_df)
+    logger.info(f"Combined {len(csv_files)} files with {total_records} total records to: {output_path}")
+
+    results = {
+        "status": "completed",
+        "combined_file": output_path,
+        "total_files": len(csv_files),
+        "total_records": total_records,
+        "source_files": source_info
+    }
+
+    return results
+
+
 @flow(name="batch-ple-analysis-processing")
 def batch_process_ple_analysis_data(input_directory: str = "data/raw/trends") -> dict:
     """
@@ -455,6 +528,13 @@ def batch_process_ple_analysis_data(input_directory: str = "data/raw/trends") ->
     logger.info(
         f"Batch PLE analysis processing completed: {successful} successful, {failed} failed"
     )
+
+    # If processing was successful, create combined file
+    if successful > 0:
+        logger.info("Creating combined PLE analysis file...")
+        combine_result = combine_ple_analysis_data()
+        batch_summary["combine_result"] = combine_result
+
     return batch_summary
 
 

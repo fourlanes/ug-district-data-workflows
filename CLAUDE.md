@@ -73,6 +73,9 @@ python -c "from flows.primary_enrollment_processing_flow import process_primary_
 python -c "from flows.ple_analysis_processing_flow import process_ple_analysis_data; process_ple_analysis_data('data/raw/trends/kayunga_ple_analysis.csv')"
 python -c "from flows.ple_analysis_processing_flow import process_ple_analysis_data; process_ple_analysis_data('data/raw/trends/masindi_ple_analysis.csv')"
 
+# Combine processed PLE analysis files
+python -c "from flows.ple_analysis_processing_flow import combine_ple_analysis_data; combine_ple_analysis_data()"
+
 # Batch process multiple files
 python -c "from flows.facility_cleaning_flow import batch_clean_facilities; batch_clean_facilities()"
 python -c "from flows.primary_enrollment_processing_flow import batch_process_primary_enrollment_data; batch_process_primary_enrollment_data()"
