@@ -8,7 +8,6 @@ from prefect import flow, get_run_logger
 from tasks.csv_cleaning import (
     clean_location_data,
     clean_nan_values,
-    generate_hierarchical_location_codes,
 )
 from tasks.location_processing import validate_location_hierarchy
 
@@ -43,7 +42,9 @@ def process_institutions_count_data(
     # Step 1: Load and analyze institutions count data
     logger.info("Step 1: Loading institutions count data...")
     df_original = pd.read_csv(input_file, encoding="utf-8-sig")
-    logger.info(f"Loaded {len(df_original)} institutions count records from {input_file}")
+    logger.info(
+        f"Loaded {len(df_original)} institutions count records from {input_file}"
+    )
 
     # Step 1a: Clean the original institutions count data
     logger.info("Step 1a: Cleaning original institutions count data...")
@@ -60,31 +61,31 @@ def process_institutions_count_data(
     # Load existing hierarchy to get location codes at subcounty level
     hierarchy_path = "data/processed/locations/location_hierarchy.json"
     try:
-        with open(hierarchy_path, 'r') as f:
+        with open(hierarchy_path, "r") as f:
             hierarchy = json.load(f)
 
         # Create lookup for subcounty and district levels (no parish/village for aggregated data)
         location_lookup = {}
 
-        for district in hierarchy['districts']:
+        for district in hierarchy["districts"]:
             # District level
-            district_key = (district['name'], '')
-            location_lookup[district_key] = district['code']
+            district_key = (district["name"], "")
+            location_lookup[district_key] = district["code"]
 
-            for subcounty in district['subcounties']:
+            for subcounty in district["subcounties"]:
                 # Subcounty level (primary target for this aggregated data)
-                subcounty_key = (district['name'], subcounty['name'])
-                location_lookup[subcounty_key] = subcounty['code']
+                subcounty_key = (district["name"], subcounty["name"])
+                location_lookup[subcounty_key] = subcounty["code"]
 
         # Generate location codes using subcounty as primary, district as fallback
         location_codes = []
         for _, row in df_institutions_clean.iterrows():
-            district = str(row.get('district', '')).strip()
-            subcounty = str(row.get('subcounty', '')).strip()
+            district = str(row.get("district", "")).strip()
+            subcounty = str(row.get("subcounty", "")).strip()
 
             # Clean empty/nan values
-            district = district if district and district.lower() != 'nan' else ''
-            subcounty = subcounty if subcounty and subcounty.lower() != 'nan' else ''
+            district = district if district and district.lower() != "nan" else ""
+            subcounty = subcounty if subcounty and subcounty.lower() != "nan" else ""
 
             location_code = None
 
@@ -95,24 +96,24 @@ def process_institutions_count_data(
 
             # Try district level as fallback
             if not location_code and district:
-                key = (district, '')
+                key = (district, "")
                 location_code = location_lookup.get(key)
 
             # Final fallback if no match found
             if not location_code:
-                location_code = 'UG.UNK.UNK'
+                location_code = "UG.UNK.UNK"
 
             location_codes.append(location_code)
 
-        df_institutions_clean['location_code'] = location_codes
+        df_institutions_clean["location_code"] = location_codes
 
     except Exception as e:
         logger.warning(f"Could not load hierarchy, using fallback location codes: {e}")
-        df_institutions_clean['location_code'] = 'UG.UNK.UNK'
+        df_institutions_clean["location_code"] = "UG.UNK.UNK"
 
     # Step 3: Add thematic area designation
     logger.info("Step 3: Adding thematic area designation...")
-    df_institutions_clean['thematic_area'] = 'education'
+    df_institutions_clean["thematic_area"] = "education"
 
     # Step 4: Clean NaN values before final output
     logger.info("Step 4: Cleaning NaN values...")
@@ -140,7 +141,9 @@ def process_institutions_count_data(
 
     # Save cleaned institutions count data
     df_final.to_csv(output_path, index=False, quoting=1)
-    logger.info(f"Saved cleaned institutions count data with {len(df_final)} records to: {output_path}")
+    logger.info(
+        f"Saved cleaned institutions count data with {len(df_final)} records to: {output_path}"
+    )
 
     # Step 7: Generate processing summary report
     logger.info("Step 7: Generating processing summary...")
@@ -161,13 +164,16 @@ def process_institutions_count_data(
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     processing_report_path = (
-        reports_dir / f"{district_name}_institutions_count_{timestamp}_processing_report.json"
+        reports_dir
+        / f"{district_name}_institutions_count_{timestamp}_processing_report.json"
     )
 
     # Count unique subcounties and years processed
-    unique_subcounties = df_final['subcounty'].nunique() if 'subcounty' in df_final.columns else 0
-    unique_years = df_final['year'].nunique() if 'year' in df_final.columns else 0
-    unique_levels = df_final['level'].nunique() if 'level' in df_final.columns else 0
+    unique_subcounties = (
+        df_final["subcounty"].nunique() if "subcounty" in df_final.columns else 0
+    )
+    unique_years = df_final["year"].nunique() if "year" in df_final.columns else 0
+    unique_levels = df_final["level"].nunique() if "level" in df_final.columns else 0
 
     processing_report = {
         "input_file": input_file,
@@ -181,9 +187,7 @@ def process_institutions_count_data(
         "unique_education_levels": unique_levels,
         "validation_results": validation_results,
         "timestamp": timestamp,
-        "output_files": {
-            "cleaned_data_csv": str(output_path)
-        }
+        "output_files": {"cleaned_data_csv": str(output_path)},
     }
 
     with open(processing_report_path, "w") as f:
@@ -218,7 +222,9 @@ def process_institutions_count_data(
 
 
 @flow(name="batch-institutions-count-processing")
-def batch_process_institutions_count_data(input_directory: str = "data/raw/trends") -> dict:
+def batch_process_institutions_count_data(
+    input_directory: str = "data/raw/trends",
+) -> dict:
     """
     Process multiple institutions count CSV files in batch.
 
@@ -237,8 +243,10 @@ def batch_process_institutions_count_data(input_directory: str = "data/raw/trend
 
     # Find institutions count CSV files (pattern matching)
     csv_files = [
-        f for f in input_path.rglob("*.csv")
-        if "number_of_institutions" in f.name.lower() or "institutions_count" in f.name.lower()
+        f
+        for f in input_path.rglob("*.csv")
+        if "number_of_institutions" in f.name.lower()
+        or "institutions_count" in f.name.lower()
     ]
     logger.info(f"Found {len(csv_files)} institutions count CSV files to process")
 
@@ -269,7 +277,9 @@ def batch_process_institutions_count_data(input_directory: str = "data/raw/trend
         "individual_results": results,
     }
 
-    logger.info(f"Batch institutions count processing completed: {successful} successful, {failed} failed")
+    logger.info(
+        f"Batch institutions count processing completed: {successful} successful, {failed} failed"
+    )
     return batch_summary
 
 
@@ -284,4 +294,6 @@ if __name__ == "__main__":
         input_file = "data/raw/trends/number_of_institutions_kayunga.csv"
 
     result = process_institutions_count_data(input_file)
-    print(f"Processing completed. Processed {result['records_cleaned']} records across {result['unique_subcounties']} subcounties.")
+    print(
+        f"Processing completed. Processed {result['records_cleaned']} records across {result['unique_subcounties']} subcounties."
+    )

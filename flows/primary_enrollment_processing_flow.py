@@ -47,15 +47,17 @@ def process_primary_enrollment_data(
     # Step 1: Load and analyze enrollment data
     logger.info("Step 1: Loading primary enrollment data...")
     df_original = pd.read_csv(input_file, encoding="utf-8-sig")
-    logger.info(f"Loaded {len(df_original)} primary enrollment records from {input_file}")
+    logger.info(
+        f"Loaded {len(df_original)} primary enrollment records from {input_file}"
+    )
 
     # Step 1a: Clean the original enrollment data
     logger.info("Step 1a: Cleaning original enrollment data...")
     df_enrollment = df_original.copy()
 
     # Rename subtotal column to total
-    if 'subtotal' in df_enrollment.columns:
-        df_enrollment = df_enrollment.rename(columns={'subtotal': 'total'})
+    if "subtotal" in df_enrollment.columns:
+        df_enrollment = df_enrollment.rename(columns={"subtotal": "total"})
 
     # Clean location data using existing task
     df_enrollment_clean = clean_location_data(
@@ -63,50 +65,62 @@ def process_primary_enrollment_data(
     )
 
     # Generate location codes for enrollment data (flexible logic for any location hierarchy level)
-    logger.info("Generating location codes from existing hierarchy using most specific location available...")
+    logger.info(
+        "Generating location codes from existing hierarchy using most specific location available..."
+    )
 
     # Load existing hierarchy to get location codes at all levels
     hierarchy_path = "data/processed/locations/location_hierarchy.json"
     try:
-        with open(hierarchy_path, 'r') as f:
+        with open(hierarchy_path, "r") as f:
             hierarchy = json.load(f)
 
         # Create comprehensive lookup for all location levels
         location_lookup = {}
 
-        for district in hierarchy['districts']:
+        for district in hierarchy["districts"]:
             # District level
-            district_key = (district['name'], '', '', '')
-            location_lookup[district_key] = district['code']
+            district_key = (district["name"], "", "", "")
+            location_lookup[district_key] = district["code"]
 
-            for subcounty in district['subcounties']:
+            for subcounty in district["subcounties"]:
                 # Subcounty level
-                subcounty_key = (district['name'], subcounty['name'], '', '')
-                location_lookup[subcounty_key] = subcounty['code']
+                subcounty_key = (district["name"], subcounty["name"], "", "")
+                location_lookup[subcounty_key] = subcounty["code"]
 
-                for parish in subcounty.get('parishes', []):
+                for parish in subcounty.get("parishes", []):
                     # Parish level
-                    parish_key = (district['name'], subcounty['name'], parish['name'], '')
-                    location_lookup[parish_key] = parish['code']
+                    parish_key = (
+                        district["name"],
+                        subcounty["name"],
+                        parish["name"],
+                        "",
+                    )
+                    location_lookup[parish_key] = parish["code"]
 
-                    for village in parish.get('villages', []):
+                    for village in parish.get("villages", []):
                         # Village level
-                        village_key = (district['name'], subcounty['name'], parish['name'], village['name'])
-                        location_lookup[village_key] = village['code']
+                        village_key = (
+                            district["name"],
+                            subcounty["name"],
+                            parish["name"],
+                            village["name"],
+                        )
+                        location_lookup[village_key] = village["code"]
 
         # Generate location codes using most specific available location
         location_codes = []
         for _, row in df_enrollment_clean.iterrows():
-            district = str(row.get('district', '')).strip()
-            subcounty = str(row.get('subcounty', '')).strip()
-            parish = str(row.get('parish', '')).strip()
-            village = str(row.get('village', '')).strip()
+            district = str(row.get("district", "")).strip()
+            subcounty = str(row.get("subcounty", "")).strip()
+            parish = str(row.get("parish", "")).strip()
+            village = str(row.get("village", "")).strip()
 
             # Clean empty/nan values
-            district = district if district and district.lower() != 'nan' else ''
-            subcounty = subcounty if subcounty and subcounty.lower() != 'nan' else ''
-            parish = parish if parish and parish.lower() != 'nan' else ''
-            village = village if village and village.lower() != 'nan' else ''
+            district = district if district and district.lower() != "nan" else ""
+            subcounty = subcounty if subcounty and subcounty.lower() != "nan" else ""
+            parish = parish if parish and parish.lower() != "nan" else ""
+            village = village if village and village.lower() != "nan" else ""
 
             # Try most specific to least specific location combinations
             location_code = None
@@ -118,30 +132,30 @@ def process_primary_enrollment_data(
 
             # Try parish level
             if not location_code and district and subcounty and parish:
-                key = (district, subcounty, parish, '')
+                key = (district, subcounty, parish, "")
                 location_code = location_lookup.get(key)
 
             # Try subcounty level
             if not location_code and district and subcounty:
-                key = (district, subcounty, '', '')
+                key = (district, subcounty, "", "")
                 location_code = location_lookup.get(key)
 
             # Try district level
             if not location_code and district:
-                key = (district, '', '', '')
+                key = (district, "", "", "")
                 location_code = location_lookup.get(key)
 
             # Fallback if no match found
             if not location_code:
-                location_code = 'UG.UNK.UNK'
+                location_code = "UG.UNK.UNK"
 
             location_codes.append(location_code)
 
-        df_enrollment_clean['location_code'] = location_codes
+        df_enrollment_clean["location_code"] = location_codes
 
     except Exception as e:
         logger.warning(f"Could not load hierarchy, using fallback location codes: {e}")
-        df_enrollment_clean['location_code'] = 'UG.UNK.UNK'
+        df_enrollment_clean["location_code"] = "UG.UNK.UNK"
 
     df_enrollment_with_codes = df_enrollment_clean
 
@@ -159,17 +173,17 @@ def process_primary_enrollment_data(
     logger.info("Step 2: Extracting unique primary education facilities...")
 
     # Determine grouping columns based on available data
-    grouping_columns = ['district', 'county', 'subcounty', 'school_name', 'ownership']
-    if 'parish' in df_original.columns:
-        grouping_columns.insert(3, 'parish')  # Insert parish after subcounty
+    grouping_columns = ["district", "county", "subcounty", "school_name", "ownership"]
+    if "parish" in df_original.columns:
+        grouping_columns.insert(3, "parish")  # Insert parish after subcounty
 
     # Get unique schools (remove duplicates based on available location columns)
     unique_schools = df_original.groupby(grouping_columns).first().reset_index()
 
     # Remove schools with missing/empty school names
     unique_schools = unique_schools[
-        (unique_schools['school_name'].notna()) &
-        (unique_schools['school_name'].str.strip() != '')
+        (unique_schools["school_name"].notna())
+        & (unique_schools["school_name"].str.strip() != "")
     ]
 
     logger.info(f"Extracted {len(unique_schools)} unique primary education facilities")
@@ -181,17 +195,21 @@ def process_primary_enrollment_data(
     education_facilities = pd.DataFrame()
 
     # Map columns according to the specified structure
-    education_facilities['district'] = unique_schools['district']
-    education_facilities['county'] = unique_schools['county']
-    education_facilities['subcounty'] = unique_schools['subcounty']
-    education_facilities['parish'] = unique_schools.get('parish', '')  # May be available in primary data
-    education_facilities['village'] = ''  # Not typically available in enrollment data
-    education_facilities['school_name'] = unique_schools['school_name']
-    education_facilities['ownership'] = unique_schools['ownership']
-    education_facilities['institution_type'] = 'Primary'  # Fixed value for primary schools
-    education_facilities['thematic_area'] = 'education'  # Fixed value
-    education_facilities['latitude'] = ''  # Not available in enrollment data
-    education_facilities['longitude'] = ''  # Not available in enrollment data
+    education_facilities["district"] = unique_schools["district"]
+    education_facilities["county"] = unique_schools["county"]
+    education_facilities["subcounty"] = unique_schools["subcounty"]
+    education_facilities["parish"] = unique_schools.get(
+        "parish", ""
+    )  # May be available in primary data
+    education_facilities["village"] = ""  # Not typically available in enrollment data
+    education_facilities["school_name"] = unique_schools["school_name"]
+    education_facilities["ownership"] = unique_schools["ownership"]
+    education_facilities["institution_type"] = (
+        "Primary"  # Fixed value for primary schools
+    )
+    education_facilities["thematic_area"] = "education"  # Fixed value
+    education_facilities["latitude"] = ""  # Not available in enrollment data
+    education_facilities["longitude"] = ""  # Not available in enrollment data
 
     # Step 4: Clean and standardize location data
     logger.info("Step 4: Cleaning and standardizing location data...")
@@ -275,28 +293,38 @@ def process_primary_enrollment_data(
                     f"Updated {updated_records} existing primary education facilities in: {output_csv_path}"
                 )
             else:
-                logger.info(f"Added {new_records} new primary education facilities to: {output_csv_path}")
+                logger.info(
+                    f"Added {new_records} new primary education facilities to: {output_csv_path}"
+                )
         else:
             # Fallback: if no facility_id, append
             df_final.to_csv(
                 output_csv_path, mode="a", header=False, index=False, quoting=1
             )
-            logger.info(f"Appended {len(df_final)} primary education facilities to: {output_csv_path}")
+            logger.info(
+                f"Appended {len(df_final)} primary education facilities to: {output_csv_path}"
+            )
     else:
         # Create new file with headers
         df_final.to_csv(output_csv_path, index=False, quoting=1)
-        logger.info(f"Created new primary education facilities file with {len(df_final)} records: {output_csv_path}")
+        logger.info(
+            f"Created new primary education facilities file with {len(df_final)} records: {output_csv_path}"
+        )
 
     # Step 7a: Save cleaned enrollment data
     logger.info("Step 7a: Saving cleaned primary enrollment data...")
 
     # Generate enrollment output filename based on input file
     input_filename = Path(input_file).stem
-    enrollment_output_path = Path(enrollment_output_dir) / f"{input_filename}_cleaned.csv"
+    enrollment_output_path = (
+        Path(enrollment_output_dir) / f"{input_filename}_cleaned.csv"
+    )
 
     # Save cleaned enrollment data
     df_enrollment_final.to_csv(enrollment_output_path, index=False, quoting=1)
-    logger.info(f"Saved cleaned primary enrollment data with {len(df_enrollment_final)} records to: {enrollment_output_path}")
+    logger.info(
+        f"Saved cleaned primary enrollment data with {len(df_enrollment_final)} records to: {enrollment_output_path}"
+    )
 
     # Step 8: Generate processing summary report
     logger.info("Step 8: Generating processing summary...")
@@ -317,7 +345,8 @@ def process_primary_enrollment_data(
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     processing_report_path = (
-        reports_dir / f"{district_name}_primary_enrollment_{timestamp}_processing_report.json"
+        reports_dir
+        / f"{district_name}_primary_enrollment_{timestamp}_processing_report.json"
     )
 
     processing_report = {
@@ -332,8 +361,8 @@ def process_primary_enrollment_data(
         "timestamp": timestamp,
         "output_files": {
             "education_facilities_csv": str(output_csv_path),
-            "cleaned_enrollment_csv": str(enrollment_output_path)
-        }
+            "cleaned_enrollment_csv": str(enrollment_output_path),
+        },
     }
 
     with open(processing_report_path, "w") as f:
@@ -368,7 +397,9 @@ def process_primary_enrollment_data(
 
 
 @flow(name="batch-primary-enrollment-processing")
-def batch_process_primary_enrollment_data(input_directory: str = "data/raw/trends") -> dict:
+def batch_process_primary_enrollment_data(
+    input_directory: str = "data/raw/trends",
+) -> dict:
     """
     Process multiple primary enrollment CSV files in batch.
 
@@ -387,8 +418,10 @@ def batch_process_primary_enrollment_data(input_directory: str = "data/raw/trend
 
     # Find primary enrollment CSV files (pattern matching)
     csv_files = [
-        f for f in input_path.rglob("*.csv")
-        if "primary" in f.name.lower() and ("enrollment" in f.name.lower() or "enrolment" in f.name.lower())
+        f
+        for f in input_path.rglob("*.csv")
+        if "primary" in f.name.lower()
+        and ("enrollment" in f.name.lower() or "enrolment" in f.name.lower())
     ]
     logger.info(f"Found {len(csv_files)} primary enrollment CSV files to process")
 
@@ -419,7 +452,9 @@ def batch_process_primary_enrollment_data(input_directory: str = "data/raw/trend
         "individual_results": results,
     }
 
-    logger.info(f"Batch primary enrollment processing completed: {successful} successful, {failed} failed")
+    logger.info(
+        f"Batch primary enrollment processing completed: {successful} successful, {failed} failed"
+    )
     return batch_summary
 
 
@@ -428,5 +463,7 @@ if __name__ == "__main__":
     result = process_primary_enrollment_data(
         "data/raw/trends/masindi_primary_school_pupil_enrolment.csv"
     )
-    print(f"Processing completed. Extracted {result['education_facilities_created']} primary education facilities.")
+    print(
+        f"Processing completed. Extracted {result['education_facilities_created']} primary education facilities."
+    )
     print(f"Cleaned enrollment data: {result['enrollment_records_cleaned']} records.")

@@ -55,63 +55,73 @@ def process_ple_analysis_data(
 
     # Standardize column names for consistency (handle both uppercase and lowercase variants)
     column_mapping = {
-        'Subcounty': 'subcounty',
-        'Parish': 'parish',
-        'School_name': 'school_name',
-        'Ownership': 'ownership'
+        "Subcounty": "subcounty",
+        "Parish": "parish",
+        "School_name": "school_name",
+        "Ownership": "ownership",
     }
     df_ple = df_ple.rename(columns=column_mapping)
 
     # Clean location data using existing task
-    df_ple_clean = clean_location_data(
-        df_ple, f"{config_dir}/location_mappings.yaml"
-    )
+    df_ple_clean = clean_location_data(df_ple, f"{config_dir}/location_mappings.yaml")
 
     # Generate location codes for PLE analysis data (flexible logic for any location hierarchy level)
-    logger.info("Generating location codes from existing hierarchy using most specific location available...")
+    logger.info(
+        "Generating location codes from existing hierarchy using most specific location available..."
+    )
 
     # Load existing hierarchy to get location codes at all levels
     hierarchy_path = "data/processed/locations/location_hierarchy.json"
     try:
-        with open(hierarchy_path, 'r') as f:
+        with open(hierarchy_path, "r") as f:
             hierarchy = json.load(f)
 
         # Create comprehensive lookup for all location levels
         location_lookup = {}
 
-        for district in hierarchy['districts']:
+        for district in hierarchy["districts"]:
             # District level
-            district_key = (district['name'], '', '', '')
-            location_lookup[district_key] = district['code']
+            district_key = (district["name"], "", "", "")
+            location_lookup[district_key] = district["code"]
 
-            for subcounty in district['subcounties']:
+            for subcounty in district["subcounties"]:
                 # Subcounty level
-                subcounty_key = (district['name'], subcounty['name'], '', '')
-                location_lookup[subcounty_key] = subcounty['code']
+                subcounty_key = (district["name"], subcounty["name"], "", "")
+                location_lookup[subcounty_key] = subcounty["code"]
 
-                for parish in subcounty.get('parishes', []):
+                for parish in subcounty.get("parishes", []):
                     # Parish level
-                    parish_key = (district['name'], subcounty['name'], parish['name'], '')
-                    location_lookup[parish_key] = parish['code']
+                    parish_key = (
+                        district["name"],
+                        subcounty["name"],
+                        parish["name"],
+                        "",
+                    )
+                    location_lookup[parish_key] = parish["code"]
 
-                    for village in parish.get('villages', []):
+                    for village in parish.get("villages", []):
                         # Village level
-                        village_key = (district['name'], subcounty['name'], parish['name'], village['name'])
-                        location_lookup[village_key] = village['code']
+                        village_key = (
+                            district["name"],
+                            subcounty["name"],
+                            parish["name"],
+                            village["name"],
+                        )
+                        location_lookup[village_key] = village["code"]
 
         # Generate location codes using most specific available location
         location_codes = []
         for _, row in df_ple_clean.iterrows():
-            district = str(row.get('district', '')).strip()
-            subcounty = str(row.get('subcounty', '')).strip()
-            parish = str(row.get('parish', '')).strip()
-            village = str(row.get('village', '')).strip()
+            district = str(row.get("district", "")).strip()
+            subcounty = str(row.get("subcounty", "")).strip()
+            parish = str(row.get("parish", "")).strip()
+            village = str(row.get("village", "")).strip()
 
             # Clean empty/nan values
-            district = district if district and district.lower() != 'nan' else ''
-            subcounty = subcounty if subcounty and subcounty.lower() != 'nan' else ''
-            parish = parish if parish and parish.lower() != 'nan' else ''
-            village = village if village and village.lower() != 'nan' else ''
+            district = district if district and district.lower() != "nan" else ""
+            subcounty = subcounty if subcounty and subcounty.lower() != "nan" else ""
+            parish = parish if parish and parish.lower() != "nan" else ""
+            village = village if village and village.lower() != "nan" else ""
 
             # Try most specific to least specific location combinations
             location_code = None
@@ -123,30 +133,30 @@ def process_ple_analysis_data(
 
             # Try parish level
             if not location_code and district and subcounty and parish:
-                key = (district, subcounty, parish, '')
+                key = (district, subcounty, parish, "")
                 location_code = location_lookup.get(key)
 
             # Try subcounty level
             if not location_code and district and subcounty:
-                key = (district, subcounty, '', '')
+                key = (district, subcounty, "", "")
                 location_code = location_lookup.get(key)
 
             # Try district level
             if not location_code and district:
-                key = (district, '', '', '')
+                key = (district, "", "", "")
                 location_code = location_lookup.get(key)
 
             # Fallback if no match found
             if not location_code:
-                location_code = 'UG.UNK.UNK'
+                location_code = "UG.UNK.UNK"
 
             location_codes.append(location_code)
 
-        df_ple_clean['location_code'] = location_codes
+        df_ple_clean["location_code"] = location_codes
 
     except Exception as e:
         logger.warning(f"Could not load hierarchy, using fallback location codes: {e}")
-        df_ple_clean['location_code'] = 'UG.UNK.UNK'
+        df_ple_clean["location_code"] = "UG.UNK.UNK"
 
     df_ple_with_codes = df_ple_clean
 
@@ -164,17 +174,22 @@ def process_ple_analysis_data(
     logger.info("Step 2: Extracting unique primary education facilities...")
 
     # Determine grouping columns based on available data
-    grouping_columns = ['district', 'county', 'subcounty', 'school_name', 'ownership']
-    if 'parish' in df_original.columns or 'Parish' in df_original.columns:
-        grouping_columns.insert(3, 'parish')  # Insert parish after subcounty
+    grouping_columns = ["district", "county", "subcounty", "school_name", "ownership"]
+    if "parish" in df_original.columns or "Parish" in df_original.columns:
+        grouping_columns.insert(3, "parish")  # Insert parish after subcounty
 
     # Get unique schools (remove duplicates based on available location columns)
-    unique_schools = df_original.rename(columns=column_mapping).groupby(grouping_columns).first().reset_index()
+    unique_schools = (
+        df_original.rename(columns=column_mapping)
+        .groupby(grouping_columns)
+        .first()
+        .reset_index()
+    )
 
     # Remove schools with missing/empty school names
     unique_schools = unique_schools[
-        (unique_schools['school_name'].notna()) &
-        (unique_schools['school_name'].str.strip() != '')
+        (unique_schools["school_name"].notna())
+        & (unique_schools["school_name"].str.strip() != "")
     ]
 
     logger.info(f"Extracted {len(unique_schools)} unique primary education facilities")
@@ -186,17 +201,21 @@ def process_ple_analysis_data(
     education_facilities = pd.DataFrame()
 
     # Map columns according to the specified structure
-    education_facilities['district'] = unique_schools['district']
-    education_facilities['county'] = unique_schools['county']
-    education_facilities['subcounty'] = unique_schools['subcounty']
-    education_facilities['parish'] = unique_schools.get('parish', '')  # Available in PLE data
-    education_facilities['village'] = ''  # Not typically available in PLE data
-    education_facilities['school_name'] = unique_schools['school_name']
-    education_facilities['ownership'] = unique_schools['ownership']
-    education_facilities['institution_type'] = 'Primary'  # Fixed value for primary schools
-    education_facilities['thematic_area'] = 'education'  # Fixed value
-    education_facilities['latitude'] = ''  # Not available in PLE data
-    education_facilities['longitude'] = ''  # Not available in PLE data
+    education_facilities["district"] = unique_schools["district"]
+    education_facilities["county"] = unique_schools["county"]
+    education_facilities["subcounty"] = unique_schools["subcounty"]
+    education_facilities["parish"] = unique_schools.get(
+        "parish", ""
+    )  # Available in PLE data
+    education_facilities["village"] = ""  # Not typically available in PLE data
+    education_facilities["school_name"] = unique_schools["school_name"]
+    education_facilities["ownership"] = unique_schools["ownership"]
+    education_facilities["institution_type"] = (
+        "Primary"  # Fixed value for primary schools
+    )
+    education_facilities["thematic_area"] = "education"  # Fixed value
+    education_facilities["latitude"] = ""  # Not available in PLE data
+    education_facilities["longitude"] = ""  # Not available in PLE data
 
     # Step 4: Clean and standardize location data
     logger.info("Step 4: Cleaning and standardizing location data...")
@@ -280,17 +299,23 @@ def process_ple_analysis_data(
                     f"Updated {updated_records} existing primary education facilities in: {output_csv_path}"
                 )
             else:
-                logger.info(f"Added {new_records} new primary education facilities to: {output_csv_path}")
+                logger.info(
+                    f"Added {new_records} new primary education facilities to: {output_csv_path}"
+                )
         else:
             # Fallback: if no facility_id, append
             df_final.to_csv(
                 output_csv_path, mode="a", header=False, index=False, quoting=1
             )
-            logger.info(f"Appended {len(df_final)} primary education facilities to: {output_csv_path}")
+            logger.info(
+                f"Appended {len(df_final)} primary education facilities to: {output_csv_path}"
+            )
     else:
         # Create new file with headers
         df_final.to_csv(output_csv_path, index=False, quoting=1)
-        logger.info(f"Created new primary education facilities file with {len(df_final)} records: {output_csv_path}")
+        logger.info(
+            f"Created new primary education facilities file with {len(df_final)} records: {output_csv_path}"
+        )
 
     # Step 7a: Save cleaned PLE analysis data
     logger.info("Step 7a: Saving cleaned PLE analysis data...")
@@ -301,7 +326,9 @@ def process_ple_analysis_data(
 
     # Save cleaned PLE analysis data
     df_ple_final.to_csv(ple_output_path, index=False, quoting=1)
-    logger.info(f"Saved cleaned PLE analysis data with {len(df_ple_final)} records to: {ple_output_path}")
+    logger.info(
+        f"Saved cleaned PLE analysis data with {len(df_ple_final)} records to: {ple_output_path}"
+    )
 
     # Step 8: Generate processing summary report
     logger.info("Step 8: Generating processing summary...")
@@ -337,8 +364,8 @@ def process_ple_analysis_data(
         "timestamp": timestamp,
         "output_files": {
             "education_facilities_csv": str(output_csv_path),
-            "cleaned_ple_analysis_csv": str(ple_output_path)
-        }
+            "cleaned_ple_analysis_csv": str(ple_output_path),
+        },
     }
 
     with open(processing_report_path, "w") as f:
@@ -392,7 +419,8 @@ def batch_process_ple_analysis_data(input_directory: str = "data/raw/trends") ->
 
     # Find PLE analysis CSV files (pattern matching)
     csv_files = [
-        f for f in input_path.rglob("*.csv")
+        f
+        for f in input_path.rglob("*.csv")
         if "ple" in f.name.lower() and "analysis" in f.name.lower()
     ]
     logger.info(f"Found {len(csv_files)} PLE analysis CSV files to process")
@@ -424,7 +452,9 @@ def batch_process_ple_analysis_data(input_directory: str = "data/raw/trends") ->
         "individual_results": results,
     }
 
-    logger.info(f"Batch PLE analysis processing completed: {successful} successful, {failed} failed")
+    logger.info(
+        f"Batch PLE analysis processing completed: {successful} successful, {failed} failed"
+    )
     return batch_summary
 
 
@@ -439,5 +469,7 @@ if __name__ == "__main__":
         input_file = "data/raw/trends/kayunga_ple_analysis.csv"
 
     result = process_ple_analysis_data(input_file)
-    print(f"Processing completed. Extracted {result['education_facilities_created']} primary education facilities.")
+    print(
+        f"Processing completed. Extracted {result['education_facilities_created']} primary education facilities."
+    )
     print(f"Cleaned PLE analysis data: {result['ple_records_cleaned']} records.")

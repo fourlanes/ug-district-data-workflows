@@ -28,13 +28,13 @@ def deduplicate_location_name(name: str, level: str) -> str:
     name_stripped = name.strip()
 
     # Only apply deduplication for subcounty and parish levels
-    if level == 'subcounty':
+    if level == "subcounty":
         # Remove "Subcounty" qualifier if present
-        if name_stripped.endswith(' Subcounty'):
+        if name_stripped.endswith(" Subcounty"):
             return name_stripped[:-10]  # Remove " Subcounty"
-    elif level == 'parish':
+    elif level == "parish":
         # Remove "Parish" qualifier if present
-        if name_stripped.endswith(' Parish'):
+        if name_stripped.endswith(" Parish"):
             return name_stripped[:-7]  # Remove " Parish"
 
     return name_stripped
@@ -456,23 +456,33 @@ def generate_hierarchical_location_codes(
         # Build comprehensive lookup table for all location levels
         for district in hierarchy.get("districts", []):
             # District level
-            district_key = (district['name'], '', '', '')
-            location_lookup[district_key] = district['code']
+            district_key = (district["name"], "", "", "")
+            location_lookup[district_key] = district["code"]
 
             for subcounty in district.get("subcounties", []):
                 # Subcounty level
-                subcounty_key = (district['name'], subcounty['name'], '', '')
-                location_lookup[subcounty_key] = subcounty['code']
+                subcounty_key = (district["name"], subcounty["name"], "", "")
+                location_lookup[subcounty_key] = subcounty["code"]
 
                 for parish in subcounty.get("parishes", []):
                     # Parish level
-                    parish_key = (district['name'], subcounty['name'], parish['name'], '')
-                    location_lookup[parish_key] = parish['code']
+                    parish_key = (
+                        district["name"],
+                        subcounty["name"],
+                        parish["name"],
+                        "",
+                    )
+                    location_lookup[parish_key] = parish["code"]
 
                     for village in parish.get("villages", []):
                         # Village level
-                        village_key = (district['name'], subcounty['name'], parish['name'], village['name'])
-                        location_lookup[village_key] = village['code']
+                        village_key = (
+                            district["name"],
+                            subcounty["name"],
+                            parish["name"],
+                            village["name"],
+                        )
+                        location_lookup[village_key] = village["code"]
 
     except (FileNotFoundError, json.JSONDecodeError):
         # Fall back to generating codes if hierarchy doesn't exist
@@ -496,16 +506,32 @@ def generate_hierarchical_location_codes(
 
     for _, row in df.iterrows():
         # Get location values and clean them
-        district = str(row.get(location_data.get("district", ""), '')).strip() if location_data.get("district") else ''
-        subcounty = str(row.get(location_data.get("subcounty", ""), '')).strip() if location_data.get("subcounty") else ''
-        parish = str(row.get(location_data.get("parish", ""), '')).strip() if location_data.get("parish") else ''
-        village = str(row.get(location_data.get("village", ""), '')).strip() if location_data.get("village") else ''
+        district = (
+            str(row.get(location_data.get("district", ""), "")).strip()
+            if location_data.get("district")
+            else ""
+        )
+        subcounty = (
+            str(row.get(location_data.get("subcounty", ""), "")).strip()
+            if location_data.get("subcounty")
+            else ""
+        )
+        parish = (
+            str(row.get(location_data.get("parish", ""), "")).strip()
+            if location_data.get("parish")
+            else ""
+        )
+        village = (
+            str(row.get(location_data.get("village", ""), "")).strip()
+            if location_data.get("village")
+            else ""
+        )
 
         # Clean empty/nan values
-        district = district if district and district.lower() != 'nan' else ''
-        subcounty = subcounty if subcounty and subcounty.lower() != 'nan' else ''
-        parish = parish if parish and parish.lower() != 'nan' else ''
-        village = village if village and village.lower() != 'nan' else ''
+        district = district if district and district.lower() != "nan" else ""
+        subcounty = subcounty if subcounty and subcounty.lower() != "nan" else ""
+        parish = parish if parish and parish.lower() != "nan" else ""
+        village = village if village and village.lower() != "nan" else ""
 
         # Try most specific to least specific location combinations
         location_code = None
@@ -517,22 +543,22 @@ def generate_hierarchical_location_codes(
 
         # Try parish level
         if not location_code and district and subcounty and parish:
-            key = (district, subcounty, parish, '')
+            key = (district, subcounty, parish, "")
             location_code = location_lookup.get(key)
 
         # Try subcounty level
         if not location_code and district and subcounty:
-            key = (district, subcounty, '', '')
+            key = (district, subcounty, "", "")
             location_code = location_lookup.get(key)
 
         # Try district level
         if not location_code and district:
-            key = (district, '', '', '')
+            key = (district, "", "", "")
             location_code = location_lookup.get(key)
 
         # Fallback if no match found
         if not location_code:
-            location_code = 'UG.UNK.UNK'
+            location_code = "UG.UNK.UNK"
 
         location_codes.append(location_code)
 
@@ -827,7 +853,7 @@ def generate_location_hierarchy_file(
 
         if subcounty:
             # Apply deduplication logic - prefer base names over qualified names
-            subcounty_deduplicated = deduplicate_location_name(subcounty, 'subcounty')
+            subcounty_deduplicated = deduplicate_location_name(subcounty, "subcounty")
             subcounty_slug = slugify(subcounty_deduplicated, separator="-")
             subcounty_id = f"s-{district_slug}-{subcounty_slug}"
             if subcounty_id not in unique_locations[district_id]["subcounties"]:
@@ -839,7 +865,7 @@ def generate_location_hierarchy_file(
 
             if parish:
                 # Apply deduplication logic - prefer base names over qualified names
-                parish_deduplicated = deduplicate_location_name(parish, 'parish')
+                parish_deduplicated = deduplicate_location_name(parish, "parish")
                 parish_slug = slugify(parish_deduplicated, separator="-")
                 parish_id = f"p-{district_slug}-{subcounty_slug}-{parish_slug}"
                 if (
