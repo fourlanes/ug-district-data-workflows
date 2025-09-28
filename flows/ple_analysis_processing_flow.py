@@ -400,7 +400,9 @@ def process_ple_analysis_data(
 
 
 @flow(name="combine-ple-analysis")
-def combine_ple_analysis_data(output_path: str = "data/processed/ple_analysis/ple_analysis_combined.csv") -> dict:
+def combine_ple_analysis_data(
+    output_path: str = "data/processed/ple_analysis/ple_analysis_combined.csv",
+) -> dict:
     """
     Combine all processed PLE analysis CSV files into a single combined file.
 
@@ -436,12 +438,9 @@ def combine_ple_analysis_data(output_path: str = "data/processed/ple_analysis/pl
         try:
             df = pd.read_csv(csv_file)
             # Add source file information
-            df['source_file'] = csv_file.name
+            df["source_file"] = csv_file.name
             combined_data.append(df)
-            source_info.append({
-                "file": csv_file.name,
-                "records": len(df)
-            })
+            source_info.append({"file": csv_file.name, "records": len(df)})
         except Exception as e:
             logger.error(f"Error reading {csv_file}: {str(e)}")
 
@@ -459,14 +458,16 @@ def combine_ple_analysis_data(output_path: str = "data/processed/ple_analysis/pl
     combined_df.to_csv(output_path, index=False, quoting=1)
 
     total_records = len(combined_df)
-    logger.info(f"Combined {len(csv_files)} files with {total_records} total records to: {output_path}")
+    logger.info(
+        f"Combined {len(csv_files)} files with {total_records} total records to: {output_path}"
+    )
 
     results = {
         "status": "completed",
         "combined_file": output_path,
         "total_files": len(csv_files),
         "total_records": total_records,
-        "source_files": source_info
+        "source_files": source_info,
     }
 
     return results

@@ -217,7 +217,7 @@ def update_master_locations(
 @task(retries=3)
 def validate_location_hierarchy(
     df: pd.DataFrame,
-    master_locations_path: str = "data/processed/locations/master_locations.json",
+    master_locations_path: str = "data/processed/locations/locations_hierarchy.json",
 ) -> Dict:
     """
     Validate location hierarchy consistency against master locations.
