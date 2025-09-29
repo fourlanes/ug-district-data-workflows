@@ -29,13 +29,41 @@ def deduplicate_location_name(name: str, level: str) -> str:
 
     # Only apply deduplication for subcounty and parish levels
     if level == "subcounty":
-        # Remove "Subcounty" qualifier if present
-        if name_stripped.endswith(" Subcounty"):
-            return name_stripped[:-10]  # Remove " Subcounty"
+        # First, standardize TC variations to "Town Council"
+        tc_variations = [
+            (" TC", " Town Council"),
+            (" tc", " Town Council"),
+            (" Tc", " Town Council"),
+            ("TC ", "Town Council "),
+            ("tc ", "Town Council "),
+            ("Tc ", "Town Council "),
+        ]
+        for variation, replacement in tc_variations:
+            if variation in name_stripped:
+                name_stripped = name_stripped.replace(variation, replacement)
+
+        # Then remove ONLY subcounty qualifiers - NOT Town Council qualifiers
+        qualifiers_to_remove = [
+            " Subcounty",
+            " subcounty",
+            " Sub County",
+            " sub county",
+            " SC",
+            " sc",
+            "SC ",
+            "sc ",
+        ]
+        for qualifier in qualifiers_to_remove:
+            if name_stripped.endswith(qualifier):
+                return name_stripped[: -len(qualifier)].strip()
+            if name_stripped.startswith(qualifier):
+                return name_stripped[len(qualifier) :].strip()
     elif level == "parish":
         # Remove "Parish" qualifier if present
-        if name_stripped.endswith(" Parish"):
-            return name_stripped[:-7]  # Remove " Parish"
+        qualifiers_to_remove = [" Parish", " parish"]
+        for qualifier in qualifiers_to_remove:
+            if name_stripped.endswith(qualifier):
+                return name_stripped[: -len(qualifier)].strip()
 
     return name_stripped
 
@@ -1000,7 +1028,8 @@ def generate_facility_ids(
     df: pd.DataFrame, config_path: str = "config/location_mappings.yaml"
 ) -> pd.DataFrame:
     """
-    Generate facility IDs for facility data: {facility-name-slug}_{district}
+    Generate facility IDs for facility data: {facility-name-slug}_{subcounty}
+    Falls back to {facility-name-slug}_{district} if subcounty not available.
 
     Args:
         df: Input DataFrame with facility data
@@ -1044,7 +1073,48 @@ def generate_facility_ids(
             district_col = col
             break
 
-    if facility_name_col and district_col:
+    # Find subcounty column
+    subcounty_col = None
+    for col in df.columns:
+        if "subcounty" in col.lower():
+            subcounty_col = col
+            break
+
+    def normalize_facility_name(name):
+        """Normalize facility name for consistent ID generation"""
+        if pd.isna(name):
+            return "unknown"
+
+        name = str(name).strip()
+
+        # Remove all types of quotes and apostrophes
+        name = name.replace("'", "").replace("'", "").replace("'", "")
+        name = name.replace('"', "").replace('"', "").replace('"', "")
+        name = name.replace("`", "").replace("´", "").replace("'", "")
+
+        # Remove other punctuation that can cause variations
+        name = name.replace(".", "").replace(",", "").replace(";", "")
+        name = name.replace("(", "").replace(")", "").replace("[", "").replace("]", "")
+        name = name.replace("{", "").replace("}", "").replace("&", "and")
+
+        # Normalize dashes and hyphens
+        name = name.replace("—", "-").replace("–", "-").replace("−", "-")
+
+        # Standardize common abbreviations
+        name = name.replace("St.", "St").replace("St ", "St ")
+        name = name.replace("Sch.", "School").replace("Sch ", "School ")
+        name = name.replace("Prim.", "Primary").replace("Prim ", "Primary ")
+        name = name.replace("Sec.", "Secondary").replace("Sec ", "Secondary ")
+        name = name.replace("Jr.", "Junior").replace("Jr ", "Junior ")
+        name = name.replace("Sr.", "Senior").replace("Sr ", "Senior ")
+
+        # Clean up multiple spaces and normalize case
+        name = " ".join(name.split())  # Remove multiple spaces
+        name = name.strip()
+
+        return name
+
+    if facility_name_col and subcounty_col:
         facility_ids = []
         for _, row in df.iterrows():
             facility_name = (
@@ -1052,7 +1122,31 @@ def generate_facility_ids(
                 if pd.notna(row[facility_name_col])
                 else "unknown"
             )
-            facility_slug = slugify(facility_name, separator="-")
+            # Normalize name before slugifying
+            normalized_name = normalize_facility_name(facility_name)
+            facility_slug = slugify(normalized_name, separator="-")
+
+            subcounty_name = (
+                str(row[subcounty_col]) if pd.notna(row[subcounty_col]) else "unknown"
+            )
+            subcounty_slug = slugify(subcounty_name, separator="-")
+
+            facility_id = f"{facility_slug}_{subcounty_slug}"
+            facility_ids.append(facility_id)
+
+        df_with_ids["facility_id"] = facility_ids
+    elif facility_name_col and district_col:
+        # Fallback to district if subcounty not available
+        facility_ids = []
+        for _, row in df.iterrows():
+            facility_name = (
+                str(row[facility_name_col])
+                if pd.notna(row[facility_name_col])
+                else "unknown"
+            )
+            # Normalize name before slugifying
+            normalized_name = normalize_facility_name(facility_name)
+            facility_slug = slugify(normalized_name, separator="-")
 
             district_name = (
                 str(row[district_col]) if pd.notna(row[district_col]) else "unknown"

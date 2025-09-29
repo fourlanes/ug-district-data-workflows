@@ -71,6 +71,21 @@
                   "id": "v-kayunga-kangulumira-kawomya-namakandwa",
                   "name": "Namakandwa",
                   "code": "D01S02P01V02"
+                },
+                {
+                  "id": "v-kayunga-kangulumira-kawomya-kungu",
+                  "name": "Kungu",
+                  "code": "D01S02P01V03"
+                },
+                {
+                  "id": "v-kayunga-kangulumira-kawomya-maligita",
+                  "name": "Maligita",
+                  "code": "D01S02P01V04"
+                },
+                {
+                  "id": "v-kayunga-kangulumira-kawomya-bukeeka",
+                  "name": "Bukeeka",
+                  "code": "D01S02P01V05"
                 }
               ]
             },
@@ -78,13 +93,93 @@
               "name": "Kikwanya",
               "code": "D01S02P02",
               "id": "p-kayunga-kangulumira-kikwanya",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kangulumira-kikwanya-kimoli",
+                  "name": "Kimoli",
+                  "code": "D01S02P02V01"
+                }
+              ]
             },
             {
               "name": "Seeta Nyiize",
               "code": "D01S02P03",
               "id": "p-kayunga-kangulumira-seeta-nyiize",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kangulumira-seeta-nyiize-nyiize",
+                  "name": "Nyiize",
+                  "code": "D01S02P03V01"
+                },
+                {
+                  "id": "v-kayunga-kangulumira-seeta-nyiize-nakirubi",
+                  "name": "Nakirubi",
+                  "code": "D01S02P03V02"
+                },
+                {
+                  "id": "v-kayunga-kangulumira-seeta-nyiize-kasambya",
+                  "name": "Kasambya",
+                  "code": "D01S02P03V03"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kangulumira-kangulumira",
+              "name": "Kangulumira",
+              "code": "D01S02P04",
+              "villages": [
+                {
+                  "id": "v-kayunga-kangulumira-kangulumira-soona",
+                  "name": "Soona",
+                  "code": "D01S02P04V01"
+                },
+                {
+                  "id": "v-kayunga-kangulumira-kangulumira-kangulumira",
+                  "name": "Kangulumira",
+                  "code": "D01S02P04V02"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kangulumira-nakatundu",
+              "name": "Nakatundu",
+              "code": "D01S02P05",
+              "villages": [
+                {
+                  "id": "v-kayunga-kangulumira-nakatundu-lwanda",
+                  "name": "Lwanda",
+                  "code": "D01S02P05V01"
+                },
+                {
+                  "id": "v-kayunga-kangulumira-nakatundu-kamuli",
+                  "name": "Kamuli",
+                  "code": "D01S02P05V02"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kangulumira-natteta",
+              "name": "Natteta",
+              "code": "D01S02P06",
+              "villages": [
+                {
+                  "id": "v-kayunga-kangulumira-natteta-kamuli",
+                  "name": "Kamuli",
+                  "code": "D01S02P06V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kangulumira-kimooli",
+              "name": "Kimooli",
+              "code": "D01S02P07",
+              "villages": [
+                {
+                  "id": "v-kayunga-kangulumira-kimooli-kikwanya",
+                  "name": "Kikwanya",
+                  "code": "D01S02P07V01"
+                }
+              ]
             }
           ]
         },
@@ -126,13 +221,50 @@
               "name": "Natteta",
               "code": "D01S03P04",
               "id": "p-kayunga-nazigo-town-council-natteta",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-nazigo-town-council-natteta-kanyala",
+                  "name": "Kanyala",
+                  "code": "D01S03P04V01"
+                },
+                {
+                  "id": "v-kayunga-nazigo-town-council-natteta-nazigo",
+                  "name": "Nazigo",
+                  "code": "D01S03P04V02"
+                },
+                {
+                  "id": "v-kayunga-nazigo-town-council-natteta-ngombolola-zone",
+                  "name": "Ngombolola Zone",
+                  "code": "D01S03P04V03"
+                },
+                {
+                  "id": "v-kayunga-nazigo-town-council-natteta-old-nazigo",
+                  "name": "Old Nazigo",
+                  "code": "D01S03P04V04"
+                },
+                {
+                  "id": "v-kayunga-nazigo-town-council-natteta-natteta",
+                  "name": "Natteta",
+                  "code": "D01S03P04V05"
+                },
+                {
+                  "id": "v-kayunga-nazigo-town-council-natteta-nazigo-cell",
+                  "name": "Nazigo Cell",
+                  "code": "D01S03P04V06"
+                }
+              ]
             },
             {
               "name": "Natteta Ward",
               "code": "D01S03P05",
               "id": "p-kayunga-nazigo-town-council-natteta-ward",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-nazigo-town-council-natteta-ward-kanyala",
+                  "name": "Kanyala",
+                  "code": "D01S03P05V01"
+                }
+              ]
             },
             {
               "name": "Nazigo Ward",
@@ -162,6 +294,11 @@
                   "id": "v-kayunga-nazigo-bukamba-bukamba",
                   "name": "Bukamba",
                   "code": "D01S04P01V01"
+                },
+                {
+                  "id": "v-kayunga-nazigo-bukamba-kakonge",
+                  "name": "Kakonge",
+                  "code": "D01S04P01V02"
                 }
               ]
             },
@@ -174,6 +311,21 @@
                   "id": "v-kayunga-nazigo-kirindi-kirindi",
                   "name": "Kirindi",
                   "code": "D01S04P02V01"
+                },
+                {
+                  "id": "v-kayunga-nazigo-kirindi-zakaria-zone",
+                  "name": "Zakaria Zone",
+                  "code": "D01S04P02V02"
+                },
+                {
+                  "id": "v-kayunga-nazigo-kirindi-nakakonge",
+                  "name": "Nakakonge",
+                  "code": "D01S04P02V03"
+                },
+                {
+                  "id": "v-kayunga-nazigo-kirindi-kasega",
+                  "name": "Kasega",
+                  "code": "D01S04P02V04"
                 }
               ]
             },
@@ -187,25 +339,117 @@
               "name": "Kimanya",
               "code": "D01S04P04",
               "id": "p-kayunga-nazigo-kimanya",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-nazigo-kimanya-gangama",
+                  "name": "Gangama",
+                  "code": "D01S04P04V01"
+                }
+              ]
             },
             {
               "name": "Natteta",
               "code": "D01S04P05",
               "id": "p-kayunga-nazigo-natteta",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-nazigo-natteta-wabirongo",
+                  "name": "Wabirongo",
+                  "code": "D01S04P05V01"
+                },
+                {
+                  "id": "v-kayunga-nazigo-natteta-kiribedda",
+                  "name": "Kiribedda",
+                  "code": "D01S04P05V02"
+                },
+                {
+                  "id": "v-kayunga-nazigo-natteta-nazigo",
+                  "name": "Nazigo",
+                  "code": "D01S04P05V03"
+                },
+                {
+                  "id": "v-kayunga-nazigo-natteta-natteta",
+                  "name": "Natteta",
+                  "code": "D01S04P05V04"
+                },
+                {
+                  "id": "v-kayunga-nazigo-natteta-kimanya",
+                  "name": "Kimanya",
+                  "code": "D01S04P05V05"
+                }
+              ]
             },
             {
               "name": "Nazigo",
               "code": "D01S04P06",
               "id": "p-kayunga-nazigo-nazigo",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-nazigo-nazigo-kyampisi",
+                  "name": "Kyampisi",
+                  "code": "D01S04P06V01"
+                },
+                {
+                  "id": "v-kayunga-nazigo-nazigo-kiseveni",
+                  "name": "Kiseveni",
+                  "code": "D01S04P06V02"
+                },
+                {
+                  "id": "v-kayunga-nazigo-nazigo-kisoga",
+                  "name": "Kisoga",
+                  "code": "D01S04P06V03"
+                },
+                {
+                  "id": "v-kayunga-nazigo-nazigo-nazigo",
+                  "name": "Nazigo",
+                  "code": "D01S04P06V04"
+                },
+                {
+                  "id": "v-kayunga-nazigo-nazigo-kotwe-b",
+                  "name": "Kotwe B",
+                  "code": "D01S04P06V05"
+                },
+                {
+                  "id": "v-kayunga-nazigo-nazigo-nakakonge",
+                  "name": "Nakakonge",
+                  "code": "D01S04P06V06"
+                },
+                {
+                  "id": "v-kayunga-nazigo-nazigo-nsenda",
+                  "name": "Nsenda",
+                  "code": "D01S04P06V07"
+                }
+              ]
             },
             {
               "name": "Nsiima",
               "code": "D01S04P07",
               "id": "p-kayunga-nazigo-nsiima",
               "villages": []
+            },
+            {
+              "id": "p-kayunga-nazigo-bukambwe",
+              "name": "Bukambwe",
+              "code": "D01S04P08",
+              "villages": [
+                {
+                  "id": "v-kayunga-nazigo-bukambwe-gayaza",
+                  "name": "Gayaza",
+                  "code": "D01S04P08V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-nazigo-natteta-ward",
+              "name": "Natteta Ward",
+              "code": "D01S04P09",
+              "villages": [
+                {
+                  "id": "v-kayunga-nazigo-natteta-ward-ngombolola-cell",
+                  "name": "Ngombolola Cell",
+                  "code": "D01S04P09V01"
+                }
+              ]
             }
           ]
         },
@@ -247,6 +491,11 @@
                   "id": "v-kayunga-kayunga-town-council-ntenjeru-ward-ntenjeru-b",
                   "name": "Ntenjeru B",
                   "code": "D01S05P03V01"
+                },
+                {
+                  "id": "v-kayunga-kayunga-town-council-ntenjeru-ward-tente",
+                  "name": "Tente",
+                  "code": "D01S05P03V02"
                 }
               ]
             },
@@ -259,6 +508,31 @@
                   "id": "v-kayunga-kayunga-town-council-kayunga-kayunga",
                   "name": "Kayunga",
                   "code": "D01S05P04V01"
+                },
+                {
+                  "id": "v-kayunga-kayunga-town-council-kayunga-kibira-ward",
+                  "name": "Kibira Ward",
+                  "code": "D01S05P04V02"
+                },
+                {
+                  "id": "v-kayunga-kayunga-town-council-kayunga-nakaliro",
+                  "name": "Nakaliro",
+                  "code": "D01S05P04V03"
+                },
+                {
+                  "id": "v-kayunga-kayunga-town-council-kayunga-namagabi-a",
+                  "name": "Namagabi A",
+                  "code": "D01S05P04V04"
+                },
+                {
+                  "id": "v-kayunga-kayunga-town-council-kayunga-namagabi",
+                  "name": "Namagabi",
+                  "code": "D01S05P04V05"
+                },
+                {
+                  "id": "v-kayunga-kayunga-town-council-kayunga-central-ward",
+                  "name": "Central Ward",
+                  "code": "D01S05P04V06"
                 }
               ]
             },
@@ -266,13 +540,177 @@
               "name": "Bukolooto Ward",
               "code": "D01S05P05",
               "id": "p-kayunga-kayunga-town-council-bukolooto-ward",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-bukolooto-ward-ndeba",
+                  "name": "Ndeba",
+                  "code": "D01S05P05V01"
+                }
+              ]
             },
             {
               "name": "Namagabi Ward",
               "code": "D01S05P06",
               "id": "p-kayunga-kayunga-town-council-namagabi-ward",
               "villages": []
+            },
+            {
+              "id": "p-kayunga-kayunga-town-council-kayunga-town-council",
+              "name": "Kayunga Town Council",
+              "code": "D01S05P07",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-kayunga-town-council-namagabi-a",
+                  "name": "Namagabi A",
+                  "code": "D01S05P07V01"
+                },
+                {
+                  "id": "v-kayunga-kayunga-town-council-kayunga-town-council-namagabi-b",
+                  "name": "Namagabi B",
+                  "code": "D01S05P07V02"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-town-council-ntenjuru",
+              "name": "Ntenjuru",
+              "code": "D01S05P08",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-ntenjuru-ntenjuru-a",
+                  "name": "Ntenjuru A",
+                  "code": "D01S05P08V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-town-council-kibira-ward",
+              "name": "Kibira Ward",
+              "code": "D01S05P09",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-kibira-ward-kayunga-west",
+                  "name": "Kayunga West",
+                  "code": "D01S05P09V01"
+                },
+                {
+                  "id": "v-kayunga-kayunga-town-council-kibira-ward-kisawo",
+                  "name": "Kisawo",
+                  "code": "D01S05P09V02"
+                },
+                {
+                  "id": "v-kayunga-kayunga-town-council-kibira-ward-kibira",
+                  "name": "Kibira",
+                  "code": "D01S05P09V03"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-town-council-kisawo",
+              "name": "Kisawo",
+              "code": "D01S05P10",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-kisawo-kisawo",
+                  "name": "Kisawo",
+                  "code": "D01S05P10V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-town-council-namagabi",
+              "name": "Namagabi",
+              "code": "D01S05P11",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-namagabi-namagabi",
+                  "name": "Namagabi",
+                  "code": "D01S05P11V01"
+                },
+                {
+                  "id": "v-kayunga-kayunga-town-council-namagabi-namagabi-a",
+                  "name": "Namagabi A",
+                  "code": "D01S05P11V02"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-town-council-ntenjeru",
+              "name": "Ntenjeru",
+              "code": "D01S05P12",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-ntenjeru-nakaliro",
+                  "name": "Nakaliro",
+                  "code": "D01S05P12V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-town-council-west-kibira",
+              "name": "West Kibira",
+              "code": "D01S05P13",
+              "villages": []
+            },
+            {
+              "id": "p-kayunga-kayunga-town-council-kayunga-west",
+              "name": "Kayunga West",
+              "code": "D01S05P14",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-kayunga-west-kayunga-west",
+                  "name": "Kayunga West",
+                  "code": "D01S05P14V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-town-council-nakaliro",
+              "name": "Nakaliro",
+              "code": "D01S05P15",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-nakaliro-nakaliro",
+                  "name": "Nakaliro",
+                  "code": "D01S05P15V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-town-council-kyenjeru",
+              "name": "Kyenjeru",
+              "code": "D01S05P16",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-kyenjeru-nakaliro",
+                  "name": "Nakaliro",
+                  "code": "D01S05P16V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-town-council-bukolooto",
+              "name": "Bukolooto",
+              "code": "D01S05P17",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-bukolooto-sajabi-zone",
+                  "name": "Sajabi Zone",
+                  "code": "D01S05P17V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-town-council-kayunga-central-ward",
+              "name": "Kayunga Central Ward",
+              "code": "D01S05P18",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-town-council-kayunga-central-ward-kayunga-central",
+                  "name": "Kayunga Central",
+                  "code": "D01S05P18V01"
+                }
+              ]
             }
           ]
         },
@@ -290,6 +728,16 @@
                   "id": "v-kayunga-kayunga-busaale-busaale",
                   "name": "Busaale",
                   "code": "D01S06P01V01"
+                },
+                {
+                  "id": "v-kayunga-kayunga-busaale-nalweeta",
+                  "name": "Nalweeta",
+                  "code": "D01S06P01V02"
+                },
+                {
+                  "id": "v-kayunga-kayunga-busaale-kito",
+                  "name": "Kito",
+                  "code": "D01S06P01V03"
                 }
               ]
             },
@@ -302,6 +750,16 @@
                   "id": "v-kayunga-kayunga-nsotoka-nsotoka",
                   "name": "Nsotoka",
                   "code": "D01S06P02V01"
+                },
+                {
+                  "id": "v-kayunga-kayunga-nsotoka-kiwooza",
+                  "name": "Kiwooza",
+                  "code": "D01S06P02V02"
+                },
+                {
+                  "id": "v-kayunga-kayunga-nsotoka-namulanda",
+                  "name": "Namulanda",
+                  "code": "D01S06P02V03"
                 }
               ]
             },
@@ -314,6 +772,26 @@
                   "id": "v-kayunga-kayunga-buyobe-buyobe",
                   "name": "Buyobe",
                   "code": "D01S06P03V01"
+                },
+                {
+                  "id": "v-kayunga-kayunga-buyobe-kanjuki",
+                  "name": "Kanjuki",
+                  "code": "D01S06P03V02"
+                },
+                {
+                  "id": "v-kayunga-kayunga-buyobe-buwungiro",
+                  "name": "Buwungiro",
+                  "code": "D01S06P03V03"
+                },
+                {
+                  "id": "v-kayunga-kayunga-buyobe-kyanya",
+                  "name": "Kyanya",
+                  "code": "D01S06P03V04"
+                },
+                {
+                  "id": "v-kayunga-kayunga-buyobe-bulyankuyege",
+                  "name": "Bulyankuyege",
+                  "code": "D01S06P03V05"
                 }
               ]
             },
@@ -321,31 +799,142 @@
               "name": "Bubajjwe",
               "code": "D01S06P04",
               "id": "p-kayunga-kayunga-bubajjwe",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-bubajjwe-kaazi-b",
+                  "name": "Kaazi B",
+                  "code": "D01S06P04V01"
+                }
+              ]
             },
             {
               "name": "Bukolooto",
               "code": "D01S06P05",
               "id": "p-kayunga-kayunga-bukolooto",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-bukolooto-gaza",
+                  "name": "Gaza",
+                  "code": "D01S06P05V01"
+                },
+                {
+                  "id": "v-kayunga-kayunga-bukolooto-ntooke",
+                  "name": "Ntooke",
+                  "code": "D01S06P05V02"
+                },
+                {
+                  "id": "v-kayunga-kayunga-bukolooto-nawandagala",
+                  "name": "Nawandagala",
+                  "code": "D01S06P05V03"
+                },
+                {
+                  "id": "v-kayunga-kayunga-bukolooto-bwetyaba",
+                  "name": "Bwetyaba",
+                  "code": "D01S06P05V04"
+                }
+              ]
             },
             {
               "name": "Bukujju",
               "code": "D01S06P06",
               "id": "p-kayunga-kayunga-bukujju",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-bukujju-bukujju",
+                  "name": "Bukujju",
+                  "code": "D01S06P06V01"
+                },
+                {
+                  "id": "v-kayunga-kayunga-bukujju-busolo",
+                  "name": "Busolo",
+                  "code": "D01S06P06V02"
+                },
+                {
+                  "id": "v-kayunga-kayunga-bukujju-kiyagi",
+                  "name": "Kiyagi",
+                  "code": "D01S06P06V03"
+                }
+              ]
             },
             {
               "name": "Kiteredde",
               "code": "D01S06P07",
               "id": "p-kayunga-kayunga-kiteredde",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-kiteredde-bugoge",
+                  "name": "Bugoge",
+                  "code": "D01S06P07V01"
+                }
+              ]
             },
             {
               "name": "Nakaseeta",
               "code": "D01S06P08",
               "id": "p-kayunga-kayunga-nakaseeta",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-nakaseeta-kisombwa",
+                  "name": "Kisombwa",
+                  "code": "D01S06P08V01"
+                },
+                {
+                  "id": "v-kayunga-kayunga-nakaseeta-nakaziba",
+                  "name": "Nakaziba",
+                  "code": "D01S06P08V02"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-bubajwe",
+              "name": "Bubajwe",
+              "code": "D01S06P09",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-bubajwe-kaazi-a",
+                  "name": "Kaazi A",
+                  "code": "D01S06P09V01"
+                },
+                {
+                  "id": "v-kayunga-kayunga-bubajwe-wajjanze",
+                  "name": "Wajjanze",
+                  "code": "D01S06P09V02"
+                },
+                {
+                  "id": "v-kayunga-kayunga-bubajwe-nalyabide",
+                  "name": "Nalyabide",
+                  "code": "D01S06P09V03"
+                },
+                {
+                  "id": "v-kayunga-kayunga-bubajwe-kaazi",
+                  "name": "Kaazi",
+                  "code": "D01S06P09V04"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-siterede",
+              "name": "Siterede",
+              "code": "D01S06P10",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-siterede-kisaba",
+                  "name": "Kisaba",
+                  "code": "D01S06P10V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayunga-namulanda",
+              "name": "Namulanda",
+              "code": "D01S06P11",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayunga-namulanda-namulanda",
+                  "name": "Namulanda",
+                  "code": "D01S06P11V01"
+                }
+              ]
             }
           ]
         },
@@ -363,6 +952,16 @@
                   "id": "v-kayunga-busaana-town-council-kasana-busaana",
                   "name": "Busaana",
                   "code": "D01S07P01V01"
+                },
+                {
+                  "id": "v-kayunga-busaana-town-council-kasana-bugaddu",
+                  "name": "Bugaddu",
+                  "code": "D01S07P01V02"
+                },
+                {
+                  "id": "v-kayunga-busaana-town-council-kasana-kasana",
+                  "name": "Kasana",
+                  "code": "D01S07P01V03"
                 }
               ]
             },
@@ -376,19 +975,84 @@
               "name": "Lusenke Ward",
               "code": "D01S07P03",
               "id": "p-kayunga-busaana-town-council-lusenke-ward",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-town-council-lusenke-ward-kuufu",
+                  "name": "Kuufu",
+                  "code": "D01S07P03V01"
+                }
+              ]
             },
             {
               "name": "Namirembe Ward",
               "code": "D01S07P04",
               "id": "p-kayunga-busaana-town-council-namirembe-ward",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-town-council-namirembe-ward-kawuku",
+                  "name": "Kawuku",
+                  "code": "D01S07P04V01"
+                }
+              ]
             },
             {
               "name": "Namukuma Ward",
               "code": "D01S07P05",
               "id": "p-kayunga-busaana-town-council-namukuma-ward",
               "villages": []
+            },
+            {
+              "id": "p-kayunga-busaana-town-council-namukuma",
+              "name": "Namukuma",
+              "code": "D01S07P06",
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-town-council-namukuma-kayonjo",
+                  "name": "Kayonjo",
+                  "code": "D01S07P06V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-busaana-town-council-busaana",
+              "name": "Busaana",
+              "code": "D01S07P07",
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-town-council-busaana-busaana",
+                  "name": "Busaana",
+                  "code": "D01S07P07V01"
+                },
+                {
+                  "id": "v-kayunga-busaana-town-council-busaana-bugaddu",
+                  "name": "Bugaddu",
+                  "code": "D01S07P07V02"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-busaana-town-council-lusenke",
+              "name": "Lusenke",
+              "code": "D01S07P08",
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-town-council-lusenke-kyengera",
+                  "name": "Kyengera",
+                  "code": "D01S07P08V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-busaana-town-council-namirembe",
+              "name": "Namirembe",
+              "code": "D01S07P09",
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-town-council-namirembe-kawuku",
+                  "name": "Kawuku",
+                  "code": "D01S07P09V01"
+                }
+              ]
             }
           ]
         },
@@ -418,6 +1082,46 @@
                   "id": "v-kayunga-busaana-kiwangula-nakatovu",
                   "name": "Nakatovu",
                   "code": "D01S08P02V01"
+                },
+                {
+                  "id": "v-kayunga-busaana-kiwangula-ngeye",
+                  "name": "Ngeye",
+                  "code": "D01S08P02V02"
+                },
+                {
+                  "id": "v-kayunga-busaana-kiwangula-wampogo",
+                  "name": "Wampogo",
+                  "code": "D01S08P02V03"
+                },
+                {
+                  "id": "v-kayunga-busaana-kiwangula-wampongo",
+                  "name": "Wampongo",
+                  "code": "D01S08P02V04"
+                },
+                {
+                  "id": "v-kayunga-busaana-kiwangula-kiwangula-wampongo",
+                  "name": "Kiwangula Wampongo",
+                  "code": "D01S08P02V05"
+                },
+                {
+                  "id": "v-kayunga-busaana-kiwangula-kiwangula-central",
+                  "name": "Kiwangula Central",
+                  "code": "D01S08P02V06"
+                },
+                {
+                  "id": "v-kayunga-busaana-kiwangula-wantete",
+                  "name": "Wantete",
+                  "code": "D01S08P02V07"
+                },
+                {
+                  "id": "v-kayunga-busaana-kiwangula-buyungirizi",
+                  "name": "Buyungirizi",
+                  "code": "D01S08P02V08"
+                },
+                {
+                  "id": "v-kayunga-busaana-kiwangula-kiwangula",
+                  "name": "Kiwangula",
+                  "code": "D01S08P02V09"
                 }
               ]
             },
@@ -425,37 +1129,179 @@
               "name": "Kasana",
               "code": "D01S08P03",
               "id": "p-kayunga-busaana-kasana",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-kasana-busaana",
+                  "name": "Busaana",
+                  "code": "D01S08P03V01"
+                },
+                {
+                  "id": "v-kayunga-busaana-kasana-sababu",
+                  "name": "Sababu",
+                  "code": "D01S08P03V02"
+                },
+                {
+                  "id": "v-kayunga-busaana-kasana-bugobero",
+                  "name": "Bugobero",
+                  "code": "D01S08P03V03"
+                },
+                {
+                  "id": "v-kayunga-busaana-kasana-kasana",
+                  "name": "Kasana",
+                  "code": "D01S08P03V04"
+                }
+              ]
             },
             {
               "name": "Lusenke",
               "code": "D01S08P04",
               "id": "p-kayunga-busaana-lusenke",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-lusenke-kibuzi",
+                  "name": "Kibuzi",
+                  "code": "D01S08P04V01"
+                },
+                {
+                  "id": "v-kayunga-busaana-lusenke-bakuta",
+                  "name": "Bakuta",
+                  "code": "D01S08P04V02"
+                },
+                {
+                  "id": "v-kayunga-busaana-lusenke-lusenke",
+                  "name": "Lusenke",
+                  "code": "D01S08P04V03"
+                }
+              ]
             },
             {
               "name": "Nabuganyi",
               "code": "D01S08P05",
               "id": "p-kayunga-busaana-nabuganyi",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-nabuganyi-nabuganyi",
+                  "name": "Nabuganyi",
+                  "code": "D01S08P05V01"
+                },
+                {
+                  "id": "v-kayunga-busaana-nabuganyi-bumali",
+                  "name": "Bumali",
+                  "code": "D01S08P05V02"
+                },
+                {
+                  "id": "v-kayunga-busaana-nabuganyi-nikoyedde",
+                  "name": "Nikoyedde",
+                  "code": "D01S08P05V03"
+                },
+                {
+                  "id": "v-kayunga-busaana-nabuganyi-namatogonya",
+                  "name": "Namatogonya",
+                  "code": "D01S08P05V04"
+                }
+              ]
             },
             {
               "name": "Nampanyi",
               "code": "D01S08P06",
               "id": "p-kayunga-busaana-nampanyi",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-nampanyi-bukungu",
+                  "name": "Bukungu",
+                  "code": "D01S08P06V01"
+                },
+                {
+                  "id": "v-kayunga-busaana-nampanyi-kireku",
+                  "name": "Kireku",
+                  "code": "D01S08P06V02"
+                }
+              ]
             },
             {
               "name": "Namukuma",
               "code": "D01S08P07",
               "id": "p-kayunga-busaana-namukuma",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-namukuma-kyengera",
+                  "name": "Kyengera",
+                  "code": "D01S08P07V01"
+                },
+                {
+                  "id": "v-kayunga-busaana-namukuma-kyayaye",
+                  "name": "Kyayaye",
+                  "code": "D01S08P07V02"
+                },
+                {
+                  "id": "v-kayunga-busaana-namukuma-nangabo",
+                  "name": "Nangabo",
+                  "code": "D01S08P07V03"
+                },
+                {
+                  "id": "v-kayunga-busaana-namukuma-kayonjo",
+                  "name": "Kayonjo",
+                  "code": "D01S08P07V04"
+                }
+              ]
             },
             {
               "name": "Namusaala",
               "code": "D01S08P08",
               "id": "p-kayunga-busaana-namusaala",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-namusaala-lusenke",
+                  "name": "Lusenke",
+                  "code": "D01S08P08V01"
+                },
+                {
+                  "id": "v-kayunga-busaana-namusaala-namusaala",
+                  "name": "Namusaala",
+                  "code": "D01S08P08V02"
+                },
+                {
+                  "id": "v-kayunga-busaana-namusaala-masembe",
+                  "name": "Masembe",
+                  "code": "D01S08P08V03"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-busaana-namirembe",
+              "name": "Namirembe",
+              "code": "D01S08P09",
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-namirembe-namirembe",
+                  "name": "Namirembe",
+                  "code": "D01S08P09V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-busaana-kasana-ward",
+              "name": "Kasana Ward",
+              "code": "D01S08P10",
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-kasana-ward-bugaddu",
+                  "name": "Bugaddu",
+                  "code": "D01S08P10V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-busaana-kayunga",
+              "name": "Kayunga",
+              "code": "D01S08P11",
+              "villages": [
+                {
+                  "id": "v-kayunga-busaana-kayunga-namusala",
+                  "name": "Namusala",
+                  "code": "D01S08P11V01"
+                }
+              ]
             }
           ]
         },
@@ -485,6 +1331,11 @@
                   "id": "v-kayunga-bbaale-nakitokolo-kabaku",
                   "name": "Kabaku",
                   "code": "D01S09P02V01"
+                },
+                {
+                  "id": "v-kayunga-bbaale-nakitokolo-nabisubyaki",
+                  "name": "Nabisubyaki",
+                  "code": "D01S09P02V02"
                 }
               ]
             },
@@ -492,13 +1343,45 @@
               "name": "Bbaale",
               "code": "D01S09P03",
               "id": "p-kayunga-bbaale-bbaale",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-bbaale-bbaale-bbaale-east",
+                  "name": "Bbaale East",
+                  "code": "D01S09P03V01"
+                },
+                {
+                  "id": "v-kayunga-bbaale-bbaale-mukondo",
+                  "name": "Mukondo",
+                  "code": "D01S09P03V02"
+                },
+                {
+                  "id": "v-kayunga-bbaale-bbaale-kabaku",
+                  "name": "Kabaku",
+                  "code": "D01S09P03V03"
+                },
+                {
+                  "id": "v-kayunga-bbaale-bbaale-bbaale-west",
+                  "name": "Bbaale West",
+                  "code": "D01S09P03V04"
+                },
+                {
+                  "id": "v-kayunga-bbaale-bbaale-bbaala-west",
+                  "name": "Bbaala West",
+                  "code": "D01S09P03V05"
+                }
+              ]
             },
             {
               "name": "Kavule",
               "code": "D01S09P04",
               "id": "p-kayunga-bbaale-kavule",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-bbaale-kavule-gayaza",
+                  "name": "Gayaza",
+                  "code": "D01S09P04V01"
+                }
+              ]
             },
             {
               "name": "Kokotero",
@@ -516,7 +1399,25 @@
               "name": "Mugongo",
               "code": "D01S09P07",
               "id": "p-kayunga-bbaale-mugongo",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-bbaale-mugongo-mugongo",
+                  "name": "Mugongo",
+                  "code": "D01S09P07V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-bbaale-bbaale-east",
+              "name": "Bbaale East",
+              "code": "D01S09P08",
+              "villages": [
+                {
+                  "id": "v-kayunga-bbaale-bbaale-east-bbaale-east",
+                  "name": "Bbaale East",
+                  "code": "D01S09P08V01"
+                }
+              ]
             }
           ]
         },
@@ -534,6 +1435,31 @@
                   "id": "v-kayunga-kayonza-kamusabi-lugasa-west",
                   "name": "Lugasa West",
                   "code": "D01S10P01V01"
+                },
+                {
+                  "id": "v-kayunga-kayonza-kamusabi-bugonya",
+                  "name": "Bugonya",
+                  "code": "D01S10P01V02"
+                },
+                {
+                  "id": "v-kayunga-kayonza-kamusabi-bugatto",
+                  "name": "Bugatto.",
+                  "code": "D01S10P01V03"
+                },
+                {
+                  "id": "v-kayunga-kayonza-kamusabi-kamusabi",
+                  "name": "Kamusabi",
+                  "code": "D01S10P01V04"
+                },
+                {
+                  "id": "v-kayunga-kayonza-kamusabi-wabunyonyi",
+                  "name": "Wabunyonyi",
+                  "code": "D01S10P01V05"
+                },
+                {
+                  "id": "v-kayunga-kayonza-kamusabi-lukonda",
+                  "name": "Lukonda",
+                  "code": "D01S10P01V06"
                 }
               ]
             },
@@ -546,6 +1472,21 @@
                   "id": "v-kayunga-kayonza-nakyesanja-kakiika",
                   "name": "Kakiika",
                   "code": "D01S10P02V01"
+                },
+                {
+                  "id": "v-kayunga-kayonza-nakyesanja-kakiika-b",
+                  "name": "Kakiika B",
+                  "code": "D01S10P02V02"
+                },
+                {
+                  "id": "v-kayunga-kayonza-nakyesanja-kakiika-a",
+                  "name": "Kakiika A",
+                  "code": "D01S10P02V03"
+                },
+                {
+                  "id": "v-kayunga-kayonza-nakyesanja-nakyesanja",
+                  "name": "Nakyesanja",
+                  "code": "D01S10P02V04"
                 }
               ]
             },
@@ -565,37 +1506,229 @@
               "name": "Balisanga",
               "code": "D01S10P04",
               "id": "p-kayunga-kayonza-balisanga",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kayonza-balisanga-nzingu",
+                  "name": "Nzingu",
+                  "code": "D01S10P04V01"
+                },
+                {
+                  "id": "v-kayunga-kayonza-balisanga-kirisiru",
+                  "name": "Kirisiru",
+                  "code": "D01S10P04V02"
+                },
+                {
+                  "id": "v-kayunga-kayonza-balisanga-wunga",
+                  "name": "Wunga",
+                  "code": "D01S10P04V03"
+                }
+              ]
             },
             {
               "name": "Kafumba",
               "code": "D01S10P05",
               "id": "p-kayunga-kayonza-kafumba",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kayonza-kafumba-nyondo",
+                  "name": "Nyondo",
+                  "code": "D01S10P05V01"
+                }
+              ]
             },
             {
               "name": "Kanywero",
               "code": "D01S10P06",
               "id": "p-kayunga-kayonza-kanywero",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kayonza-kanywero-tindiyan",
+                  "name": "Tindiyan",
+                  "code": "D01S10P06V01"
+                },
+                {
+                  "id": "v-kayunga-kayonza-kanywero-kyebuye",
+                  "name": "Kyebuye",
+                  "code": "D01S10P06V02"
+                },
+                {
+                  "id": "v-kayunga-kayonza-kanywero-lwabyata",
+                  "name": "Lwabyata",
+                  "code": "D01S10P06V03"
+                },
+                {
+                  "id": "v-kayunga-kayonza-kanywero-kanywero",
+                  "name": "Kanywero",
+                  "code": "D01S10P06V04"
+                },
+                {
+                  "id": "v-kayunga-kayonza-kanywero-nakyessa-4",
+                  "name": "Nakyessa 4",
+                  "code": "D01S10P06V05"
+                }
+              ]
             },
             {
               "name": "Kitwe",
               "code": "D01S10P07",
               "id": "p-kayunga-kayonza-kitwe",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kayonza-kitwe-busaabira",
+                  "name": "Busaabira",
+                  "code": "D01S10P07V01"
+                },
+                {
+                  "id": "v-kayunga-kayonza-kitwe-bugoma",
+                  "name": "Bugoma",
+                  "code": "D01S10P07V02"
+                },
+                {
+                  "id": "v-kayunga-kayonza-kitwe-kyamugongo",
+                  "name": "Kyamugongo",
+                  "code": "D01S10P07V03"
+                }
+              ]
             },
             {
               "name": "Namaliri",
               "code": "D01S10P08",
               "id": "p-kayunga-kayonza-namaliri",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kayonza-namaliri-kayonza",
+                  "name": "Kayonza",
+                  "code": "D01S10P08V01"
+                },
+                {
+                  "id": "v-kayunga-kayonza-namaliri-nakabango",
+                  "name": "Nakabango",
+                  "code": "D01S10P08V02"
+                },
+                {
+                  "id": "v-kayunga-kayonza-namaliri-lugasa-east",
+                  "name": "Lugasa East",
+                  "code": "D01S10P08V03"
+                },
+                {
+                  "id": "v-kayunga-kayonza-namaliri-kawolokota-east",
+                  "name": "Kawolokota East",
+                  "code": "D01S10P08V04"
+                },
+                {
+                  "id": "v-kayunga-kayonza-namaliri-namaliri",
+                  "name": "Namaliri",
+                  "code": "D01S10P08V05"
+                },
+                {
+                  "id": "v-kayunga-kayonza-namaliri-makkukulu",
+                  "name": "Makkukulu",
+                  "code": "D01S10P08V06"
+                }
+              ]
             },
             {
               "name": "Namizo",
               "code": "D01S10P09",
               "id": "p-kayunga-kayonza-namizo",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kayonza-namizo-kawolokota-east",
+                  "name": "Kawolokota East",
+                  "code": "D01S10P09V01"
+                },
+                {
+                  "id": "v-kayunga-kayonza-namizo-namavundu",
+                  "name": "Namavundu",
+                  "code": "D01S10P09V02"
+                },
+                {
+                  "id": "v-kayunga-kayonza-namizo-namizo",
+                  "name": "Namizo",
+                  "code": "D01S10P09V03"
+                },
+                {
+                  "id": "v-kayunga-kayonza-namizo-bujwaya",
+                  "name": "Bujwaya",
+                  "code": "D01S10P09V04"
+                },
+                {
+                  "id": "v-kayunga-kayonza-namizo-nawansama",
+                  "name": "Nawansama",
+                  "code": "D01S10P09V05"
+                },
+                {
+                  "id": "v-kayunga-kayonza-namizo-kawolokota",
+                  "name": "Kawolokota",
+                  "code": "D01S10P09V06"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayonza-nakyessa",
+              "name": "Nakyessa",
+              "code": "D01S10P10",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayonza-nakyessa-nakyessa-4",
+                  "name": "Nakyessa 4",
+                  "code": "D01S10P10V01"
+                },
+                {
+                  "id": "v-kayunga-kayonza-nakyessa-nakyessa-3",
+                  "name": "Nakyessa 3",
+                  "code": "D01S10P10V02"
+                },
+                {
+                  "id": "v-kayunga-kayonza-nakyessa-namatogonya",
+                  "name": "Namatogonya",
+                  "code": "D01S10P10V03"
+                },
+                {
+                  "id": "v-kayunga-kayonza-nakyessa-nakiseera",
+                  "name": "Nakiseera",
+                  "code": "D01S10P10V04"
+                },
+                {
+                  "id": "v-kayunga-kayonza-nakyessa-kavule-5",
+                  "name": "Kavule 5",
+                  "code": "D01S10P10V05"
+                },
+                {
+                  "id": "v-kayunga-kayonza-nakyessa-nakyessa-2",
+                  "name": "Nakyessa 2",
+                  "code": "D01S10P10V06"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayonza-nakyessanja",
+              "name": "Nakyessanja",
+              "code": "D01S10P11",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayonza-nakyessanja-kakiika",
+                  "name": "Kakiika",
+                  "code": "D01S10P11V01"
+                },
+                {
+                  "id": "v-kayunga-kayonza-nakyessanja-kirimantoogo",
+                  "name": "Kirimantoogo",
+                  "code": "D01S10P11V02"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kayonza-kayonza",
+              "name": "Kayonza",
+              "code": "D01S10P12",
+              "villages": [
+                {
+                  "id": "v-kayunga-kayonza-kayonza-namatogonya-4",
+                  "name": "Namatogonya 4",
+                  "code": "D01S10P12V01"
+                }
+              ]
             }
           ]
         },
@@ -613,6 +1746,16 @@
                   "id": "v-kayunga-kitimbwa-nkokonjeru-nkokonjeru",
                   "name": "Nkokonjeru",
                   "code": "D01S11P01V01"
+                },
+                {
+                  "id": "v-kayunga-kitimbwa-nkokonjeru-tweyagalire",
+                  "name": "Tweyagalire",
+                  "code": "D01S11P01V02"
+                },
+                {
+                  "id": "v-kayunga-kitimbwa-nkokonjeru-bulawula",
+                  "name": "Bulawula",
+                  "code": "D01S11P01V03"
                 }
               ]
             },
@@ -632,31 +1775,136 @@
               "name": "Kitatya",
               "code": "D01S11P03",
               "id": "p-kayunga-kitimbwa-kitatya",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kitimbwa-kitatya-kitatya-b",
+                  "name": "Kitatya B",
+                  "code": "D01S11P03V01"
+                }
+              ]
             },
             {
               "name": "Kyerima",
               "code": "D01S11P04",
               "id": "p-kayunga-kitimbwa-kyerima",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kitimbwa-kyerima-kyerima-a",
+                  "name": "Kyerima A",
+                  "code": "D01S11P04V01"
+                },
+                {
+                  "id": "v-kayunga-kitimbwa-kyerima-namabugga",
+                  "name": "Namabugga",
+                  "code": "D01S11P04V02"
+                },
+                {
+                  "id": "v-kayunga-kitimbwa-kyerima-nakaseeta",
+                  "name": "Nakaseeta",
+                  "code": "D01S11P04V03"
+                }
+              ]
             },
             {
               "name": "Nakivubo",
               "code": "D01S11P05",
               "id": "p-kayunga-kitimbwa-nakivubo",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kitimbwa-nakivubo-nakivubo-a",
+                  "name": "Nakivubo A",
+                  "code": "D01S11P05V01"
+                },
+                {
+                  "id": "v-kayunga-kitimbwa-nakivubo-nakivubo",
+                  "name": "Nakivubo",
+                  "code": "D01S11P05V02"
+                },
+                {
+                  "id": "v-kayunga-kitimbwa-nakivubo-bisaka",
+                  "name": "Bisaka",
+                  "code": "D01S11P05V03"
+                }
+              ]
             },
             {
               "name": "Namulaba",
               "code": "D01S11P06",
               "id": "p-kayunga-kitimbwa-namulaba",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-kitimbwa-namulaba-mansa-a",
+                  "name": "Mansa A",
+                  "code": "D01S11P06V01"
+                },
+                {
+                  "id": "v-kayunga-kitimbwa-namulaba-nongo",
+                  "name": "Nongo",
+                  "code": "D01S11P06V02"
+                },
+                {
+                  "id": "v-kayunga-kitimbwa-namulaba-namulaba",
+                  "name": "Namulaba",
+                  "code": "D01S11P06V03"
+                }
+              ]
             },
             {
               "name": "Wabwoko",
               "code": "D01S11P07",
               "id": "p-kayunga-kitimbwa-wabwoko",
               "villages": []
+            },
+            {
+              "id": "p-kayunga-kitimbwa-kyerima-ward",
+              "name": "Kyerima Ward",
+              "code": "D01S11P08",
+              "villages": [
+                {
+                  "id": "v-kayunga-kitimbwa-kyerima-ward-kyerima-a",
+                  "name": "Kyerima A",
+                  "code": "D01S11P08V01"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kitimbwa-wabuyinja",
+              "name": "Wabuyinja",
+              "code": "D01S11P09",
+              "villages": [
+                {
+                  "id": "v-kayunga-kitimbwa-wabuyinja-kyetume-a",
+                  "name": "Kyetume A",
+                  "code": "D01S11P09V01"
+                },
+                {
+                  "id": "v-kayunga-kitimbwa-wabuyinja-kitimbwa-i",
+                  "name": "Kitimbwa I",
+                  "code": "D01S11P09V02"
+                },
+                {
+                  "id": "v-kayunga-kitimbwa-wabuyinja-wabwoko",
+                  "name": "Wabwoko",
+                  "code": "D01S11P09V03"
+                },
+                {
+                  "id": "v-kayunga-kitimbwa-wabuyinja-kitimbwa-ii",
+                  "name": "Kitimbwa II",
+                  "code": "D01S11P09V04"
+                }
+              ]
+            },
+            {
+              "id": "p-kayunga-kitimbwa-kyetume",
+              "name": "Kyetume",
+              "code": "D01S11P10",
+              "villages": [
+                {
+                  "id": "v-kayunga-kitimbwa-kyetume-kyetume-kabaganda",
+                  "name": "Kyetume Kabaganda",
+                  "code": "D01S11P10V01"
+                }
+              ]
             }
           ]
         },
@@ -674,6 +1922,16 @@
                   "id": "v-kayunga-galiraya-kasokwe-kasokwe",
                   "name": "Kasokwe",
                   "code": "D01S12P01V01"
+                },
+                {
+                  "id": "v-kayunga-galiraya-kasokwe-kiryoola",
+                  "name": "Kiryoola",
+                  "code": "D01S12P01V02"
+                },
+                {
+                  "id": "v-kayunga-galiraya-kasokwe-kataigwa",
+                  "name": "Kataigwa",
+                  "code": "D01S12P01V03"
                 }
               ]
             },
@@ -686,6 +1944,21 @@
                   "id": "v-kayunga-galiraya-galiraya-galiraya",
                   "name": "Galiraya",
                   "code": "D01S12P02V01"
+                },
+                {
+                  "id": "v-kayunga-galiraya-galiraya-busingire",
+                  "name": "Busingire",
+                  "code": "D01S12P02V02"
+                },
+                {
+                  "id": "v-kayunga-galiraya-galiraya-busungire",
+                  "name": "Busungire",
+                  "code": "D01S12P02V03"
+                },
+                {
+                  "id": "v-kayunga-galiraya-galiraya-kidibya",
+                  "name": "Kidibya",
+                  "code": "D01S12P02V04"
                 }
               ]
             },
@@ -705,25 +1978,94 @@
               "name": "Kirasa",
               "code": "D01S12P04",
               "id": "p-kayunga-galiraya-kirasa",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-galiraya-kirasa-kirasa",
+                  "name": "Kirasa",
+                  "code": "D01S12P04V01"
+                },
+                {
+                  "id": "v-kayunga-galiraya-kirasa-kisalizi",
+                  "name": "Kisalizi",
+                  "code": "D01S12P04V02"
+                }
+              ]
             },
             {
               "name": "Namalere",
               "code": "D01S12P05",
               "id": "p-kayunga-galiraya-namalere",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-galiraya-namalere-namalere",
+                  "name": "Namalere",
+                  "code": "D01S12P05V01"
+                },
+                {
+                  "id": "v-kayunga-galiraya-namalere-kyedikyo",
+                  "name": "Kyedikyo",
+                  "code": "D01S12P05V02"
+                },
+                {
+                  "id": "v-kayunga-galiraya-namalere-kawongo",
+                  "name": "Kawongo",
+                  "code": "D01S12P05V03"
+                }
+              ]
             },
             {
               "name": "Namayuge",
               "code": "D01S12P06",
               "id": "p-kayunga-galiraya-namayuge",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-galiraya-namayuge-nakatuli",
+                  "name": "Nakatuli",
+                  "code": "D01S12P06V01"
+                },
+                {
+                  "id": "v-kayunga-galiraya-namayuge-baizo",
+                  "name": "Baizo",
+                  "code": "D01S12P06V02"
+                },
+                {
+                  "id": "v-kayunga-galiraya-namayuge-gwero-a",
+                  "name": "Gwero A",
+                  "code": "D01S12P06V03"
+                },
+                {
+                  "id": "v-kayunga-galiraya-namayuge-nkuutu",
+                  "name": "Nkuutu",
+                  "code": "D01S12P06V04"
+                },
+                {
+                  "id": "v-kayunga-galiraya-namayuge-sokoso",
+                  "name": "Sokoso",
+                  "code": "D01S12P06V05"
+                },
+                {
+                  "id": "v-kayunga-galiraya-namayuge-nabityanka",
+                  "name": "Nabityanka",
+                  "code": "D01S12P06V06"
+                }
+              ]
             },
             {
               "name": "Ntimba",
               "code": "D01S12P07",
               "id": "p-kayunga-galiraya-ntimba",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-kayunga-galiraya-ntimba-kawongo",
+                  "name": "Kawongo",
+                  "code": "D01S12P07V01"
+                },
+                {
+                  "id": "v-kayunga-galiraya-ntimba-kawongo-b",
+                  "name": "Kawongo B",
+                  "code": "D01S12P07V02"
+                }
+              ]
             }
           ]
         },
@@ -749,6 +2091,25 @@
               "code": "D01S13P03",
               "id": "p-kayunga-kitimbwa-town-council-wabwoko",
               "villages": []
+            }
+          ]
+        },
+        {
+          "id": "s-kayunga-nakatooke",
+          "name": "Nakatooke",
+          "code": "D01S14",
+          "parishes": [
+            {
+              "id": "p-kayunga-nakatooke-katikanyonyi",
+              "name": "Katikanyonyi",
+              "code": "D01S14P01",
+              "villages": [
+                {
+                  "id": "v-kayunga-nakatooke-katikanyonyi-nakatooke",
+                  "name": "Nakatooke",
+                  "code": "D01S14P01V01"
+                }
+              ]
             }
           ]
         }
@@ -809,6 +2170,12 @@
                   "code": "D02S02P01V04"
                 }
               ]
+            },
+            {
+              "id": "p-masindi-central-division-civic-centre-ward",
+              "name": "Civic Centre Ward",
+              "code": "D02S02P02",
+              "villages": []
             }
           ]
         },
@@ -833,18 +2200,77 @@
               "id": "p-masindi-miirya-bigando",
               "name": "Bigando",
               "code": "D02S03P02",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-masindi-miirya-bigando-kibali",
+                  "name": "Kibali",
+                  "code": "D02S03P02V01"
+                },
+                {
+                  "id": "v-masindi-miirya-bigando-kahaara-2",
+                  "name": "Kahaara 2",
+                  "code": "D02S03P02V02"
+                },
+                {
+                  "id": "v-masindi-miirya-bigando-kinima",
+                  "name": "Kinima",
+                  "code": "D02S03P02V03"
+                }
+              ]
             },
             {
               "id": "p-masindi-miirya-isimba",
               "name": "Isimba",
               "code": "D02S03P03",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-masindi-miirya-isimba-kyabaswa",
+                  "name": "Kyabaswa",
+                  "code": "D02S03P03V01"
+                },
+                {
+                  "id": "v-masindi-miirya-isimba-kasomoro",
+                  "name": "Kasomoro",
+                  "code": "D02S03P03V02"
+                },
+                {
+                  "id": "v-masindi-miirya-isimba-kyedikyo",
+                  "name": "Kyedikyo",
+                  "code": "D02S03P03V03"
+                }
+              ]
             },
             {
               "id": "p-masindi-miirya-kigulya",
               "name": "Kigulya",
               "code": "D02S03P04",
+              "villages": [
+                {
+                  "id": "v-masindi-miirya-kigulya-kinnhmi",
+                  "name": "Kinnhmi",
+                  "code": "D02S03P04V01"
+                },
+                {
+                  "id": "v-masindi-miirya-kigulya-kigezi",
+                  "name": "Kigezi",
+                  "code": "D02S03P04V02"
+                },
+                {
+                  "id": "v-masindi-miirya-kigulya-bishen",
+                  "name": "Bishen",
+                  "code": "D02S03P04V03"
+                },
+                {
+                  "id": "v-masindi-miirya-kigulya-kijogoro",
+                  "name": "Kijogoro",
+                  "code": "D02S03P04V04"
+                }
+              ]
+            },
+            {
+              "id": "p-masindi-miirya-kiguulya",
+              "name": "Kiguulya",
+              "code": "D02S03P05",
               "villages": []
             }
           ]
@@ -863,6 +2289,23 @@
                   "id": "v-masindi-kyatiri-kyatiri-kyatiri",
                   "name": "Kyatiri",
                   "code": "D02S04P01V01"
+                },
+                {
+                  "id": "v-masindi-kyatiri-kyatiri-kisekula-2",
+                  "name": "Kisekula 2",
+                  "code": "D02S04P01V02"
+                }
+              ]
+            },
+            {
+              "id": "p-masindi-kyatiri-nyambindo",
+              "name": "Nyambindo",
+              "code": "D02S04P02",
+              "villages": [
+                {
+                  "id": "v-masindi-kyatiri-nyambindo-kyakayaga1",
+                  "name": "Kyakayaga1",
+                  "code": "D02S04P02V01"
                 }
               ]
             }
@@ -902,6 +2345,60 @@
               "name": "Kyakamese West",
               "code": "D02S05P04",
               "villages": []
+            },
+            {
+              "id": "p-masindi-pakanyi-kyakamese",
+              "name": "Kyakamese",
+              "code": "D02S05P05",
+              "villages": [
+                {
+                  "id": "v-masindi-pakanyi-kyakamese-alimugonza",
+                  "name": "Alimugonza",
+                  "code": "D02S05P05V01"
+                },
+                {
+                  "id": "v-masindi-pakanyi-kyakamese-waiga",
+                  "name": "Waiga",
+                  "code": "D02S05P05V02"
+                },
+                {
+                  "id": "v-masindi-pakanyi-kyakamese-kiyuya",
+                  "name": "Kiyuya",
+                  "code": "D02S05P05V03"
+                },
+                {
+                  "id": "v-masindi-pakanyi-kyakamese-nyakatoogo",
+                  "name": "Nyakatoogo",
+                  "code": "D02S05P05V04"
+                },
+                {
+                  "id": "v-masindi-pakanyi-kyakamese-pakanyi",
+                  "name": "Pakanyi",
+                  "code": "D02S05P05V05"
+                },
+                {
+                  "id": "v-masindi-pakanyi-kyakamese-karungi",
+                  "name": "Karungi",
+                  "code": "D02S05P05V06"
+                },
+                {
+                  "id": "v-masindi-pakanyi-kyakamese-katumba",
+                  "name": "Katumba",
+                  "code": "D02S05P05V07"
+                }
+              ]
+            },
+            {
+              "id": "p-masindi-pakanyi-kyatiri-west",
+              "name": "Kyatiri West",
+              "code": "D02S05P06",
+              "villages": [
+                {
+                  "id": "v-masindi-pakanyi-kyatiri-west-kisekulu-1",
+                  "name": "Kisekulu 1",
+                  "code": "D02S05P06V01"
+                }
+              ]
             }
           ]
         },
@@ -919,6 +2416,21 @@
                   "id": "v-masindi-kiruli-kiruli-kitanyata",
                   "name": "Kitanyata",
                   "code": "D02S19P01V01"
+                },
+                {
+                  "id": "v-masindi-kiruli-kiruli-kiruli",
+                  "name": "Kiruli",
+                  "code": "D02S19P01V02"
+                },
+                {
+                  "id": "v-masindi-kiruli-kiruli-nyakarongo",
+                  "name": "Nyakarongo",
+                  "code": "D02S19P01V03"
+                },
+                {
+                  "id": "v-masindi-kiruli-kiruli-kisindizi",
+                  "name": "Kisindizi",
+                  "code": "D02S19P01V04"
                 }
               ]
             },
@@ -932,7 +2444,13 @@
               "id": "p-masindi-kiruli-kibibira",
               "name": "Kibibira",
               "code": "D02S19P03",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-masindi-kiruli-kibibira-kibibira",
+                  "name": "Kibibira",
+                  "code": "D02S19P03V01"
+                }
+              ]
             }
           ]
         },
@@ -950,6 +2468,21 @@
                   "id": "v-masindi-labongo-labongo-kilanyi",
                   "name": "Kilanyi",
                   "code": "D02S07P01V01"
+                },
+                {
+                  "id": "v-masindi-labongo-labongo-walyoba",
+                  "name": "Walyoba",
+                  "code": "D02S07P01V02"
+                },
+                {
+                  "id": "v-masindi-labongo-labongo-katiika",
+                  "name": "Katiika",
+                  "code": "D02S07P01V03"
+                },
+                {
+                  "id": "v-masindi-labongo-labongo-nyakyanika",
+                  "name": "Nyakyanika",
+                  "code": "D02S07P01V04"
                 }
               ]
             },
@@ -957,13 +2490,43 @@
               "id": "p-masindi-labongo-kasenyi",
               "name": "Kasenyi",
               "code": "D02S07P02",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-masindi-labongo-kasenyi-kibamba",
+                  "name": "Kibamba",
+                  "code": "D02S07P02V01"
+                }
+              ]
             },
             {
               "id": "p-masindi-labongo-kihonda",
               "name": "Kihonda",
               "code": "D02S07P03",
               "villages": []
+            },
+            {
+              "id": "p-masindi-labongo-kihaguzi",
+              "name": "Kihaguzi",
+              "code": "D02S07P04",
+              "villages": [
+                {
+                  "id": "v-masindi-labongo-kihaguzi-kasenyi",
+                  "name": "Kasenyi",
+                  "code": "D02S07P04V01"
+                }
+              ]
+            },
+            {
+              "id": "p-masindi-labongo-kyakamese",
+              "name": "Kyakamese",
+              "code": "D02S07P05",
+              "villages": [
+                {
+                  "id": "v-masindi-labongo-kyakamese-kisindizi",
+                  "name": "Kisindizi",
+                  "code": "D02S07P05V01"
+                }
+              ]
             }
           ]
         },
@@ -1005,6 +2568,16 @@
                   "id": "v-masindi-kimengo-kimengo-kimengo",
                   "name": "Kimengo",
                   "code": "D02S10P01V01"
+                },
+                {
+                  "id": "v-masindi-kimengo-kimengo-kibangya",
+                  "name": "Kibangya",
+                  "code": "D02S10P01V02"
+                },
+                {
+                  "id": "v-masindi-kimengo-kimengo-karwara",
+                  "name": "Karwara",
+                  "code": "D02S10P01V03"
                 }
               ]
             },
@@ -1012,6 +2585,18 @@
               "id": "p-masindi-kimengo-kibangya",
               "name": "Kibangya",
               "code": "D02S10P02",
+              "villages": [
+                {
+                  "id": "v-masindi-kimengo-kibangya-kibangya",
+                  "name": "Kibangya",
+                  "code": "D02S10P02V01"
+                }
+              ]
+            },
+            {
+              "id": "p-masindi-kimengo-kijunjubwa",
+              "name": "Kijunjubwa",
+              "code": "D02S10P03",
               "villages": []
             }
           ]
@@ -1049,6 +2634,26 @@
                   "id": "v-masindi-bikonzi-bikonzi-ikoba",
                   "name": "Ikoba",
                   "code": "D02S12P01V01"
+                },
+                {
+                  "id": "v-masindi-bikonzi-bikonzi-kihoole",
+                  "name": "Kihoole",
+                  "code": "D02S12P01V02"
+                },
+                {
+                  "id": "v-masindi-bikonzi-bikonzi-isagara-kiryasenka",
+                  "name": "Isagara Kiryasenka",
+                  "code": "D02S12P01V03"
+                },
+                {
+                  "id": "v-masindi-bikonzi-bikonzi-kyoneko",
+                  "name": "Kyoneko",
+                  "code": "D02S12P01V04"
+                },
+                {
+                  "id": "v-masindi-bikonzi-bikonzi-bikonzi-ii",
+                  "name": "Bikonzi II",
+                  "code": "D02S12P01V05"
                 }
               ]
             },
@@ -1056,13 +2661,53 @@
               "id": "p-masindi-bikonzi-kikuube",
               "name": "Kikuube",
               "code": "D02S12P02",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-masindi-bikonzi-kikuube-kikuube",
+                  "name": "Kikuube",
+                  "code": "D02S12P02V01"
+                }
+              ]
             },
             {
               "id": "p-masindi-bikonzi-rukondwa",
               "name": "Rukondwa",
               "code": "D02S12P03",
+              "villages": [
+                {
+                  "id": "v-masindi-bikonzi-rukondwa-kiina",
+                  "name": "Kiina",
+                  "code": "D02S12P03V01"
+                },
+                {
+                  "id": "v-masindi-bikonzi-rukondwa-rukondwa",
+                  "name": "Rukondwa",
+                  "code": "D02S12P03V02"
+                },
+                {
+                  "id": "v-masindi-bikonzi-rukondwa-kichandi",
+                  "name": "Kichandi",
+                  "code": "D02S12P03V03"
+                }
+              ]
+            },
+            {
+              "id": "p-masindi-bikonzi-kikube",
+              "name": "Kikube",
+              "code": "D02S12P04",
               "villages": []
+            },
+            {
+              "id": "p-masindi-bikonzi-kitonozi",
+              "name": "Kitonozi",
+              "code": "D02S12P05",
+              "villages": [
+                {
+                  "id": "v-masindi-bikonzi-kitonozi-kitonozi",
+                  "name": "Kitonozi",
+                  "code": "D02S12P05V01"
+                }
+              ]
             }
           ]
         },
@@ -1102,19 +2747,83 @@
               "id": "p-masindi-bwijanga-kahembe",
               "name": "Kahembe",
               "code": "D02S13P02",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-masindi-bwijanga-kahembe-murro",
+                  "name": "Murro",
+                  "code": "D02S13P02V01"
+                },
+                {
+                  "id": "v-masindi-bwijanga-kahembe-musoma",
+                  "name": "Musoma",
+                  "code": "D02S13P02V02"
+                }
+              ]
             },
             {
               "id": "p-masindi-bwijanga-kitamba",
               "name": "Kitamba",
               "code": "D02S13P03",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-masindi-bwijanga-kitamba-kitamba",
+                  "name": "Kitamba",
+                  "code": "D02S13P03V01"
+                },
+                {
+                  "id": "v-masindi-bwijanga-kitamba-byerima",
+                  "name": "Byerima",
+                  "code": "D02S13P03V02"
+                },
+                {
+                  "id": "v-masindi-bwijanga-kitamba-kikingura",
+                  "name": "Kikingura",
+                  "code": "D02S13P03V03"
+                },
+                {
+                  "id": "v-masindi-bwijanga-kitamba-kihaara",
+                  "name": "Kihaara",
+                  "code": "D02S13P03V04"
+                },
+                {
+                  "id": "v-masindi-bwijanga-kitamba-miramura",
+                  "name": "Miramura",
+                  "code": "D02S13P03V05"
+                }
+              ]
             },
             {
               "id": "p-masindi-bwijanga-ntoma",
               "name": "Ntoma",
               "code": "D02S13P04",
               "villages": []
+            },
+            {
+              "id": "p-masindi-bwijanga-ntooma",
+              "name": "Ntooma",
+              "code": "D02S13P05",
+              "villages": [
+                {
+                  "id": "v-masindi-bwijanga-ntooma-kyabikule",
+                  "name": "Kyabikule",
+                  "code": "D02S13P05V01"
+                },
+                {
+                  "id": "v-masindi-bwijanga-ntooma-rwebugwara",
+                  "name": "Rwebugwara",
+                  "code": "D02S13P05V02"
+                },
+                {
+                  "id": "v-masindi-bwijanga-ntooma-kihagani",
+                  "name": "Kihagani",
+                  "code": "D02S13P05V03"
+                },
+                {
+                  "id": "v-masindi-bwijanga-ntooma-ntooma",
+                  "name": "Ntooma",
+                  "code": "D02S13P05V04"
+                }
+              ]
             }
           ]
         },
@@ -1156,6 +2865,11 @@
                   "id": "v-masindi-nyantonzi-nyantonzi-kasenene",
                   "name": "Kasenene",
                   "code": "D02S15P01V01"
+                },
+                {
+                  "id": "v-masindi-nyantonzi-nyantonzi-siiba",
+                  "name": "Siiba",
+                  "code": "D02S16P01V03"
                 }
               ]
             },
@@ -1169,19 +2883,37 @@
               "id": "p-masindi-nyantonzi-kasenene",
               "name": "Kasenene",
               "code": "D02S16P03",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-masindi-nyantonzi-kasenene-onieni",
+                  "name": "Onieni",
+                  "code": "D02S16P03V01"
+                }
+              ]
             },
             {
               "id": "p-masindi-nyantonzi-kimanya",
               "name": "Kimanya",
               "code": "D02S16P04",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-masindi-nyantonzi-kimanya-kimanya-ii",
+                  "name": "Kimanya II",
+                  "code": "D02S16P04V01"
+                }
+              ]
             },
             {
               "id": "p-masindi-nyantonzi-rwempisi",
               "name": "Rwempisi",
               "code": "D02S16P05",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-masindi-nyantonzi-rwempisi-ambaka",
+                  "name": "Ambaka",
+                  "code": "D02S16P05V01"
+                }
+              ]
             }
           ]
         },
@@ -1212,7 +2944,47 @@
               "id": "p-masindi-bulima-town-council-marongo-ward",
               "name": "Marongo Ward",
               "code": "D02S17P03",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-masindi-bulima-town-council-marongo-ward-marongo",
+                  "name": "Marongo",
+                  "code": "D02S17P03V01"
+                },
+                {
+                  "id": "v-masindi-bulima-town-council-marongo-ward-kayanja-cell",
+                  "name": "Kayanja Cell",
+                  "code": "D02S17P03V02"
+                }
+              ]
+            },
+            {
+              "id": "p-masindi-bulima-town-council-kahembe",
+              "name": "Kahembe",
+              "code": "D02S17P04",
+              "villages": [
+                {
+                  "id": "v-masindi-bulima-town-council-kahembe-kisalizi",
+                  "name": "Kisalizi",
+                  "code": "D02S17P04V01"
+                },
+                {
+                  "id": "v-masindi-bulima-town-council-kahembe-kabagaranma",
+                  "name": "Kabagaranma",
+                  "code": "D02S17P04V02"
+                }
+              ]
+            },
+            {
+              "id": "p-masindi-bulima-town-council-kahembe-ward",
+              "name": "Kahembe Ward",
+              "code": "D02S17P05",
+              "villages": [
+                {
+                  "id": "v-masindi-bulima-town-council-kahembe-ward-rwenkole",
+                  "name": "Rwenkole",
+                  "code": "D02S17P05V01"
+                }
+              ]
             }
           ]
         },
@@ -1282,19 +3054,52 @@
               "id": "p-masindi-budongo-karongo",
               "name": "Karongo",
               "code": "D02S22P02",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-masindi-budongo-karongo-karongo",
+                  "name": "Karongo",
+                  "code": "D02S22P02V01"
+                }
+              ]
             },
             {
               "id": "p-masindi-budongo-kasongoire",
               "name": "Kasongoire",
               "code": "D02S22P03",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-masindi-budongo-kasongoire-kisagura",
+                  "name": "Kisagura",
+                  "code": "D02S22P03V01"
+                },
+                {
+                  "id": "v-masindi-budongo-kasongoire-kimanya-1",
+                  "name": "Kimanya 1",
+                  "code": "D02S22P03V02"
+                },
+                {
+                  "id": "v-masindi-budongo-kasongoire-bulyango",
+                  "name": "Bulyango",
+                  "code": "D02S22P03V03"
+                }
+              ]
             },
             {
               "id": "p-masindi-budongo-nyabyeya",
               "name": "Nyabyeya",
               "code": "D02S22P04",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-masindi-budongo-nyabyeya-nyakafunjo",
+                  "name": "Nyakafunjo",
+                  "code": "D02S22P04V01"
+                },
+                {
+                  "id": "v-masindi-budongo-nyabyeya-nyabyeya",
+                  "name": "Nyabyeya",
+                  "code": "D02S22P04V02"
+                }
+              ]
             }
           ]
         },
@@ -1307,13 +3112,36 @@
               "id": "p-masindi-kijunjubwa-kijunjubwa",
               "name": "Kijunjubwa",
               "code": "D02S23P01",
-              "villages": []
+              "villages": [
+                {
+                  "id": "v-masindi-kijunjubwa-kijunjubwa-kyangamoyo",
+                  "name": "Kyangamoyo",
+                  "code": "D02S23P01V01"
+                },
+                {
+                  "id": "v-masindi-kijunjubwa-kijunjubwa-kijunjubwa",
+                  "name": "Kijunjubwa",
+                  "code": "D02S23P01V02"
+                }
+              ]
             },
             {
               "id": "p-masindi-kijunjubwa-miduma",
               "name": "Miduma",
               "code": "D02S23P02",
               "villages": []
+            },
+            {
+              "id": "p-masindi-kijunjubwa-miduuma",
+              "name": "Miduuma",
+              "code": "D02S23P03",
+              "villages": [
+                {
+                  "id": "v-masindi-kijunjubwa-miduuma-kirinzi",
+                  "name": "Kirinzi",
+                  "code": "D02S23P03V01"
+                }
+              ]
             }
           ]
         },
@@ -1321,7 +3149,14 @@
           "name": "Karujubu Division",
           "code": "D02S24",
           "id": "s-masindi-karujubu-division",
-          "parishes": []
+          "parishes": [
+            {
+              "id": "p-masindi-karujubu-division-kihuuba-ward",
+              "name": "Kihuuba Ward",
+              "code": "D02S24P01",
+              "villages": []
+            }
+          ]
         },
         {
           "name": "Kigulya Division",
@@ -1343,6 +3178,73 @@
                   "id": "v-masindi-nyangahya-division-nyangahya-division-biizi",
                   "name": "Biizi",
                   "code": "D02S26P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-bulure",
+          "name": "Bulure",
+          "code": "D02S24",
+          "parishes": [
+            {
+              "id": "p-masindi-bulure-siimbe",
+              "name": "Siimbe",
+              "code": "D02S24P01",
+              "villages": [
+                {
+                  "id": "v-masindi-bulure-siimbe-kasomoro",
+                  "name": "Kasomoro",
+                  "code": "D02S24P01V01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s-masindi-kabango",
+          "name": "Kabango",
+          "code": "D02S25",
+          "parishes": [
+            {
+              "id": "p-masindi-kabango-kabango",
+              "name": "Kabango",
+              "code": "D02S25P01",
+              "villages": [
+                {
+                  "id": "v-masindi-kabango-kabango-kyankade",
+                  "name": "Kyankade",
+                  "code": "D02S25P01V01"
+                },
+                {
+                  "id": "v-masindi-kabango-kabango-kidamuke",
+                  "name": "Kidamuke",
+                  "code": "D02S25P01V02"
+                }
+              ]
+            },
+            {
+              "id": "p-masindi-kabango-kabango-east",
+              "name": "Kabango East",
+              "code": "D02S25P02",
+              "villages": [
+                {
+                  "id": "v-masindi-kabango-kabango-east-kabango",
+                  "name": "Kabango",
+                  "code": "D02S25P02V01"
+                }
+              ]
+            },
+            {
+              "id": "p-masindi-kabango-kinyara",
+              "name": "Kinyara",
+              "code": "D02S25P03",
+              "villages": [
+                {
+                  "id": "v-masindi-kabango-kinyara-senior-quarters",
+                  "name": "Senior Quarters",
+                  "code": "D02S25P03V01"
                 }
               ]
             }

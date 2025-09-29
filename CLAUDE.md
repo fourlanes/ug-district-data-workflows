@@ -69,6 +69,10 @@ python -c "from flows.facility_cleaning_flow import clean_facility_data; clean_f
 # Run primary enrollment processing workflow
 python -c "from flows.primary_enrollment_processing_flow import process_primary_enrollment_data; process_primary_enrollment_data('data/raw/trends/masindi_primary_school_pupil_enrolment.csv')"
 
+# Run primary school processing workflow (processes school facility data)
+python -c "from flows.primary_school_processing_flow import process_primary_school_data; process_primary_school_data('data/raw/facilities/education/kayunga_primary_school_dataset.csv')"
+python -c "from flows.primary_school_processing_flow import process_primary_school_data; process_primary_school_data('data/raw/facilities/education/masindi_primary_school_dataset.csv')"
+
 # Run PLE analysis processing workflow (cross-district compatible)
 python -c "from flows.ple_analysis_processing_flow import process_ple_analysis_data; process_ple_analysis_data('data/raw/trends/kayunga_ple_analysis.csv')"
 python -c "from flows.ple_analysis_processing_flow import process_ple_analysis_data; process_ple_analysis_data('data/raw/trends/masindi_ple_analysis.csv')"
@@ -76,9 +80,13 @@ python -c "from flows.ple_analysis_processing_flow import process_ple_analysis_d
 # Combine processed PLE analysis files
 python -c "from flows.ple_analysis_processing_flow import combine_ple_analysis_data; combine_ple_analysis_data()"
 
+# Clean location hierarchy duplicates (removes duplicates, regenerates IDs, preserves codes)
+python -c "from flows.location_hierarchy_cleaner_flow import clean_hierarchy_duplicates; clean_hierarchy_duplicates()"
+
 # Batch process multiple files
 python -c "from flows.facility_cleaning_flow import batch_clean_facilities; batch_clean_facilities()"
 python -c "from flows.primary_enrollment_processing_flow import batch_process_primary_enrollment_data; batch_process_primary_enrollment_data()"
+python -c "from flows.primary_school_processing_flow import batch_process_primary_school_data; batch_process_primary_school_data()"
 python -c "from flows.ple_analysis_processing_flow import batch_process_ple_analysis_data; batch_process_ple_analysis_data()"
 ```
 
