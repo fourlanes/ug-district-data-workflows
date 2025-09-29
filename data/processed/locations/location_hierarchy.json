@@ -842,8 +842,8 @@
               "villages": []
             },
             {
-              "id": "p-masindi-miirya-kiguulya",
-              "name": "Kiguulya",
+              "id": "p-masindi-miirya-kigulya",
+              "name": "Kigulya",
               "code": "D02S03P04",
               "villages": []
             }
@@ -1072,8 +1072,8 @@
               ]
             },
             {
-              "id": "p-masindi-bikonzi-kikube",
-              "name": "Kikube",
+              "id": "p-masindi-bikonzi-kikuube",
+              "name": "Kikuube",
               "code": "D02S12P02",
               "villages": []
             },
@@ -1352,7 +1352,20 @@
           "name": "Nyangahya Division",
           "code": "D02S26",
           "id": "s-masindi-nyangahya-division",
-          "parishes": []
+          "parishes": [
+            {
+              "id": "p-masindi-nyangahya-division-nyangahya-division",
+              "name": "Nyangahya Division",
+              "code": "D02S26P01",
+              "villages": [
+                {
+                  "id": "v-masindi-nyangahya-division-nyangahya-division-biizi",
+                  "name": "Biizi",
+                  "code": "D02S26P01V01"
+                }
+              ]
+            }
+          ]
         }
       ]
     }
