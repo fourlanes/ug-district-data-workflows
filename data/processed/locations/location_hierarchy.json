@@ -992,25 +992,6 @@
           ]
         },
         {
-          "id": "s-masindi-nyangaya-division",
-          "name": "Nyangaya Division",
-          "code": "D02S09",
-          "parishes": [
-            {
-              "id": "p-masindi-nyangaya-division-nyangaya-division",
-              "name": "Nyangaya Division",
-              "code": "D02S09P01",
-              "villages": [
-                {
-                  "id": "v-masindi-nyangaya-division-nyangaya-division-biizi",
-                  "name": "Biizi",
-                  "code": "D02S09P01V01"
-                }
-              ]
-            }
-          ]
-        },
-        {
           "id": "s-masindi-kimengo",
           "name": "Kimengo",
           "code": "D02S10",
